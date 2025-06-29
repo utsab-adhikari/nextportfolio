@@ -1,0 +1,22 @@
+import News from "@/app/models/News.model";
+import { NextRequest, NextResponse } from "next/server";
+
+export async function GET(request, { params }) {
+  try {
+    await ConnectDB();
+    const { newsid } = await params;
+    await News.findByIdAndDelete({ _id: newsid });
+
+    return NextResponse.json({
+      message: "News Deleted",
+      success: true,
+      status: 200,
+    });
+  } catch (error) {
+    return NextResponse.json({
+      success: false,
+      status: 500,
+      message: ["Server Error", error.message],
+    });
+  }
+}
