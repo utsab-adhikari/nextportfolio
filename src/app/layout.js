@@ -38,7 +38,7 @@ export default function Layout({ children }) {
 
             <div className="flex flex-1 flex-col">
               <main className="flex flex-1 w-full min-h-screen">
-                <Toaster position="top-right" />
+                <Toaster position="bottom-right" />
                 <div className="w-full">{children}</div>
               </main>
               <Footer />
