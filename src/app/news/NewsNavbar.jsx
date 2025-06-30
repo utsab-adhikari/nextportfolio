@@ -18,7 +18,7 @@ const NewsNavbar = ({ pathname }) => {
       <Link className={linkStyle("/news/ekantipur")} href="/news/ekantipur">
         eKantipur
       </Link>
-      <Link className={linkStyle("/news/thektmpost")} href="/news/ktmpost">
+      <Link className={linkStyle("/news/thektmpost")} href="/news/thektmpost">
         The KTM Post
       </Link>
     </div>
