@@ -3,7 +3,7 @@ import { ExternalLink } from "lucide-react";
 
 export default function CreditCard() {
   return (
-    <Card className="w-full rounded-2xl shadow-md">
+    <div className="w-full bg-red-200 shadow-md py-3">
       <CardHeader>
         <CardTitle>Credits & Disclaimer</CardTitle>
         <CardDescription>For Educational & Informational Purposes Only</CardDescription>
@@ -40,6 +40,6 @@ export default function CreditCard() {
           claim ownership of any third-party data.
         </p>
       </CardContent>
-    </Card>
+    </div>
   );
 }
