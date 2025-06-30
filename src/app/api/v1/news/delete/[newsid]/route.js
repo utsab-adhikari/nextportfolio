@@ -1,9 +1,10 @@
 import News from "@/app/models/News.model";
+import connectDB from "@/db/ConnectDB";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(request, { params }) {
   try {
-    await ConnectDB();
+    await connectDB();
     const { newsid } = await params;
     await News.findByIdAndDelete({ _id: newsid });
 
