@@ -6,6 +6,7 @@ import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import { usePathname } from "next/navigation";
 import NewsGrid from "./NewsGrid";
 import NewsNavbar from "./NewsNavbar";
+import CreditCard from "./CreditCard";
 
 const News = () => {
   const pathname = usePathname();
@@ -52,6 +53,7 @@ const News = () => {
         <>
           <NewsGrid posts={ktmPosts} buttonLabel="Read at The Kathmandu Post" />
           <NewsGrid posts={ekantipurPosts} buttonLabel="Read at eKantipur" />
+          <div className="p-3"><CreditCard/></div>
         </>
       )}
     </div>

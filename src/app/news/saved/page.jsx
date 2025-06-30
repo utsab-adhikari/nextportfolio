@@ -8,6 +8,7 @@ import { FaRegTrashAlt } from "react-icons/fa";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import { usePathname, useRouter } from "next/navigation";
 import NewsNavbar from "../NewsNavbar";
+import CreditCard from "../CreditCard";
 
 const KtmPost = () => {
   const pathname = usePathname();
@@ -72,6 +73,7 @@ const KtmPost = () => {
           </p>
         </div>
       ) : (
+        <>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 px-4 py-6 max-w-7xl mx-auto">
           {newses.map((news) => (
             <div
@@ -138,6 +140,8 @@ const KtmPost = () => {
             </div>
           ))}
         </div>
+        <div className="p-3"><CreditCard/></div>
+        </>
       )}
     </div>
   );
