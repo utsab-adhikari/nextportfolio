@@ -72,18 +72,18 @@ const KtmPost = () => {
           </p>
         </div>
       ) : (
-        <>
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 px-4 py-6 max-w-7xl mx-auto">
           {newses.map((news) => (
             <div
               key={news.slug}
-              className="grid md:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-6 px-4 max-w-7xl mx-auto"
+              className="flex flex-col bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300 relative"
             >
               {news.headline && news.slug && news.image && (
                 <>
                   {isDeleted === news._id ? (
                     <></>
                   ) : (
-                    <div className="flex flex-col bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300">
+                    <div className="flex flex-col">
                       <div className="flex justify-end">
                         {isDeleteLoading === news._id ? (
                           <button
@@ -137,7 +137,7 @@ const KtmPost = () => {
               )}
             </div>
           ))}
-        </>
+        </div>
       )}
     </div>
   );
