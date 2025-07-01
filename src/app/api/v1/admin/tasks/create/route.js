@@ -5,9 +5,7 @@ import { NextResponse } from "next/server";
 export async function POST(request) {
     try {
         await connectDB();
-
-        const body = await request.json();
-        const {context, description} = body;
+        const {context, description} = await request.json();
 
         if(!context || !description) {
             return NextResponse.json({

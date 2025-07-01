@@ -39,7 +39,7 @@ const Context = () => {
       <div className="max-w-7xl mx-auto px-4">
         <div className="flex justify-between items-center mb-6">
           <h1 className="text-3xl font-bold text-indigo-800">Context</h1>
-          <CreateContextDrawer />
+          <CreateContextDrawer  />
         </div>
 
         {isLoading ? (
@@ -85,7 +85,7 @@ const Context = () => {
                 </div>
                 <div className="flex justify-between items-center mt-auto">
                   <Link className=" text-sm flex items-center gap-2 bg-slate-300 px-3 py-1 rounded-full border border-indigo-600 hover:bg-slate-200 text-indigo-900" 
-                  href={`/admin/context/details/${context._id}`}>
+                  href={`/admin/tasks/${context._id}`}>
                     view <IoMdArrowDropright/>
                   </Link>
                 </div>

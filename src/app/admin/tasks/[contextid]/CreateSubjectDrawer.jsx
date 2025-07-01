@@ -1,7 +1,6 @@
 "use client";
 
 import * as React from "react";
-
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import useMediaQuery from "@mui/material/useMediaQuery";
@@ -29,7 +28,7 @@ import toast from "react-hot-toast";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 
-export default function CreateContextDrawer() {
+export default function CreateSubjectDrawer({ contextid }) {
   const [open, setOpen] = React.useState(false);
   const isDesktop = useMediaQuery("(min-width: 768px)");
 
@@ -37,16 +36,16 @@ export default function CreateContextDrawer() {
     return (
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogTrigger asChild>
-          <Button variant="outline">Add Task</Button>
+          <Button variant="outline">Add Subject</Button>
         </DialogTrigger>
         <DialogContent className="sm:max-w-[425px]">
           <DialogHeader>
-            <DialogTitle>Add Task</DialogTitle>
+            <DialogTitle>Add Subject</DialogTitle>
             <DialogDescription>
-              Add tasks/todo. Click Add when you&apos;re done.
+              Add subject under this context. Click Add when you&apos;re done.
             </DialogDescription>
           </DialogHeader>
-          <ProfileForm />
+          <SubjectForm contextid={contextid} />
         </DialogContent>
       </Dialog>
     );
@@ -55,16 +54,16 @@ export default function CreateContextDrawer() {
   return (
     <Drawer open={open} onOpenChange={setOpen}>
       <DrawerTrigger asChild>
-        <Button variant="outline">Add Context</Button>
+        <Button variant="outline">Add Subject</Button>
       </DrawerTrigger>
       <DrawerContent>
         <DrawerHeader className="text-left">
-          <DrawerTitle>Add Context</DrawerTitle>
+          <DrawerTitle>Add Subject</DrawerTitle>
           <DialogDescription>
-            Add Context. Click Add when you&apos;re done.
+            Add subject under this context. Click Add when you&apos;re done.
           </DialogDescription>
         </DrawerHeader>
-        <ProfileForm className="bg-red-800 px-4" />
+        <SubjectForm className="px-4" contextid={contextid} />
         <DrawerFooter className="pt-2">
           <DrawerClose asChild>
             <Button variant="outline">Cancel</Button>
@@ -75,73 +74,78 @@ export default function CreateContextDrawer() {
   );
 }
 
-function ProfileForm(className) {
-  const [openPop, setOpenPop] = React.useState(false);
-  const [context, setContext] = React.useState("");
+function SubjectForm({ className, contextid }) {
+  const [subject, setSubjectName] = React.useState("");
   const [description, setDescription] = React.useState("");
-
   const [isLoading, setIsLoading] = React.useState(false);
   const router = useRouter();
+  console.log(contextid);
 
+  const formData = {
+    subject,
+    description,
+    context: contextid,
+  };
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true);
-    const toastId = toast.loading("Adding Context...");
+    const toastId = toast.loading("Adding Subject...");
 
-    const formData = {
-      context,
-      description,
-    };
 
     try {
       const response = await axios.post(
-        '/api/v1/admin/tasks/create',
+        `/api/v1/admin/tasks/${contextid}/create`,
         formData,
         { withCredentials: true }
       );
       if (response.data.success) {
         toast.success(response.data.message, { id: toastId });
+        setSubjectName("");
+        setDescription("");
+        router.refresh();
       } else {
         toast.error(response.data.message, { id: toastId });
       }
     } catch (err) {
-      toast.error("Context Creation Failed!", { id: toastId });
+      toast.error("Subject Creation Failed!", { id: toastId });
     } finally {
       setIsLoading(false);
-
-      //   if (taskId) router.push(`/admin/tasks/details/${taskId}`);
     }
   };
+
   return (
     <form
       className={cn("grid items-start gap-6", className)}
       onSubmit={handleSubmit}
     >
       <div className="grid gap-3">
-        <Label htmlFor="context">Context</Label>
+        <Label htmlFor="subjectName">Subject Name</Label>
         <Input
-          value={context}
-          onChange={(e) => setContext(e.target.value)}
+          id="subjectName"
           type="text"
-          id="context"
+          placeholder="Enter Subject Name"
+          value={subject}
+          onChange={(e) => setSubjectName(e.target.value)}
+          required
         />
       </div>
+
       <div className="grid gap-3">
         <Label htmlFor="description">Description</Label>
         <Textarea
+          id="description"
+          placeholder="Enter description (optional)"
           value={description}
           onChange={(e) => setDescription(e.target.value)}
-          id="description"
-          defaultValue="My task"
         />
       </div>
+
       <Button
         type="submit"
         disabled={isLoading}
-        className={`w-full
-            ${isLoading ? "cursor-not-allowed" : ""}`}
+        className={`w-full ${isLoading ? "cursor-not-allowed" : ""}`}
       >
-        {isLoading ? "Adding....." : "Add"}
+        {isLoading ? "Adding..." : "Add Subject"}
       </Button>
     </form>
   );

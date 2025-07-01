@@ -9,6 +9,8 @@ export async function POST(request) {
     const body = await request.json();
     const { context, subject, description } = body;
 
+    console.log(body);
+
     if (!subject || !description) {
       return NextResponse.json({
         status: 400,
