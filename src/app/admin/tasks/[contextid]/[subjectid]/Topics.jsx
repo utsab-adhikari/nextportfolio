@@ -7,6 +7,8 @@ import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import CreateTopicDrawer from "./CreateTopicDrawer";
 import { Input } from "@/components/ui/input";
 import { Checkbox } from "@/components/ui/checkbox";
+import { Badge } from "@/components/ui/badge";
+import CountdownTimer from "./CountDown";
 
 const Topics = ({ contextid, subjectid }) => {
   const [topics, setTopics] = useState([]);
@@ -42,17 +44,16 @@ const Topics = ({ contextid, subjectid }) => {
   }, [subjectid]);
 
   return (
-    <div className="min-h-screen mt-3">
+    <div className="min-h-screen m-3">
       <div className="max-w-7xl mx-auto">
-        <div className="flex justify-between items-center mb-6">
-          <h1 className="text-2xl bg-green-300 pl-2 py-1 pr-10 rounded-r-full font-bold text-indigo-800">
+        <div className="flex justify-evenly items-center mb-6">
+          <Badge variant="destructive" className="bg-green-600 font-semibold">
             {subject}
-          </h1>
+          </Badge>
+          <h2 className="text-center text-lg font-sembold">Topics</h2>
 
           <CreateTopicDrawer contextid={contextid} subjectid={subjectid} />
         </div>
-        <h2 className="text-center text-lg font-sembold">Topics</h2>
-
 
         {isLoading ? (
           <div className="h-[60vh] flex items-center justify-center">
@@ -66,11 +67,11 @@ const Topics = ({ contextid, subjectid }) => {
             No Topics found for this context.
           </div>
         ) : (
-          <div className="grid md:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-6">
+          <div className="grid md:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-6 ">
             {topics.map((topic) => (
               <div
                 key={topic._id}
-                className="w-full bg-white rounded border-2 border-indigo-400 shadow-md hover:shadow-lg transition-shadow duration-300 flex "
+                className="w-full bg-indigo-200 rounded border-1 px-2 py-1 transition-shadow duration-300 flex "
               >
                 <div className="w-full flex items-center gap-3 justify-between">
                   <p className="font-semibold text-gray-800">{topic.title}</p>
@@ -80,7 +81,7 @@ const Topics = ({ contextid, subjectid }) => {
                   <div className="flex items-center gap-1 h-full">
                     <Checkbox
                       checked={topic.done}
-                      className="border-2 border-indigo-600 data-[state=checked]:bg-indigo-600 data-[state=checked]:text-white"
+                      className="border-2 border-indigo-600 bg-white data-[state=checked]:bg-indigo-600 data-[state=checked]:text-white"
                     />
                   </div>
                 </div>
@@ -91,6 +92,9 @@ const Topics = ({ contextid, subjectid }) => {
           </div>
         )}
       </div>
+       <div className="w-full my-2"> 
+          <CountdownTimer />
+        </div>
     </div>
   );
 };

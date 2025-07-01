@@ -7,6 +7,8 @@ import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import { IoMdArrowDropright } from "react-icons/io";
 import Link from "next/link";
 import CreateSubjectDrawer from "./CreateSubjectDrawer";
+import { Badge } from "@/components/ui/badge";
+import { format } from "date-fns";
 
 const Subject = ({ contextid }) => {
   const [subjects, setSubjects] = useState([]);
@@ -42,12 +44,13 @@ const Subject = ({ contextid }) => {
   return (
     <div className="min-h-screen mt-3">
       <div className="max-w-7xl mx-auto">
-        <div className="flex justify-between items-center mb-6">
-          <h1 className="text-2xl bg-green-300 pl-2 py-1 pr-10 rounded-r-full font-bold text-indigo-800">{context}</h1>
+        <div className="flex justify-evenly items-center mb-6">
+          <Badge variant="destructive" className="bg-green-600 font-semibold">
+            {context}
+          </Badge>
+          <h2 className="text-center text-lg font-sembold">Subjects</h2>
           <CreateSubjectDrawer contextid={contextid} />
         </div>
-
-        <h2 className="text-center text-lg font-sembold">Subjects</h2>
 
         {isLoading ? (
           <div className="h-[60vh] flex items-center justify-center">
@@ -65,7 +68,7 @@ const Subject = ({ contextid }) => {
             {subjects.map((subject) => (
               <div
                 key={subject._id}
-                className="relative bg-white rounded-xl shadow-md hover:shadow-lg transition-shadow duration-300 p-4 flex flex-col"
+                className="relative bg-white rounded-xl shadow-lg hover:shadow-xl border transition-shadow duration-300 p-4 flex flex-col"
               >
                 <div className="flex-1">
                   <h2 className="text-xl font-semibold text-gray-800 mb-2">
@@ -77,6 +80,10 @@ const Subject = ({ contextid }) => {
                 </div>
 
                 <div className="flex justify-between items-center mt-4">
+                  <div className="text-sm font-semibold text-gray-400">
+                    {format(new Date(subject.createdAt), "MMM dd, yyyy")}
+                  </div>
+
                   <Link
                     href={`/admin/tasks/${contextid}/${subject._id}`}
                     className="text-sm flex items-center gap-2 bg-slate-300 px-3 py-1 rounded-full border border-indigo-600 hover:bg-slate-200 text-indigo-900"
