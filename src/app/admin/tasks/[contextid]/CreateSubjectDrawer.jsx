@@ -91,7 +91,6 @@ function SubjectForm({ className, contextid }) {
     setIsLoading(true);
     const toastId = toast.loading("Adding Subject...");
 
-
     try {
       const response = await axios.post(
         `/api/v1/admin/tasks/${contextid}/create`,
@@ -110,6 +109,9 @@ function SubjectForm({ className, contextid }) {
       toast.error("Subject Creation Failed!", { id: toastId });
     } finally {
       setIsLoading(false);
+      router.refresh();
+
+      document.getElementById("drawer-close-button").click();
     }
   };
 
@@ -139,6 +141,9 @@ function SubjectForm({ className, contextid }) {
           onChange={(e) => setDescription(e.target.value)}
         />
       </div>
+      <DrawerClose asChild>
+        <button id="drawer-close-button" className="hidden"></button>
+      </DrawerClose>
 
       <Button
         type="submit"

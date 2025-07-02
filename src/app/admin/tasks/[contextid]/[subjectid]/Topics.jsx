@@ -28,6 +28,7 @@ const Topics = ({ contextid, subjectid }) => {
           setSubject(res.data.subjectName);
           toast.success("Topics loaded successfully", { id: toastId });
         } else {
+          setSubject(res.data.subjectName);
           toast.error(res.data.message, { id: toastId });
         }
       } catch (err) {
@@ -46,12 +47,15 @@ const Topics = ({ contextid, subjectid }) => {
   return (
     <div className="min-h-screen m-3">
       <div className="max-w-7xl mx-auto">
-        <div className="flex justify-evenly items-center mb-6">
-          <Badge variant="destructive" className="bg-green-600 font-semibold">
-            {subject}
-          </Badge>
-          <h2 className="text-center text-lg font-sembold">Topics</h2>
-
+        <div className="flex flex-col sm:flex-row justify-between items-center mb-8 gap-4">
+          <div className="flex items-center gap-3">
+            {isLoading ? (
+              <AiOutlineLoading3Quarters className="animate-spin" />
+            ) : (
+              <Badge className="bg-green-600 text-white">{subject}</Badge>
+            )}
+            <h2 className="text-2xl font-bold text-slate-800">Topics</h2>
+          </div>
           <CreateTopicDrawer contextid={contextid} subjectid={subjectid} />
         </div>
 
@@ -92,9 +96,7 @@ const Topics = ({ contextid, subjectid }) => {
           </div>
         )}
       </div>
-       <div className="w-full my-2"> 
-          <CountdownTimer />
-        </div>
+      <div className="w-full my-2"></div>
     </div>
   );
 };

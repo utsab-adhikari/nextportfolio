@@ -9,6 +9,7 @@ import Link from "next/link";
 import CreateSubjectDrawer from "./CreateSubjectDrawer";
 import { Badge } from "@/components/ui/badge";
 import { format } from "date-fns";
+import DateTimePicker from "@/mycomponents/DateTimePicker";
 
 const Subject = ({ contextid }) => {
   const [subjects, setSubjects] = useState([]);
@@ -26,7 +27,10 @@ const Subject = ({ contextid }) => {
           setContext(res.data.contextName);
           toast.success("Subjects loaded successfully", { id: toastId });
         } else {
-          toast.error(res.data.message, { id: toastId });
+          setContext(res.data.contextName);
+          toast.error(res.data.message || "Error loading subjects", {
+            id: toastId,
+          });
         }
       } catch (err) {
         console.error(err);
@@ -42,53 +46,63 @@ const Subject = ({ contextid }) => {
   }, [contextid]);
 
   return (
-    <div className="min-h-screen mt-3">
-      <div className="max-w-7xl mx-auto">
-        <div className="flex justify-evenly items-center mb-6">
-          <Badge variant="destructive" className="bg-green-600 font-semibold">
-            {context}
-          </Badge>
-          <h2 className="text-center text-lg font-sembold">Subjects</h2>
-          <CreateSubjectDrawer contextid={contextid} />
+    <div className="min-h-screen bg-gray-50">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 py-8">
+        {/* Header */}
+        <div className="flex flex-col sm:flex-row justify-between items-center mb-8 gap-4">
+          <div className="flex items-center gap-3">
+            {isLoading ? (
+              <AiOutlineLoading3Quarters className="animate-spin" />
+            ) : (
+              <Badge className="bg-green-600 text-white">{context}</Badge>
+            )}
+            <h2 className="text-2xl font-bold text-slate-800">Subjects</h2>
+          </div>
+          <CreateSubjectDrawer contextid={contextid} refresh={() => {}} />
         </div>
 
+        <DateTimePicker id={contextid}/>
+
+        {/* Loading */}
         {isLoading ? (
           <div className="h-[60vh] flex items-center justify-center">
-            <p className="text-3xl text-gray-400 flex items-center gap-2">
+            <p className="text-2xl text-gray-400 flex items-center gap-2">
               <AiOutlineLoading3Quarters className="animate-spin" />
               Loading...
             </p>
           </div>
         ) : subjects.length === 0 ? (
-          <div className="text-center text-gray-500 text-lg">
-            No Subjects found for this context.
+          <div className="h-[50vh] flex flex-col justify-center items-center text-center">
+            <p className="text-xl text-gray-500">
+              No Subjects found for this context.
+            </p>
           </div>
         ) : (
-          <div className="grid md:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-6 px-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
             {subjects.map((subject) => (
               <div
                 key={subject._id}
-                className="relative bg-white rounded-xl shadow-lg hover:shadow-xl border transition-shadow duration-300 p-4 flex flex-col"
+                className="relative bg-white rounded-xl shadow-md hover:shadow-xl border border-gray-200 transition-shadow duration-300 p-6 flex flex-col"
               >
                 <div className="flex-1">
-                  <h2 className="text-xl font-semibold text-gray-800 mb-2">
+                  <h3 className="text-xl font-semibold text-slate-800 mb-2 break-words">
                     {subject.subject}
-                  </h2>
-                  <p className="text-gray-600 text-sm line-clamp-3">
+                  </h3>
+                  <p className="text-sm text-gray-600 line-clamp-3">
                     {subject.description || "No Description Available"}
                   </p>
                 </div>
 
-                <div className="flex justify-between items-center mt-4">
-                  <div className="text-sm font-semibold text-gray-400">
+                <div className="flex justify-between items-center mt-6">
+                  <div className="text-sm font-medium text-gray-400">
                     {format(new Date(subject.createdAt), "MMM dd, yyyy")}
                   </div>
-
                   <Link
                     href={`/admin/tasks/${contextid}/${subject._id}`}
-                    className="text-sm flex items-center gap-2 bg-slate-300 px-3 py-1 rounded-full border border-indigo-600 hover:bg-slate-200 text-indigo-900"
+                    className="flex items-center gap-2 bg-indigo-50 text-indigo-700 border border-indigo-600 px-4 py-2 rounded-full text-sm hover:bg-indigo-100 transition"
                   >
-                    View <IoMdArrowDropright />
+                    View
+                    <IoMdArrowDropright size={16} />
                   </Link>
                 </div>
               </div>

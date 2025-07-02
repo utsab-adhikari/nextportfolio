@@ -39,6 +39,10 @@ const KtmPost = () => {
   }, []);
 
   const handleDelete = async (newsid) => {
+    const confirm = window.confirm(
+      "Are you sure you want to delete this News?"
+    );
+    if (!confirm) return;
     setIsDeleteLoading(newsid);
 
     const toastId = toast.loading("Deleting News...");
@@ -48,6 +52,8 @@ const KtmPost = () => {
       });
 
       toast.success(response.data.message, { id: toastId });
+
+      setNews((prev) => prev.filter((item) => item._id !== newsid));
     } catch (error) {
       console.error("Error while Deleting news:", error);
       toast.error(error.message, { id: toastId });
@@ -74,73 +80,69 @@ const KtmPost = () => {
         </div>
       ) : (
         <>
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 px-4 py-6 max-w-7xl mx-auto">
-          {newses.map((news) => (
-            <div
-              key={news.slug}
-              className="flex flex-col bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300 relative"
-            >
-              {news.headline && news.slug && news.image && (
-                <>
-                  {isDeleted === news._id ? (
-                    <></>
-                  ) : (
-                    <div className="flex flex-col">
-                      <div className="flex justify-end">
-                        {isDeleteLoading === news._id ? (
-                          <button
-                            disabled
-                            className="absolute font-bold animate-spin text-red-600 cursor-not-allowed m-2"
-                          >
-                            <AiOutlineLoading3Quarters size={24} />
-                          </button>
-                        ) : (
-                          <button
-                            onClick={() => handleDelete(news._id)}
-                            className="absolute font-bold text-red-700 hover:text-red-400 cursor-pointer m-2"
-                          >
-                            <FaRegTrashAlt size={20} />
-                          </button>
-                        )}
-                      </div>
-                      {news.image && (
-                        <img
-                          src={news.image}
-                          alt="News Image"
-                          className="w-full h-48 object-cover"
-                        />
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 px-4 py-6 max-w-7xl mx-auto">
+            {newses.map((news) => (
+              <div
+                key={news.slug}
+                className="flex flex-col bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300 relative"
+              >
+                {news.headline && news.slug && news.image && (
+                  <div className="flex flex-col">
+                    <div className="flex justify-end">
+                      {isDeleteLoading === news._id ? (
+                        <button
+                          disabled
+                          className="absolute font-bold animate-spin text-red-600 cursor-not-allowed m-2"
+                        >
+                          <AiOutlineLoading3Quarters size={24} />
+                        </button>
+                      ) : (
+                        <button
+                          onClick={() => handleDelete(news._id)}
+                          className="absolute font-bold text-red-700 hover:text-red-400 cursor-pointer m-2"
+                        >
+                          <FaRegTrashAlt size={20} />
+                        </button>
                       )}
-                      <div className="absolute p-1 bg-indigo-800 w-fit pr-5 rounded-r-full">
-                        <h3 className="text-sm font-semibold text-white">
-                          {news.source}
-                        </h3>
-                      </div>
-                      <div className="p-4 flex flex-col justify-between h-full">
-                        <h2 className="text-xl font-devanagari font-semibold text-gray-800 mb-2">
-                          {news.headline}
-                        </h2>
-                        <p className="text-sm text-gray-500 border-l-4 border-green-600 pl-3 mb-4">
-                          {news.slug}
-                        </p>
-                        {news.link && (
-                          <Link href={news.link} target="_blank">
-                            <button className="w-full bg-blue-700 text-white py-2 px-4 rounded hover:bg-blue-600 transition-colors duration-300">
-                              Read at{" "}
-                              {news.source === "ekantipur"
-                                ? "eKantipur"
-                                : "The Kathmandu Post"}
-                            </button>
-                          </Link>
-                        )}
-                      </div>
                     </div>
-                  )}
-                </>
-              )}
-            </div>
-          ))}
-        </div>
-        <div className="p-3"><CreditCard/></div>
+                    {news.image && (
+                      <img
+                        src={news.image}
+                        alt="News Image"
+                        className="w-full h-48 object-cover"
+                      />
+                    )}
+                    <div className="absolute p-1 bg-indigo-800 w-fit pr-5 rounded-r-full">
+                      <h3 className="text-sm font-semibold text-white">
+                        {news.source}
+                      </h3>
+                    </div>
+                    <div className="p-4 flex flex-col justify-between h-full">
+                      <h2 className="text-xl font-devanagari font-semibold text-gray-800 mb-2">
+                        {news.headline}
+                      </h2>
+                      <p className="text-sm text-gray-500 border-l-4 border-green-600 pl-3 mb-4">
+                        {news.slug}
+                      </p>
+                      {news.link && (
+                        <Link href={news.link} target="_blank">
+                          <button className="w-full bg-blue-700 text-white py-2 px-4 rounded hover:bg-blue-600 transition-colors duration-300">
+                            Read at{" "}
+                            {news.source === "ekantipur"
+                              ? "eKantipur"
+                              : "The Kathmandu Post"}
+                          </button>
+                        </Link>
+                      )}
+                    </div>
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
+          <div className="p-3">
+            <CreditCard />
+          </div>
         </>
       )}
     </div>

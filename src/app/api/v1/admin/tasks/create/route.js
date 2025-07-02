@@ -30,7 +30,7 @@ export async function POST(request) {
             description,
         });
 
-        const contexid = await newContext._id;
+        const contextid = await newContext._id;
 
         await newContext.save();
 

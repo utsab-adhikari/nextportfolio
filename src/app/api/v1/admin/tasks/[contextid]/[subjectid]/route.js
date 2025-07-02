@@ -19,6 +19,7 @@ export async function GET(request, {params}) {
         status: 400,
         success: false,
         message: "Topics not found",
+        subjectName,
       });
     }
 

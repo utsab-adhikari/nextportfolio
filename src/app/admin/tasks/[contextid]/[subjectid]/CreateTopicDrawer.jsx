@@ -28,7 +28,7 @@ import toast from "react-hot-toast";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 
-export default function CreateTopicDrawer({ contextid , subjectid}) {
+export default function CreateTopicDrawer({ contextid, subjectid }) {
   const [open, setOpen] = React.useState(false);
   const isDesktop = useMediaQuery("(min-width: 768px)");
 
@@ -63,7 +63,11 @@ export default function CreateTopicDrawer({ contextid , subjectid}) {
             Add Topic under this context. Click Add when you&apos;re done.
           </DialogDescription>
         </DrawerHeader>
-        <SubjectForm className="px-4" contextid={contextid} subjectid={subjectid} />
+        <SubjectForm
+          className="px-4"
+          contextid={contextid}
+          subjectid={subjectid}
+        />
         <DrawerFooter className="pt-2">
           <DrawerClose asChild>
             <Button variant="outline">Cancel</Button>
@@ -90,7 +94,6 @@ function SubjectForm({ className, contextid, subjectid }) {
     setIsLoading(true);
     const toastId = toast.loading("Adding Topic...");
 
-
     try {
       const response = await axios.post(
         `/api/v1/admin/tasks/${contextid}/${subjectid}/create`,
@@ -109,6 +112,9 @@ function SubjectForm({ className, contextid, subjectid }) {
       toast.error("Subject Creation Failed!", { id: toastId });
     } finally {
       setIsLoading(false);
+      router.refresh();
+
+      document.getElementById("drawer-close-button").click();
     }
   };
 
@@ -138,6 +144,9 @@ function SubjectForm({ className, contextid, subjectid }) {
           onChange={(e) => setDescription(e.target.value)}
         />
       </div>
+      <DrawerClose asChild>
+        <button id="drawer-close-button" className="hidden"></button>
+      </DrawerClose>
 
       <Button
         type="submit"

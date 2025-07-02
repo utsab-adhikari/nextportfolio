@@ -3,7 +3,7 @@
 import * as React from "react";
 
 import { cn } from "@/lib/utils";
-import { Button } from "@/components/ui/button";
+
 import useMediaQuery from "@mui/material/useMediaQuery";
 import {
   Dialog,
@@ -28,6 +28,7 @@ import { Textarea } from "@/components/ui/textarea";
 import toast from "react-hot-toast";
 import axios from "axios";
 import { useRouter } from "next/navigation";
+import { Button } from "@/components/ui/button";
 
 export default function CreateContextDrawer() {
   const [open, setOpen] = React.useState(false);
@@ -95,7 +96,7 @@ function ProfileForm(className) {
 
     try {
       const response = await axios.post(
-        '/api/v1/admin/tasks/create',
+        "/api/v1/admin/tasks/create",
         formData,
         { withCredentials: true }
       );
@@ -109,7 +110,9 @@ function ProfileForm(className) {
     } finally {
       setIsLoading(false);
 
-      //   if (taskId) router.push(`/admin/tasks/details/${taskId}`);
+      router.refresh();
+
+      document.getElementById("drawer-close-button").click();
     }
   };
   return (
@@ -135,6 +138,10 @@ function ProfileForm(className) {
           defaultValue="My task"
         />
       </div>
+      <DrawerClose asChild>
+        <button id="drawer-close-button" className="hidden"></button>
+      </DrawerClose>
+
       <Button
         type="submit"
         disabled={isLoading}

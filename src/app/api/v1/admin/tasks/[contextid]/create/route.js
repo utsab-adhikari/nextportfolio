@@ -9,23 +9,11 @@ export async function POST(request) {
     const body = await request.json();
     const { context, subject, description } = body;
 
-    console.log(body);
-
     if (!subject || !description) {
       return NextResponse.json({
         status: 400,
         success: false,
         message: ["ALl fields are required"],
-      });
-    }
-
-    const existingSubject = await Subject.findOne({ subject: subject });
-
-    if (existingSubject) {
-      return NextResponse.json({
-        status: 400,
-        success: false,
-        message: "subject already exists",
       });
     }
 
@@ -35,15 +23,12 @@ export async function POST(request) {
       description,
     });
 
-    const subjectid = await newSubject._id;
-
     await newSubject.save();
 
     return NextResponse.json({
       status: 201,
       success: true,
       message: "subject created successfully",
-      subjectid,
     });
   } catch (error) {
     return NextResponse.json({
