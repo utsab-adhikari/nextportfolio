@@ -19,6 +19,8 @@ import {
   SiCplusplus,
 } from "react-icons/si";
 import { FaDatabase } from "react-icons/fa";
+import { FaHtml5 } from "react-icons/fa6";
+import { FaCss3Alt } from "react-icons/fa";
 
 const Home = () => {
   return (
@@ -89,6 +91,8 @@ const Home = () => {
 
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6">
             {[
+              {name: "Html", icon:<FaHtml5 size={24} color="#E34F26"/>},
+              {name: "Css", icon:<FaCss3Alt size={24} color="#1572B6"/>},
               {
                 name: "JavaScript",
                 icon: <SiJavascript size={24} color="#f7df1e" />,
