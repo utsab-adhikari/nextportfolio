@@ -82,10 +82,10 @@ const DateTimePicker = ({id}) => {
           />
         </div>
          </div>
-        <di className="flex gap-4 mt-3 w-full justify-between"v>
+        <div className="flex gap-4 mt-3 w-full justify-between"v>
             <Button className="flex-1 " variant="" type="submit">Submit</Button>
             <Button className="flex-1" variant="destructive" type="reset">Reset</Button>
-        </di>
+        </div>
        </form>
       </div>
     </div>
