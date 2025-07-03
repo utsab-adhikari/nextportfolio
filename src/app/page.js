@@ -1,17 +1,33 @@
 "use client";
 import Link from "next/link";
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Education from "@/mycomponents/Education";
 import Skills from "@/mycomponents/Skills";
 import ReportDrawer from "@/mycomponents/ReportDrawer";
+import { motion, AnimatePresence } from "framer-motion";
+import { Button } from "@/components/ui/button";
+// import Skills from "@/mycomponents/SkillComponent";
 
 const Home = () => {
+  const [isScrolled, setIsScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 50);
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
   return (
-    <div className="bg-white text-gray-800">
-      {/* Hero Section */}
-      <section className="max-w-7xl mx-auto px-6 py-20 flex flex-col-reverse lg:flex-row items-center justify-between gap-16">
-        {/* Text Content */}
-        <div className="w-full lg:w-1/2 text-center lg:text-left">
+    <div className="bg-gray-50 text-gray-900 min-h-screen font-sans">
+      <section className="max-w-7xl mx-auto px-6 py-32 flex flex-col-reverse lg:flex-row items-center justify-between gap-12">
+        <motion.div
+          className="w-full lg:w-1/2 text-center lg:text-left"
+          initial={{ opacity: 0, x: -50 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.8 }}
+        >
           <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold text-indigo-700 leading-tight mb-6">
             Hi, I'm Utsab 👋
           </h1>
@@ -21,39 +37,57 @@ const Home = () => {
             Specialized in backend development, APIs, databases, and practical
             problem-solving.
           </p>
-
-          {/* Buttons */}
           <div className="flex flex-col sm:flex-row sm:justify-start justify-center items-center gap-4">
             <Link
               href="/hireme"
-              className="w-full sm:w-auto px-6 py-3 bg-indigo-600 hover:bg-indigo-700 text-white text-base font-semibold rounded-lg shadow-md transition duration-300"
+              className="w-full sm:w-auto px-6 py-3 bg-indigo-600 hover:bg-indigo-700 text-white text-base font-semibold rounded-lg shadow-md transition duration-300 transform hover:scale-105"
             >
               🚀 Hire Me
             </Link>
             <a
               href="#contact"
-              className="w-full sm:w-auto px-6 py-3 border-2 border-indigo-600 text-indigo-700 hover:bg-indigo-600 hover:text-white text-base font-semibold rounded-lg shadow-md transition duration-300"
+              className="w-full sm:w-auto px-6 py-3 border-2 border-indigo-600 text-indigo-700 hover:bg-indigo-600 hover:text-white text-base font-semibold rounded-lg shadow-md transition duration-300 transform hover:scale-105"
             >
               🎯 Contact Me
             </a>
           </div>
-        </div>
-
-        {/* Profile Image */}
-        <div className="w-full lg:w-1/2 flex justify-center">
-          <img
-            src="https://github.com/shadcn.png"
-            alt="Utsab's Profile"
-            className="w-72 h-72 rounded-full object-cover border-4 border-indigo-300 shadow-xl transition duration-300 hover:scale-105"
-          />
-        </div>
+        </motion.div>
+        <motion.div
+          className="w-full lg:w-1/2 flex justify-center"
+        initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+        >
+          <div className="relative">
+            <img
+              src="https://github.com/shadcn.png"
+              alt="Utsab's Profile"
+              className="w-72 h-72 rounded-full object-cover border-4 border-indigo-200 shadow-2xl transition duration-300 hover:scale-110"
+            />
+            <div className="absolute inset-0 rounded-full bg-indigo-600 opacity-0 hover:opacity-10 transition duration-300"></div>
+          </div>
+        </motion.div>
       </section>
 
+      {/* About Section */}
       <section id="about" className="max-w-5xl mx-auto px-6 py-16">
-        <h2 className="text-3xl sm:text-4xl font-bold text-center mb-6">
+        <motion.h2
+          className="text-3xl sm:text-4xl font-bold text-center mb-6 text-indigo-700"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+        >
           About Me
-        </h2>
-        <p className="text-center text-lg text-gray-600 leading-relaxed">
+        </motion.h2>
+        <motion.p
+          className="text-center text-lg text-gray-600 leading-relaxed"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6, delay: 0.2 }}
+        >
           I'm a Bachelor of Engineering student in Information Technology from
           Nepal 🇳🇵.
           <br />
@@ -62,50 +96,124 @@ const Home = () => {
           <br />
           My focus is on building scalable, real-world applications that solve
           practical problems.
-        </p>
+        </motion.p>
       </section>
 
-    <Skills/>
-     
+      {/* Skills Section */}
+      {/* <section id="skills" className="max-w-5xl mx-auto px-6 py-16">
+        
+      </section> */}
+      <section id="skills" className="max-w-5xl mx-auto px-6 py-16">
+        <motion.h2
+          className="text-3xl font-bold text-indigo-700 mb-6 text-center flex items-center justify-evenly"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+        >
+          Technical Skills
+        </motion.h2>
+        <motion.div
+          className="text-center text-lg flex flex-col text-gray-600 leading-relaxed mb-6"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6, delay: 0.2 }}
+        >
+          <Skills />
+          <Link href="/skills" className="mt-2 text-sm bg-blue-700 text-white mx-auto p-2 px-8 rounded-full">Explore more</Link>
+        </motion.div>
+      </section>
+
       <section id="interests" className="max-w-5xl mx-auto px-6 py-16">
-        <h2 className="text-3xl sm:text-4xl font-bold text-center mb-6">
+        <motion.h2
+          className="text-3xl sm:text-4xl font-bold text-center mb-6 text-indigo-700"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+        >
           🎯 Interests
-        </h2>
-        <p className="text-center text-lg text-gray-600 leading-relaxed mb-6">
+        </motion.h2>
+        <motion.p
+          className="text-center text-lg text-gray-600 leading-relaxed mb-6"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6, delay: 0.2 }}
+        >
           I enjoy backend development, cloud deployment, and building efficient
           APIs.
           <br />
           Besides coding, I'm interested in open-source contributions, learning
           new technologies, and exploring AI tools.
-        </p>
+        </motion.p>
       </section>
 
-      <Education/>
-
+      <section id="education">
+        <motion.h2
+          className="text-3xl sm:text-4xl font-bold text-center mb-6 text-indigo-700"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6, delay: 0.4 }}
+        >
+           🎓 Education
+        </motion.h2>
+        <motion.div
+          className=""
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6, delay: 0.4 }}
+        >
+          <Education />
+        </motion.div>
+      </section>
 
       <section
         id="contact"
         className="max-w-5xl mx-auto px-6 py-16 text-center"
       >
-        <h2 className="text-3xl sm:text-4xl font-bold mb-6">📞 Contact Me</h2>
-        <p className="text-lg text-gray-600 mb-8">
+        <motion.h2
+          className="text-3xl sm:text-4xl font-bold mb-6 text-indigo-700"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+        >
+          📞 Contact Me
+        </motion.h2>
+        <motion.p
+          className="text-lg text-gray-600 mb-8"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6, delay: 0.2 }}
+        >
           I'm open to freelance work, collaborations, or just a friendly chat.
           <br />
           Reach out to me anytime!
-        </p>
-
-        <div className="flex flex-col sm:flex-row gap-6 justify-center">
+        </motion.p>
+        <motion.div
+          className="flex flex-col sm:flex-row gap-6 justify-center"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6, delay: 0.4 }}
+        >
           <a
             href="mailto:utasb1adhikari@gmail.com"
-            className="px-6 py-3 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg shadow transition"
+            className="px-6 py-3 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg shadow-md transition duration-300 transform hover:scale-105"
           >
             ✉️ Email Me
           </a>
           <a
             href="https://github.com/utsab-adhikari"
             target="_blank"
-            rel="noopener noreferrer"
-            className="px-6 py-3 border border-indigo-600 text-indigo-700 hover:bg-indigo-600 hover:text-white rounded-lg shadow transition"
+            rel
+            nudo="noopener noreferrer"
+            className="px-6 py-3 border border-indigo-600 text-indigo-700 hover:bg-indigo-600 hover:text-white rounded-lg shadow-md transition duration-300 transform hover:scale-105"
           >
             🌟 GitHub
           </a>
@@ -113,15 +221,18 @@ const Home = () => {
             href="https://linkedin.com/"
             target="_blank"
             rel="noopener noreferrer"
-            className="px-6 py-3 border border-indigo-600 text-indigo-700 hover:bg-indigo-600 hover:text-white rounded-lg shadow transition"
+            className="px-6 py-3 border border-indigo-600 text-indigo-700 hover:bg-indigo-600 hover:text-white rounded-lg shadow-md transition duration-300 transform hover:scale-105"
           >
             🔗 LinkedIn
           </a>
-        </div>
+        </motion.div>
       </section>
-      <div className="p-4 m-3 gap-3 flex justify-center items-center">
-        <p className="font-semibold text-gray-400">Found bug/errors on Portfolio?</p>
-        <ReportDrawer/>
+
+      <div className="p-4 m-3 gap-3 flex flex-col sm:flex-row justify-center items-center text-center">
+        <p className="font-semibold text-gray-500">
+          Found a bug or have a suggestion?
+        </p>
+        <ReportDrawer />
       </div>
     </div>
   );
