@@ -3,6 +3,7 @@ import Link from "next/link";
 import React from "react";
 import Education from "@/mycomponents/Education";
 import Skills from "@/mycomponents/Skills";
+import ReportDrawer from "@/mycomponents/ReportDrawer";
 
 const Home = () => {
   return (
@@ -118,6 +119,10 @@ const Home = () => {
           </a>
         </div>
       </section>
+      <div className="p-4 m-3 gap-3 flex justify-center items-center">
+        <p className="font-semibold text-gray-400">Found bug/errors on Portfolio?</p>
+        <ReportDrawer/>
+      </div>
     </div>
   );
 };
