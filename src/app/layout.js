@@ -46,7 +46,7 @@ export default function Layout({ children }) {
                 <Toaster position="bottom-right" />
                 <div className="w-full">{children}</div>
               </main>
-              {!isIndex && <Link className=" mx-auto py-1 my-2 hover:bg-gray-200  px-4 border-1 font-semibold rounded-full flex items-center text-center gap-2 w-fit" href="/"> <FaHome/> Home</Link>}
+              {!isIndex && <Link className="block md:hidden mx-auto py-1 my-2 hover:bg-gray-200  px-4 border-1 font-semibold rounded-full flex items-center text-center gap-2 w-fit" href="/"> <FaHome/> Home</Link>}
               <Footer />
             </div>
           </div>

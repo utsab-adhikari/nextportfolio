@@ -54,7 +54,7 @@ const Home = () => {
         </motion.div>
         <motion.div
           className="w-full lg:w-1/2 flex justify-center"
-        initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
@@ -69,8 +69,44 @@ const Home = () => {
           </div>
         </motion.div>
       </section>
+      <section className="bg-white py-16 px-6 sm:px-10">
+        <div className="max-w-7xl mx-auto">
+          <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+            {/* Text Content (Left) */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6 }}
+            >
+              <h2 className="text-3xl sm:text-4xl font-bold text-indigo-700 mb-2">
+                📰 Latest News & Updates
+              </h2>
+              <p className="text-gray-600 text-base sm:text-lg max-w-xl">
+                Discover the newest trends in tech, development best practices,
+                and community highlights. Stay informed with what’s happening in
+                the dev world.
+              </p>
+            </motion.div>
 
-      {/* About Section */}
+            {/* Button (Right) */}
+            <motion.div
+              initial={{ opacity: 0, x: 20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6 }}
+              className="shrink-0"
+            >
+              <Link
+                href="/news"
+                className="inline-block bg-indigo-600 text-white px-6 py-3 rounded-lg font-medium hover:bg-indigo-700 shadow transition duration-300"
+              >
+                View All News →
+              </Link>
+            </motion.div>
+          </div>
+        </div>
+      </section>
       <section id="about" className="max-w-5xl mx-auto px-6 py-16">
         <motion.h2
           className="text-3xl sm:text-4xl font-bold text-center mb-6 text-indigo-700"
@@ -121,7 +157,12 @@ const Home = () => {
           transition={{ duration: 0.6, delay: 0.2 }}
         >
           <Skills />
-          <Link href="/skills" className="mt-2 text-sm bg-blue-700 text-white mx-auto p-2 px-8 rounded-full">Explore more</Link>
+          <Link
+            href="/skills"
+            className="mt-2 text-sm bg-blue-700 text-white mx-auto p-2 px-8 rounded-full"
+          >
+            Explore more
+          </Link>
         </motion.div>
       </section>
 
@@ -158,7 +199,7 @@ const Home = () => {
           viewport={{ once: true }}
           transition={{ duration: 0.6, delay: 0.4 }}
         >
-           🎓 Education
+          🎓 Education
         </motion.h2>
         <motion.div
           className=""
