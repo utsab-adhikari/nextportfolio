@@ -8,6 +8,11 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
 // import Skills from "@/mycomponents/SkillComponent";
 
+const sectionVariants = {
+  hidden: { opacity: 0, y: 50 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: "easeOut" } },
+};
+
 const Home = () => {
   const [isScrolled, setIsScrolled] = useState(false);
 
@@ -69,37 +74,44 @@ const Home = () => {
           </div>
         </motion.div>
       </section>
-      <section className="bg-white py-16 px-6 sm:px-10">
+      {/* Latest News & Updates Section */}
+      <section className="bg-gradient-to-r from-white to-gray-50 dark:from-gray-800 dark:to-gray-700 py-16 px-6 sm:px-10 shadow-inner">
         <div className="max-w-7xl mx-auto">
           <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
-            {/* Text Content (Left) */}
+            {/* Text Content */}
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6 }}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, amount: 0.3 }}
+              variants={sectionVariants}
             >
-              <h2 className="text-3xl sm:text-4xl font-bold text-indigo-700 mb-2">
+              <h2 className="text-3xl sm:text-4xl font-bold text-indigo-700 dark:text-indigo-400 mb-2">
                 📰 Latest News & Updates
               </h2>
-              <p className="text-gray-600 text-base sm:text-lg max-w-xl">
+              <p className="text-gray-700 dark:text-gray-300 text-base sm:text-lg max-w-xl">
                 Discover the newest trends in tech, development best practices,
                 and community highlights. Stay informed with what’s happening in
                 the dev world.
               </p>
             </motion.div>
 
-            {/* Button (Right) */}
+            {/* Button */}
             <motion.div
-              initial={{ opacity: 0, x: 20 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6 }}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, amount: 0.3 }}
+              variants={{
+                ...sectionVariants,
+                transition: {
+                  delay: 0.2,
+                  ...sectionVariants.visible.transition,
+                },
+              }}
               className="shrink-0"
             >
               <Link
                 href="/news"
-                className="inline-block bg-indigo-600 text-white px-6 py-3 rounded-lg font-medium hover:bg-indigo-700 shadow transition duration-300"
+                className="inline-block bg-indigo-600 text-white px-8 py-3 rounded-full font-medium hover:bg-indigo-700 shadow-lg transition duration-300 transform hover:scale-105"
               >
                 View All News →
               </Link>
@@ -107,6 +119,54 @@ const Home = () => {
           </div>
         </div>
       </section>
+
+      <section
+        id="rashifal"
+        className="dark:from-gray-800 dark:to-gray-700 py-16 px-6 sm:px-10 shadow-inner"
+      >
+        <div className="max-w-7xl mx-auto">
+          <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+            {/* Text Content */}
+            <motion.div
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, amount: 0.3 }}
+              variants={sectionVariants}
+            >
+              <h2 className="text-3xl sm:text-4xl font-bold text-pink-700 dark:text-yellow-400 mb-2">
+                 आजको राशिफल
+              </h2>
+              <p className="text-gray-700 dark:text-gray-300 text-base sm:text-lg max-w-xl">
+                तपाईंको दैनिक राशिफल पढ्नुहोस् — प्रेम, करियर, स्वास्थ्य र सफलता
+                सम्बन्धी भविष्यवाणीहरू। १२ राशिका लागि नयाँ अपडेटहरू!
+              </p>
+            </motion.div>
+
+            {/* Button */}
+            <motion.div
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, amount: 0.3 }}
+              variants={{
+                ...sectionVariants,
+                transition: {
+                  delay: 0.2,
+                  ...sectionVariants.visible.transition,
+                },
+              }}
+              className="shrink-0"
+            >
+              <Link
+                href="/rashifal"
+                className="inline-block bg-gradient-to-br from-pink-500 to-red-600 text-white px-8 py-3 rounded-full font-semibold hover:from-pink-600 hover:to-red-700 shadow-xl transition duration-300 transform hover:scale-105"
+              >
+                हेर्नुहोस् सबै राशिफल →
+              </Link>
+            </motion.div>
+          </div>
+        </div>
+      </section>
+
       <section id="about" className="max-w-5xl mx-auto px-6 py-16">
         <motion.h2
           className="text-3xl sm:text-4xl font-bold text-center mb-6 text-indigo-700"
