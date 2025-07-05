@@ -1,55 +1,33 @@
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-  CardDescription,
-} from "@/components/ui/card";
-import { ExternalLink } from "lucide-react"; // Ensure lucide-react is installed
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import { ExternalLink } from "lucide-react";
 
 export default function WarnCard() {
   return (
-    // Main container for the card, adjusted for the dark/indigo theme
-    // bg-indigo-900/40 matches the rashifal cards for consistency
-    // border and shadow enhance the spiritual/mystical feel
-    <div className="w-full max-w-4xl mx-auto my-12 p-4 rounded-xl
-                    bg-indigo-900/40 backdrop-blur-sm shadow-2xl
-                    border border-indigo-700/50 text-gray-100">
-      <CardHeader className="pb-4">
-        {/* Card Title: Prominent yellow for emphasis */}
-        <CardTitle className="text-3xl font-bold text-yellow-300 mb-2">
-          Credits & Disclaimer
-        </CardTitle>
-        {/* Card Description: Lighter yellow for secondary info */}
-        <CardDescription className="text-lg text-yellow-100 opacity-80">
-          For Educational & Informational Purposes Only
-        </CardDescription>
+    <div className="w-full bg-red-200 shadow-md py-3">
+      <CardHeader>
+        <CardTitle>Credits & Disclaimer</CardTitle>
+        <CardDescription>For Educational & Informational Purposes Only</CardDescription>
       </CardHeader>
-      <CardContent className="space-y-4 text-base text-gray-200">
-        <p>
-          This platform fetches daily horoscope from publicly available sources.</p>
-        <p>
-          This site makes use of astrology data fetched through unofficial access to{" "}
+      <CardContent className="space-y-4">
+        <p className="text-sm text-muted-foreground">
+          This platform fetches data from publicly available sources like{" "}
           <a
-            href="https://www.hamropatro.com"
+            href="https://hamropatro.com"
             target="_blank"
             rel="noopener noreferrer"
-            // Link styling: vibrant yellow, underlined, with hover effect
-            className="underline inline-flex items-center text-yellow-400 hover:text-yellow-200 transition-colors duration-200"
+            className="underline inline-flex items-center hover:text-blue-600"
           >
-            Hamro Patro <ExternalLink className="w-4 h-4 ml-1 inline-block" />
-          </a>{" "}
-          for displaying daily{" "}
-          {/* Highlighted text: Changed from red to a prominent yellow/orange for theme consistency */}
-          <span className="font-medium text-orange-400 dark:text-orange-300">Rashifal</span> content.
+            Hamropatro <ExternalLink className="w-3 h-3 ml-1" />
+          </a>
         </p>
-        <p>
-          All data belongs to their respective publishers. This project is created purely for{" "}
-          <span className="font-medium text-yellow-300">educational, research, and demonstration purposes</span>. No copyright
-          infringement is intended, and this app does not claim ownership over any third-party content.
+        <p className="text-sm">
+          All data, content, and media belong to their respective publishers. This project is created purely for
+          <span className="font-medium"> educational, research, and demonstration purposes</span>. No copyright
+          infringement is intended.
         </p>
-        <p>
-          Please visit the original publishers for complete information and official updates.
+        <p className="text-sm">
+          Please refer to the official websites for the full articles and original content. This platform does not store or
+          claim ownership of any third-party data.
         </p>
       </CardContent>
     </div>
