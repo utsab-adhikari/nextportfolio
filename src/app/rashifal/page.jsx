@@ -30,7 +30,7 @@ export default function HomePage() {
       {/* Header */}
       <header className="text-center mb-12">
         <h1 className="text-4xl sm:text-5xl font-bold text-indigo-700">
-          ⭐ नेपाली राशिफल ⭐
+          नेपाली राशिफल
         </h1>
         <p className="mt-3 text-lg text-gray-600">
           आजको आफ्नो आध्यात्मिक यात्रा पत्ता लगाउनुहोस्
