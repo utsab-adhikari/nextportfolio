@@ -70,8 +70,7 @@ export default function HomePage() {
         </div>
       )}
 
-      {/* Credit / Disclaimer Section */}
-      <div className="max-w-3xl mx-auto mt-8">
+      <div className="">
         <WarnCard />
       </div>
     </main>
