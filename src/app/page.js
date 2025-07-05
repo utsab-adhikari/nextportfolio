@@ -6,6 +6,7 @@ import Skills from "@/mycomponents/Skills";
 import ReportDrawer from "@/mycomponents/ReportDrawer";
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
+import { ArrowRight } from "lucide-react";
 // import Skills from "@/mycomponents/SkillComponent";
 
 const sectionVariants = {
@@ -134,7 +135,7 @@ const Home = () => {
               variants={sectionVariants}
             >
               <h2 className="text-3xl sm:text-4xl font-bold text-pink-700 dark:text-yellow-400 mb-2">
-                 आजको राशिफल
+                आजको राशिफल
               </h2>
               <p className="text-gray-700 dark:text-gray-300 text-base sm:text-lg max-w-xl">
                 तपाईंको दैनिक राशिफल पढ्नुहोस् — प्रेम, करियर, स्वास्थ्य र सफलता
@@ -144,16 +145,9 @@ const Home = () => {
 
             {/* Button */}
             <motion.div
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true, amount: 0.3 }}
-              variants={{
-                ...sectionVariants,
-                transition: {
-                  delay: 0.2,
-                  ...sectionVariants.visible.transition,
-                },
-              }}
+              initial={{ opacity: 0, x: -50 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.8 }}
               className="shrink-0"
             >
               <Link
@@ -193,6 +187,49 @@ const Home = () => {
           My focus is on building scalable, real-world applications that solve
           practical problems.
         </motion.p>
+      </section>
+
+      <section className="w-full py-12">
+        <div className="max-w-6xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-6">
+          {/* Text Content */}
+          <motion.div
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.3 }}
+            variants={sectionVariants}
+            className="flex-1 text-center md:text-left"
+          >
+            <h2 className="text-3xl font-bold text-blue-800 dark:text-yellow-300 mb-2">
+              ☀️ Live Weather Updates
+            </h2>
+            <p className="text-gray-700 dark:text-gray-300 max-w-md">
+              Check real-time weather information for major cities including
+              Kathmandu and more—powered by Open-Meteo APIs.
+            </p>
+          </motion.div>
+
+          {/* CTA Button */}
+          <motion.div
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.3 }}
+            variants={{
+              ...sectionVariants,
+              transition: {
+                delay: 0.2,
+                ...sectionVariants.visible.transition,
+              },
+            }}
+            className="shrink-0"
+          >
+            <Link
+              href="/weather"
+              className="inline-flex items-center px-6 py-3 bg-blue-600 text-white rounded-lg shadow-lg hover:bg-blue-700 transition-all"
+            >
+              View Weather <ArrowRight className="ml-2 w-4 h-4" />
+            </Link>
+          </motion.div>
+        </div>
       </section>
 
       {/* Skills Section */}
