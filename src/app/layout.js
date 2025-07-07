@@ -10,6 +10,8 @@ import { Toaster } from "react-hot-toast";
 import Footer from "@/mycomponents/Footer";
 import Link from "next/link";
 import { FaHome } from "react-icons/fa";
+import Script from "next/script";
+
 
 export default function Layout({ children }) {
   const pathname = usePathname();
@@ -26,6 +28,23 @@ export default function Layout({ children }) {
 
   return (
     <html lang="en">
+      <head>
+         <Script
+        src={`https://www.googletagmanager.com/gtag/js?id=G-1ZMEDGLMSL`}
+        strategy="afterInteractive"
+      />
+      <Script id="google-analytics" strategy="afterInteractive">
+        {`
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          
+          gtag('js', new Date());
+          gtag('config', 'G-1ZMEDGLMSL', {
+            page_path: window.location.pathname,
+          });
+        `}
+      </Script>
+      </head>
       <body className="flex min-h-screen flex-col">
         <SidebarProvider>
           <div className="flex flex-1 w-full">
