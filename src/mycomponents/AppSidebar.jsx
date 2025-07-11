@@ -47,22 +47,30 @@ export function AppSidebar() {
   const { toggleSidebar } = useSidebar();
 
   return (
-    <Sidebar>
-      <SidebarContent>
+    <Sidebar> {/* Dark background & light text */}
+      <SidebarContent  className="bg-stone-800 text-white">
         <SidebarGroup>
-          <div className="absolute  p-3 flex justify-end items-center w-full block md:hidden">
-            <button onClick={() => toggleSidebar()}>
+          <div className="absolute p-3 flex justify-end items-center w-full block md:hidden">
+            <button
+              onClick={() => toggleSidebar()}
+              className="text-gray-300 hover:text-white transition"
+            >
               <IoMdClose size={24} />
             </button>
           </div>
-          <SidebarGroupLabel>Utsab Adhikari's Portfolio</SidebarGroupLabel>
+          <SidebarGroupLabel className="text-stone-700 font-semibold">
+            Utsab Adhikari's Portfolio
+          </SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
               {items.map((item) => (
                 <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton asChild>
-                    <a href={item.url}>
-                      <item.icon />
+                    <a
+                      href={item.url}
+                      className="flex items-center gap-3 px-4 py-2 rounded-md text-white hover:bg-stone-600 hover:text-white transition"
+                    >
+                      <item.icon className="w-5 h-5" />
                       <span>{item.title}</span>
                     </a>
                   </SidebarMenuButton>

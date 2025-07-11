@@ -53,7 +53,7 @@ export default function Layout({ children }) {
 
             {!isIndex && (
               <button
-                className="fixed top-10 z-30 md:top-2 left-2 md:left-64 cursor-pointer hover:text-gray-500"
+                className="fixed top-10 z-30 text-white md:top-2 left-2 md:left-64 cursor-pointer hover:text-gray-500"
                 onClick={() => router.back()}
               >
                 <IoMdArrowRoundBack size={24} />
@@ -63,9 +63,9 @@ export default function Layout({ children }) {
             <div className="flex flex-1 flex-col">
               <main className="flex flex-1 w-full min-h-screen">
                 <Toaster position="bottom-right" />
-                <div className="w-full">{children}</div>
+                <div className="w-full bg-slate-900">{children}</div>
               </main>
-              {!isIndex && <Link className="block md:hidden mx-auto py-1 my-2 hover:bg-gray-200  px-4 border-1 font-semibold rounded-full flex items-center text-center gap-2 w-fit" href="/"> <FaHome/> Home</Link>}
+              {!isIndex && <div className="bg-slate-900"><Link className="block md:hidden mx-auto py-1 my-2 px-4 border-1 border-indigo-600 text-indigo-600 font-semibold rounded-full flex items-center text-center gap-2 w-fit " href="/"> <FaHome/> Home</Link></div>}
               <Footer />
             </div>
           </div>

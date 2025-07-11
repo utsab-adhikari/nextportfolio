@@ -44,14 +44,14 @@ const skillsList = [
 
 const Skills = () => {
   return (
-    <section id="skills" className="bg-gray-50">
+    <section id="skills" className="">
       <div className="max-w-4xl mx-auto">
         <div className="h-33 overflow-y-auto p-2">
           <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
             {skillsList.map((skill) => (
               <div
                 key={skill.name}
-                className="bg-gray-100 p-3 rounded-lg shadow-sm hover:shadow-md flex items-center gap-3 transition"
+                className="bg-gray-100/10 p-3 rounded-lg shadow-sm hover:shadow-md flex items-center gap-3 transition"
               >
                 {skill.icon}
                 <span className="text-sm sm:text-base">{skill.name}</span>

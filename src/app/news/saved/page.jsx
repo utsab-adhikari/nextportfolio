@@ -84,7 +84,7 @@ const KtmPost = () => {
             {newses.map((news) => (
               <div
                 key={news.slug}
-                className="flex flex-col bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300 relative"
+                className="flex flex-col bg-white/7 backdrop-blur-md rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300 relative"
               >
                 {news.headline && news.slug && news.image && (
                   <div className="flex flex-col">
@@ -118,10 +118,10 @@ const KtmPost = () => {
                       </h3>
                     </div>
                     <div className="p-4 flex flex-col justify-between h-full">
-                      <h2 className="text-xl font-devanagari font-semibold text-gray-800 mb-2">
+                      <h2 className="text-xl font-devanagari font-semibold text-white mb-2">
                         {news.headline}
                       </h2>
-                      <p className="text-sm text-gray-500 border-l-4 border-green-600 pl-3 mb-4">
+                      <p className="text-sm text-gray-400 border-l-4 border-green-600 pl-3 mb-4">
                         {news.slug}
                       </p>
                       {news.link && (

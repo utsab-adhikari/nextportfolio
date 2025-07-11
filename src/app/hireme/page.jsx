@@ -48,10 +48,10 @@ const Hireme = () => {
   };
 
   return (
-    <div className="min-h-screen bg-white flex items-center justify-center px-4 py-8">
+    <div className="min-h-screen flex items-center justify-center px-4 py-8">
       <div className="w-full max-w-4xl">
         <h2
-          className="text-center font-bold text-indigo-700 mb-6"
+          className="text-center font-bold text-indigo-500 mb-6"
           style={{
             fontSize: "clamp(1.75rem, 5vw, 2.5rem)",
           }}
@@ -66,7 +66,7 @@ const Hireme = () => {
             placeholder="Company Name / Your Name"
             value={formData.companyName}
             onChange={handleChange}
-            className="p-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-indigo-400"
+            className="p-3 text-white border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-indigo-400"
             required
           />
 
@@ -76,7 +76,7 @@ const Hireme = () => {
             placeholder="Address"
             value={formData.address}
             onChange={handleChange}
-            className="p-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-indigo-400"
+            className="p-3 text-white border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-indigo-400"
             required
           />
 
@@ -86,7 +86,7 @@ const Hireme = () => {
             placeholder="Email"
             value={formData.email}
             onChange={handleChange}
-            className="p-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-indigo-400"
+            className="p-3 text-white border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-indigo-400"
             required
           />
 
@@ -96,17 +96,17 @@ const Hireme = () => {
             placeholder="Contact Number"
             value={formData.contact}
             onChange={handleChange}
-            className="p-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-indigo-400"
+            className="p-3 text-white border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-indigo-400"
             required
           />
 
           <div className="sm:col-span-2">
-            <label className="block mb-1 font-medium">Select Category</label>
+            <label className="block text-white mb-1 font-medium">Select Category</label>
             <select
               name="category"
               value={formData.category}
               onChange={handleChange}
-              className="w-full p-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-indigo-400"
+              className="w-full text-white p-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-indigo-400"
               required
             >
               <option value="">Select an option</option>
@@ -123,7 +123,7 @@ const Hireme = () => {
             placeholder="Number of Employees in your Company"
             value={formData.noOfEmployees}
             onChange={handleChange}
-            className="p-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-indigo-400"
+            className="p-3 text-white border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-indigo-400"
             required
           />
 
@@ -133,18 +133,18 @@ const Hireme = () => {
               placeholder="Company Description"
               value={formData.description}
               onChange={handleChange}
-              className="w-full p-3 border border-gray-300 rounded resize-none focus:outline-none focus:ring-2 focus:ring-indigo-400"
+              className="w-full text-white p-3 border border-gray-300 rounded resize-none focus:outline-none focus:ring-2 focus:ring-indigo-400"
               required
             />
           </div>
 
           <div className="sm:col-span-2">
-            <label className="block mb-1 font-medium">How did you find me?</label>
+            <label className="block mb-1 text-white font-medium">How did you find me?</label>
             <select
               name="source"
               value={formData.source}
               onChange={handleChange}
-              className="w-full p-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-indigo-400"
+              className="w-full  text-white p-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-indigo-400"
               required
             >
               <option value="">Select an option</option>
@@ -155,11 +155,11 @@ const Hireme = () => {
             </select>
           </div>
 
-          <div className="sm:col-span-2 bg-indigo-100 p-4 border-l-4 border-indigo-500">
-            <h3 className="font-semibold text-indigo-700 mb-2">
+          <div className="sm:col-span-2 bg-indigo-500/10 backdrop-blur-lg p-4 border-l-4 border-indigo-500">
+            <h3 className="font-semibold text-indigo-600 mb-2">
               Why you should hire me?
             </h3>
-            <p className="text-gray-800">
+            <p className="text-gray-400">
               I bring a solid foundation in full-stack development, driven by a
               desire for continual growth and excellence. With a proactive
               approach, adaptability to new challenges, and clear communication

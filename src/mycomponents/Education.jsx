@@ -3,34 +3,34 @@ import React from "react";
 
 const Education = () => {
   return (
-    <section id="education" className="bg-gray-50 py-16">
-      <div className="max-w-6xl mx-auto px-6">
-        <div className="flex flex-col lg:flex-row gap-10 items-center justify-between bg-white shadow-md rounded-lg p-8">
+    <section id="education" className="py-16">
+      <div className="max-w-6xl mx-auto px-4">
+        <div className="flex flex-col lg:flex-row gap-10 items-center justify-between bg-white/5 backdrop-blur-md shadow-md p-8">
           <div className="w-full lg:w-1/2">
-            <h3 className="text-2xl text-left font-semibold text-gray-800 mb-4">
+            <h3 className="text-2xl text-left font-semibold text-white mb-4">
               BEIT
             </h3>
-            <ul className="text-gray-700 text-left space-y-2 text-base">
+            <ul className="text-gray-300 text-left space-y-2 text-base">
               <li>
-                <span className="font-medium font-semibold text-gray-500">
+                <span className="font-medium font-semibold text-gray-400">
                   Level:
                 </span>{" "}
                 Undergraduate
               </li>
               <li>
-                <span className="font-medium font-semibold text-gray-500">
+                <span className="font-medium font-semibold text-gray-400">
                   Started At:
                 </span>{" "}
                 2024 onwards
               </li>
               <li>
-                <span className="font-medium font-semibold text-gray-500">
+                <span className="font-medium font-semibold text-gray-400">
                   Current:
                 </span>{" "}
                 2nd Semester
               </li>
               <li>
-                <span className="font-medium font-semibold text-gray-500">
+                <span className="font-medium font-semibold text-gray-400">
                   Course:
                 </span>{" "}
                 <b>Bachelor of Engineering in Information Technology</b>
@@ -44,7 +44,7 @@ const Education = () => {
               <img
                 src="https://ncit.edu.np/images/logo.png"
                 alt="NCIT Logo"
-                className=" h-auto object-contain"
+                className=" h-auto bg-white/70 rounded p-3 object-contain"
               />
               <Link
                 href="https://ncit.edu.np"

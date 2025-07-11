@@ -5,7 +5,7 @@ const NewsNavbar = ({ pathname }) => {
   const linkStyle = (href) =>
     pathname === href
       ? "border-2 border-indigo-600 rounded-xl text-indigo-600 px-3 py-2"
-      : "px-3 py-2";
+      : "px-3 text-white py-2";
 
   return (
     <div className="z-100 font-semibold flex justify-evenly items-center  rounded-xl m-2">

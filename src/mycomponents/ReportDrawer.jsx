@@ -112,7 +112,7 @@ function SubjectForm({ onClose }) {
 
   return (
     <form onSubmit={handleSubmit} className="grid gap-6">
-      <div className="grid gap-2">
+      <div className="bg grid gap-2">
         <Label htmlFor="title">Title</Label>
         <Input
           id="title"

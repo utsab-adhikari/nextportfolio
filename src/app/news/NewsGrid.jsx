@@ -51,7 +51,7 @@ const NewsGrid = ({
             news.image && (
               <div
                 key={news.slug ?? news.link}
-                className="flex flex-col bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300 relative"
+                className="flex flex-col bg-white/7 backdrop-blur-md rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300 relative"
               >
                 <div className="flex justify-end">
                   {isSaveLoading === (news.slug ?? news.link) ? (
@@ -64,7 +64,7 @@ const NewsGrid = ({
                   ) : (
                     <button
                       onClick={() => saveNews(news)}
-                      className="absolute font-bold text-gray-700 hover:text-green-800 cursor-pointer m-2"
+                      className="absolute font-bold text-green-500 hover:text-green-800 cursor-pointer m-2"
                     >
                       <MdSaveAlt size={24} />
                     </button>
@@ -91,7 +91,7 @@ const NewsGrid = ({
                     style={{
                       fontFamily: "'Noto Sans Devanagari', sans-serif",
                     }}
-                    className="text-xl font-semibold text-gray-800 mb-2"
+                    className="text-xl font-semibold text-white mb-2"
                   >
                     {news.headline}
                   </h2>
@@ -101,7 +101,7 @@ const NewsGrid = ({
                       style={{
                         fontFamily: "'Noto Sans Devanagari', sans-serif",
                       }}
-                      className="text-sm text-gray-500 border-l-4 border-green-600 pl-3 mb-4"
+                      className="text-sm text-gray-400 border-l-4 border-green-600 pl-3 mb-4"
                     >
                       {news.slug}
                     </p>
