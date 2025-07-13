@@ -1,24 +1,43 @@
-"use client";
-
-import { Button } from "@/components/ui/button";
-import axios from "axios";
-import {useState } from "react";
+import React, { useState } from "react";
 import Link from "next/link";
-import toast from "react-hot-toast";
 import { MdSaveAlt } from "react-icons/md";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
+import toast from "react-hot-toast";
+import axios from "axios";
 
-const NewsGrid = ({
-  posts,
-  buttonLabel,
-}) => {
+const Button = ({ children, className, ...props }) => {
+  return (
+    <button
+      className={`px-4 py-2 rounded-lg font-semibold transition-all duration-300 ${className}`}
+      {...props}
+    >
+      {children}
+    </button>
+  );
+};
+const GlobalStyles = () => (
+  <style>
+    {`
+      @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari:wght@400;600;700&display=swap');
+      .font-noto-devanagari {
+        font-family: 'Noto Sans Devanagari', sans-serif;
+      }
+      .font-inter {
+        font-family: 'Inter', sans-serif;
+      }
+    `}
+  </style>
+);
+
+const NewsGrid = ({ posts, buttonLabel }) => {
   const [isSaveLoading, setIsSaveLoading] = useState(null);
-
   const saveNews = async (news) => {
     const id = news.slug ?? news.link;
+
     setIsSaveLoading(id);
 
     const toastId = toast.loading("Saving News...");
+
     try {
       const response = await axios.post(
         "/api/v1/news/save",
@@ -35,6 +54,7 @@ const NewsGrid = ({
       toast.success(response.data.message, { id: toastId });
     } catch (error) {
       console.error("Error while saving news:", error);
+
       toast.error(error.message, { id: toastId });
     } finally {
       setIsSaveLoading(null);
@@ -42,76 +62,81 @@ const NewsGrid = ({
   };
 
   return (
-    <div>
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 px-4 py-6 max-w-7xl mx-auto">
+    <div className="w-full text-white font-inter p-4 sm:p-8">
+      <GlobalStyles />
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 py-6 max-w-7xl mx-auto">
         {posts.map(
           (news) =>
             news.headline &&
-            news.link &&
-            news.image && (
+            news.link && (
               <div
                 key={news.slug ?? news.link}
-                className="flex flex-col bg-white/7 backdrop-blur-md rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300 relative"
+                className="flex flex-col bg-gray-800/60 backdrop-blur-lg rounded-xl shadow-xl overflow-hidden
+                           hover:shadow-2xl hover:scale-[1.02] transition-all duration-300 border border-gray-700 relative" // Added scale on hover
               >
-                <div className="flex justify-end">
+                <div className="absolute top-3 right-3 z-10">
                   {isSaveLoading === (news.slug ?? news.link) ? (
                     <button
                       disabled
-                      className="absolute font-bold animate-spin text-red-600 cursor-not-allowed m-2"
+                      className="text-indigo-400 animate-spin cursor-not-allowed p-2 rounded-full bg-gray-700/50"
                     >
-                      <AiOutlineLoading3Quarters size={24} />
+                      <AiOutlineLoading3Quarters size={20} />
                     </button>
                   ) : (
                     <button
                       onClick={() => saveNews(news)}
-                      className="absolute font-bold text-green-500 hover:text-green-800 cursor-pointer m-2"
+                      className="text-green-400 hover:text-green-300 transition-colors duration-200 p-2 rounded-full bg-gray-700/50 hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-opacity-75"
+                      aria-label="Save News"
                     >
-                      <MdSaveAlt size={24} />
+                      <MdSaveAlt size={20} />
                     </button>
                   )}
                 </div>
-
-                {/* Image */}
                 <img
-                  src={news.image}
-                  alt="News Image"
-                  className="w-full h-48 object-cover"
+                  src={
+                    news.image ||
+                    "https://placehold.co/600x400/334155/E2E8F0?text=No+Image"
+                  }
+                  alt={news.headline || "News Image"}
+                  className="w-full h-48 sm:h-56 object-cover rounded-t-xl"
+                  onError={(e) => {
+                    e.currentTarget.src =
+                      "https://placehold.co/600x400/334155/E2E8F0?text=Image+Error";
+                    e.currentTarget.onerror = null;
+                  }}
                 />
 
-                {/* Source Badge */}
-                <div className="absolute p-1 bg-indigo-800 w-fit pr-5 rounded-r-full">
-                  <h3 className="text-sm font-semibold text-white">
-                    {news.source}
-                  </h3>
+                <div className="absolute top-3 left-3 bg-indigo-600 px-3 py-1 rounded-full shadow-md text-sm font-semibold text-white z-10">
+                  {news.source}
                 </div>
 
-                {/* Content */}
-                <div className="p-4 flex flex-col justify-between h-full">
+                <div className="p-4 sm:p-5 flex flex-col flex-grow">
                   <h2
-                    style={{
-                      fontFamily: "'Noto Sans Devanagari', sans-serif",
-                    }}
-                    className="text-xl font-semibold text-white mb-2"
+                    className="font-noto-devanagari text-xl sm:text-2xl font-semibold text-white mb-2 line-clamp-3" // Added line-clamp for truncation
                   >
                     {news.headline}
                   </h2>
 
                   {news.slug && (
                     <p
-                      style={{
-                        fontFamily: "'Noto Sans Devanagari', sans-serif",
-                      }}
-                      className="text-sm text-gray-400 border-l-4 border-green-600 pl-3 mb-4"
+                      className="font-noto-devanagari text-sm text-gray-400 border-l-4 border-green-500 pl-3 mb-4 line-clamp-2" // Adjusted border color, added line-clamp
                     >
                       {news.slug}
                     </p>
                   )}
 
-                  <Link href={news.link} target="_blank" className="mt-auto">
-                    <Button className="w-full bg-blue-700 hover:bg-blue-600 text-white">
-                      {buttonLabel}
-                    </Button>
-                  </Link>
+                  <div className="mt-auto pt-2">
+                    <Link
+                      href={news.link}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="block"
+                    >
+                      <Button className="w-full cursor-pointer bg-blue-600 hover:bg-blue-500 text-white py-3 rounded-lg shadow-md hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-75">
+                        {buttonLabel}
+                      </Button>
+                    </Link>
+                  </div>
                 </div>
               </div>
             )

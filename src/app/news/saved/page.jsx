@@ -9,6 +9,21 @@ import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import { usePathname, useRouter } from "next/navigation";
 import NewsNavbar from "../NewsNavbar";
 import CreditCard from "../CreditCard";
+import { Button } from "@mui/material";
+
+const GlobalStyles = () => (
+  <style>
+    {`
+      @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari:wght@400;600;700&display=swap');
+      .font-noto-devanagari {
+        font-family: 'Noto Sans Devanagari', sans-serif;
+      }
+      .font-inter {
+        font-family: 'Inter', sans-serif;
+      }
+    `}
+  </style>
+);
 
 const KtmPost = () => {
   const pathname = usePathname();
@@ -64,7 +79,8 @@ const KtmPost = () => {
   };
 
   return (
-    <div className="">
+    <div className="min-h-screen">
+      <GlobalStyles/>
       <NewsNavbar pathname={pathname} />
       <div>
         <div className="p-4 flex justify-center items-center flex-col text-center">
@@ -80,65 +96,83 @@ const KtmPost = () => {
         </div>
       ) : (
         <>
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 px-4 py-6 max-w-7xl mx-auto">
-            {newses.map((news) => (
-              <div
-                key={news.slug}
-                className="flex flex-col bg-white/7 backdrop-blur-md rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300 relative"
-              >
-                {news.headline && news.slug && news.image && (
-                  <div className="flex flex-col">
-                    <div className="flex justify-end">
-                      {isDeleteLoading === news._id ? (
+          <div className="grid grid-cols-1 p-4 sm:p-8 sm:grid-cols-2 lg:grid-cols-3 gap-6 py-6 max-w-7xl mx-auto">
+            {newses.map(
+              (news) =>
+                news.headline &&
+                news.link && (
+                  <div
+                    key={news.slug ?? news.link}
+                    className="flex flex-col bg-gray-800/60 backdrop-blur-lg rounded-xl shadow-xl overflow-hidden
+                                    hover:shadow-2xl hover:scale-[1.02] transition-all duration-300 border border-gray-700 relative" // Added scale on hover
+                  >
+                    <div className="absolute top-3 right-3 z-10">
+                      {isDeleteLoading === (news._id) ? (
                         <button
                           disabled
-                          className="absolute font-bold animate-spin text-red-600 cursor-not-allowed m-2"
+                          className="text-indigo-400 animate-spin cursor-not-allowed p-2 rounded-full bg-gray-700/50"
                         >
-                          <AiOutlineLoading3Quarters size={24} />
+                          <AiOutlineLoading3Quarters size={20} />
                         </button>
                       ) : (
                         <button
                           onClick={() => handleDelete(news._id)}
-                          className="absolute font-bold text-red-700 hover:text-red-400 cursor-pointer m-2"
+                          className="text-red-600 hover:text-red-400 transition-colors duration-200 p-2 rounded-full bg-gray-700/50 hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-red-600 focus:ring-opacity-75"
+                          aria-label="Save News"
                         >
                           <FaRegTrashAlt size={20} />
                         </button>
                       )}
                     </div>
-                    {news.image && (
-                      <img
-                        src={news.image}
-                        alt="News Image"
-                        className="w-full h-48 object-cover"
-                      />
-                    )}
-                    <div className="absolute p-1 bg-indigo-800 w-fit pr-5 rounded-r-full">
-                      <h3 className="text-sm font-semibold text-white">
-                        {news.source}
-                      </h3>
+                    <img
+                      src={
+                        news.image ||
+                        "https://placehold.co/600x400/334155/E2E8F0?text=No+Image"
+                      }
+                      alt={news.headline || "News Image"}
+                      className="w-full h-48 sm:h-56 object-cover rounded-t-xl"
+                      onError={(e) => {
+                        e.currentTarget.src =
+                          "https://placehold.co/600x400/334155/E2E8F0?text=Image+Error";
+                        e.currentTarget.onerror = null;
+                      }}
+                    />
+
+                    <div className="absolute top-3 left-3 bg-indigo-600 px-3 py-1 rounded-full shadow-md text-sm font-semibold text-white z-10">
+                      {news.source}
                     </div>
-                    <div className="p-4 flex flex-col justify-between h-full">
-                      <h2 className="text-xl font-devanagari font-semibold text-white mb-2">
+
+                    <div className="p-4 sm:p-5 flex flex-col flex-grow">
+                      <h2
+                        className="font-noto-devanagari text-xl sm:text-2xl font-semibold text-white mb-2 line-clamp-3" // Added line-clamp for truncation
+                      >
                         {news.headline}
                       </h2>
-                      <p className="text-sm text-gray-400 border-l-4 border-green-600 pl-3 mb-4">
-                        {news.slug}
-                      </p>
-                      {news.link && (
-                        <Link href={news.link} target="_blank">
-                          <button className="w-full bg-blue-700 text-white py-2 px-4 rounded hover:bg-blue-600 transition-colors duration-300">
-                            Read at{" "}
-                            {news.source === "ekantipur"
-                              ? "eKantipur"
-                              : "The Kathmandu Post"}
-                          </button>
-                        </Link>
+
+                      {news.slug && (
+                        <p
+                          className="font-noto-devanagari text-sm text-gray-400 border-l-4 border-green-500 pl-3 mb-4 line-clamp-2" // Adjusted border color, added line-clamp
+                        >
+                          {news.slug}
+                        </p>
                       )}
+
+                      <div className="mt-auto pt-2">
+                        {news.link && (
+                          <Link href={news.link} target="_blank">
+                            <button className="w-full cursor-pointer bg-blue-700 text-white py-2 px-4 rounded hover:bg-blue-600 transition-colors duration-300">
+                              Read at{" "}
+                              {news.source === "ekantipur"
+                                ? "eKantipur"
+                                : "The Kathmandu Post"}
+                            </button>
+                          </Link>
+                        )}
+                      </div>
                     </div>
                   </div>
-                )}
-              </div>
-            ))}
+                )
+            )}
           </div>
           <div className="p-3">
             <CreditCard />

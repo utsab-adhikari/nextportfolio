@@ -1,9 +1,15 @@
 "use client";
+
 import axios from "axios";
+import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { toast } from "react-hot-toast";
+import { motion } from "framer-motion";
+import { AiOutlineLoading3Quarters } from "react-icons/ai";
 
 const Hireme = () => {
+  const router = useRouter();
+  const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
     companyName: "",
     address: "",
@@ -22,15 +28,10 @@ const Hireme = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+    setLoading(true);
     try {
-      const res = await axios.post(
-        `/api/hireme`, 
-        formData
-      );
-
+      const res = await axios.post("/api/v1/hireme/create", formData);
       toast.success(res.data.message || "Request sent successfully!");
-
       setFormData({
         companyName: "",
         address: "",
@@ -44,23 +45,29 @@ const Hireme = () => {
     } catch (err) {
       console.error(err);
       toast.error(err.response?.data?.message || "Something went wrong.");
+    } finally {
+      setLoading(false);
+      router.push("/hireme/applications")
     }
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center px-4 py-8">
-      <div className="w-full max-w-4xl">
-        <h2
-          className="text-center font-bold text-indigo-500 mb-6"
-          style={{
-            fontSize: "clamp(1.75rem, 5vw, 2.5rem)",
-          }}
-        >
-          {formData.category} Offer Form
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.6 }}
+      className="min-h-screen flex items-center justify-center px-4 py-12"
+    >
+      <div className="w-full max-w-4xl bg-white/10 backdrop-blur-md p-8 rounded-xl border border-indigo-500 shadow-2xl">
+        <h2 className="text-center text-3xl sm:text-4xl font-bold text-indigo-400 mb-6">
+          {formData.category || "Work With Me"} Offer Form
         </h2>
 
-        <form onSubmit={handleSubmit} className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          <input
+        <form
+          onSubmit={handleSubmit}
+          className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-white"
+        >
+              <input
             type="text"
             name="companyName"
             placeholder="Company Name / Your Name"
@@ -106,7 +113,7 @@ const Hireme = () => {
               name="category"
               value={formData.category}
               onChange={handleChange}
-              className="w-full text-white p-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-indigo-400"
+              className="w-full bg-slate-800  text-white p-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-indigo-400"
               required
             >
               <option value="">Select an option</option>
@@ -144,7 +151,7 @@ const Hireme = () => {
               name="source"
               value={formData.source}
               onChange={handleChange}
-              className="w-full  text-white p-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-indigo-400"
+              className="w-full bg-slate-800 text-white p-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-indigo-400"
               required
             >
               <option value="">Select an option</option>
@@ -154,32 +161,45 @@ const Hireme = () => {
               <option value="other">Other</option>
             </select>
           </div>
-
-          <div className="sm:col-span-2 bg-indigo-500/10 backdrop-blur-lg p-4 border-l-4 border-indigo-500">
-            <h3 className="font-semibold text-indigo-600 mb-2">
+          <div className="sm:col-span-2 bg-indigo-600/10 p-4 border-l-4 border-indigo-400 rounded-md">
+            <h3 className="text-indigo-300 font-semibold mb-2">
               Why you should hire me?
             </h3>
-            <p className="text-gray-400">
+            <p className="text-gray-300 text-sm">
               I bring a solid foundation in full-stack development, driven by a
               desire for continual growth and excellence. With a proactive
               approach, adaptability to new challenges, and clear communication
-              skills, I thrive in collaborative environments. I’m dedicated to
-              delivering clean, scalable solutions that align with project
-              goals, making me a valuable addition to your team.
+              skills, I thrive in collaborative environments.
             </p>
           </div>
 
-          <div className="sm:col-span-2">
+          <div className="sm:col-span-2 mt-4">
             <button
               type="submit"
-              className="cursor-pointer w-full bg-indigo-600 text-white py-3 rounded font-medium hover:bg-indigo-700 transition duration-200"
+              className="w-full flex items-center justify-center gap-2 bg-indigo-600 hover:bg-indigo-500 transition duration-300 text-white font-semibold py-3 px-6 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-400"
             >
-              Submit Application
+              {loading ? (
+                <>
+                  <AiOutlineLoading3Quarters className="animate-spin" />
+                  Submitting...
+                </>
+              ) : (
+                "Submit Application"
+              )}
             </button>
           </div>
         </form>
       </div>
-    </div>
+
+      <style jsx>{`
+        .input-field {
+          @apply w-full p-3 bg-white/10 text-white rounded border border-gray-600 focus:outline-none focus:ring-2 focus:ring-indigo-400;
+        }
+        .label {
+          @apply block mb-1 font-medium text-indigo-300;
+        }
+      `}</style>
+    </motion.div>
   );
 };
 

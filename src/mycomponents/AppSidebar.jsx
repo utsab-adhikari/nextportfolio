@@ -47,8 +47,8 @@ export function AppSidebar() {
   const { toggleSidebar } = useSidebar();
 
   return (
-    <Sidebar> {/* Dark background & light text */}
-      <SidebarContent  className="bg-stone-800 text-white">
+    <Sidebar>
+      <SidebarContent  className="bg-stone-900 backdrop-blur-lg text-white">
         <SidebarGroup>
           <div className="absolute p-3 flex justify-end items-center w-full block md:hidden">
             <button
