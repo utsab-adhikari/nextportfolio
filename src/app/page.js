@@ -8,6 +8,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
 import ApiComponent from "@/mycomponents/ApiComponent";
+import Head from "next/head";
 
 const GlobalStyles = () => (
   <style>
@@ -23,10 +24,6 @@ const GlobalStyles = () => (
   </style>
 );
 
-const sectionVariants = {
-  hidden: { opacity: 0, y: 50 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: "easeOut" } },
-};
 
 const Home = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -40,9 +37,22 @@ const Home = () => {
   }, []);
 
   return (
-    // Main container with dark background and light text
-    <div className="text-gray-100 min-h-screen font-sans">
-      <GlobalStyles />
+    <>
+     <Head>
+            <link
+              href="https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari:wght@400;600;700&family=Inter:wght@400;600;700&display=swap"
+              rel="stylesheet"
+            />
+            <style>{`
+              .font-noto-devanagari {
+                font-family: 'Noto Sans Devanagari', sans-serif;
+              }
+              .font-inter {
+                font-family: 'Inter', sans-serif;
+              }
+            `}</style>
+          </Head>
+    <div className="text-gray-100 min-h-screen font-noto-devanagari">
       <section className="max-w-7xl mx-auto px-6 py-32 flex flex-col-reverse lg:flex-row items-center justify-between gap-12">
         <motion.div
           className="w-full lg:w-1/2 text-center lg:text-left"
@@ -267,6 +277,7 @@ const Home = () => {
         <ReportDrawer />
       </div>
     </div>
+    </>
   );
 };
 
