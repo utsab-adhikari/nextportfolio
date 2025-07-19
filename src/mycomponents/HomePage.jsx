@@ -132,14 +132,13 @@ const Home = () => {
                 transition: { delay: 0.6, duration: 0.4 },
               }}
             >
-              <Link href="/chatbot" passHref legacyBehavior>
-                <a
-                  className="inline-flex items-center gap-3 bg-green-600 hover:bg-green-700 text-white font-semibold px-8 py-3 rounded-full transition-colors duration-300 focus:outline-none focus:ring-4 focus:ring-green-500 focus:ring-offset-2 focus:ring-offset-gray-900 text-base sm:text-lg"
-                  aria-label="Go to chat with UtsabBot"
-                >
-                  <IoChatbubblesOutline className="w-5 h-5 sm:w-6 sm:h-6" />
-                  Chat with UtsabBot
-                </a>
+              <Link
+                href="/chatbot"
+                className="inline-flex items-center gap-3 bg-green-600 hover:bg-green-700 text-white font-semibold px-8 py-3 rounded-full transition-colors duration-300 focus:outline-none focus:ring-4 focus:ring-green-500 focus:ring-offset-2 focus:ring-offset-gray-900 text-base sm:text-lg"
+                aria-label="Go to chat with UtsabBot"
+              >
+                <IoChatbubblesOutline className="w-5 h-5 sm:w-6 sm:h-6" />
+                Chat with UtsabBot
               </Link>
             </motion.div>
           </motion.div>
