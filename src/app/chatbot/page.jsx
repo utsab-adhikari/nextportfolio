@@ -13,7 +13,6 @@ const Chatbot = () => {
   const [loading, setLoading] = useState(false);
   const chatEndRef = useRef(null);
 
-  // Initial message from the assistant
   useEffect(() => {
     setChatHistory([
       {
@@ -117,7 +116,7 @@ const Chatbot = () => {
     <div className="flex flex-col h-screen bg-gray-950 text-white font-sans antialiased">
       {/* Header */}
       <div className="flex items-center justify-between p-4 bg-gray-900 border-b border-gray-700 shadow-md">
-        <h1 className="text-xl font-bold text-green-400">UtsabBot Assistant</h1>
+        <h1 className="text-xl font-bold text-green-400">Portfolio Assistant</h1>
         <Dialog>
           <DialogTrigger asChild>
             <Button
@@ -131,7 +130,7 @@ const Chatbot = () => {
           </DialogTrigger>
           <DialogContent className="sm:max-w-[425px] bg-gray-800 text-white border-gray-700 rounded-lg">
             <DialogHeader>
-              <DialogTitle className="text-green-400 text-lg">About UtsabBot</DialogTitle>
+              <DialogTitle className="text-green-400 text-lg">About Assistent</DialogTitle>
               <DialogDescription className="text-gray-300 text-sm">
                 This is a virtual assistant designed to provide information about Utsab.
                 It's built using React, Next.js, and a custom API backend.
@@ -178,7 +177,7 @@ const Chatbot = () => {
           <div className="flex justify-start">
             <div className="max-w-[75%] px-5 py-3 rounded-2xl bg-gray-850 text-gray-300 animate-pulse shadow-lg border border-gray-700">
               <p className="text-xs text-gray-400 font-semibold mb-1">
-                UtsabBot
+                Assistent
               </p>
               <p>Typing<span className="dot-animation">.</span><span className="dot-animation delay-1">.</span><span className="dot-animation delay-2">.</span></p>
             </div>
