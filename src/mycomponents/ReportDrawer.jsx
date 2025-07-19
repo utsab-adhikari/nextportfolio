@@ -44,11 +44,16 @@ export default function ReportDrawer() {
   return isDesktop ? (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button variant="outline">Feedback / Report</Button>
+        <button
+          className="bg-blue-500 px-3 cursor-pointer py-1 rounded hover:bg-blue-400"
+          variant="outline"
+        >
+          Feedback / Report
+        </button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[500px]">
+      <DialogContent className="sm:max-w-[500px] bg-slate-900">
         <DialogHeader>
-          <DialogTitle>Feedback / Report</DialogTitle>
+          <DialogTitle className="text-white">Feedback / Report</DialogTitle>
         </DialogHeader>
         {sharedContent}
       </DialogContent>
@@ -56,16 +61,21 @@ export default function ReportDrawer() {
   ) : (
     <Drawer open={open} onOpenChange={setOpen}>
       <DrawerTrigger asChild>
-        <Button variant="outline">Feedback / Report</Button>
+        <button
+          className="bg-blue-500 px-3 cursor-pointer py-1 rounded hover:bg-blue-400"
+          variant="outline"
+        >
+          Feedback / Report
+        </button>
       </DrawerTrigger>
-      <DrawerContent>
+      <DrawerContent className="bg-slate-900">
         <DrawerHeader className="text-left">
-          <DrawerTitle>Feedback / Report</DrawerTitle>
+          <DrawerTitle className="text-white">Feedback / Report</DrawerTitle>
         </DrawerHeader>
-        <div className="px-4">{sharedContent}</div>
+        <div className="px-4" >{sharedContent}</div>
         <DrawerFooter className="pt-2">
           <DrawerClose asChild>
-            <Button variant="outline">Cancel</Button>
+            <Button className="bg-stone-700 hover:bg-stone-600 cursor-pointer text-white" variant="secondary">Cancel</Button>
           </DrawerClose>
         </DrawerFooter>
       </DrawerContent>
@@ -137,7 +147,10 @@ function SubjectForm({ onClose }) {
       <Button
         type="submit"
         disabled={isLoading}
-        className={cn("w-full", isLoading && "cursor-not-allowed")}
+        className={cn(
+          "w-full bg-green-600 hover:bg-green-700 cursor-pointer",
+          isLoading && "cursor-not-allowed"
+        )}
       >
         {isLoading ? "Submitting..." : "Submit Feedback"}
       </Button>
