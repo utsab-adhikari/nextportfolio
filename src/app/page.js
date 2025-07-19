@@ -162,7 +162,7 @@ const Home = () => {
         </section>
 
         <motion.h2
-          className="text-3xl sm:text-4xl font-bold text-center mb-6 text-indigo-400"
+          className="text-3xl sm:text-4xl font-bold text-center mb-6 mt-6 text-indigo-400"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
