@@ -17,14 +17,15 @@ const EkantipurPage = () => {
   useEffect(() => {
     setIsLoading(true);
     const toastId = toast.loading("Fetching News...");
+
     const getNews = async () => {
       try {
-        const response = await axios.get(`/api/v1/news/ekantipur`);
+        const response = await axios.get("/api/v1/news/ekantipur");
         setNews(response.data.news);
         toast.success("News Loaded Successfully", { id: toastId });
       } catch (error) {
         console.error("Fetching error:", error);
-        toast.error(error.message);
+        toast.error(error.message, { id: toastId });
       } finally {
         setIsLoading(false);
       }
@@ -51,8 +52,11 @@ const EkantipurPage = () => {
         </div>
       ) : (
         <>
-        <NewsGrid posts={newses} buttonLabel="Read at eKantipur" />
-        <div className="p-3"><CreditCard/></div></>
+          <NewsGrid posts={newses} buttonLabel="Read at eKantipur" />
+          <div className="p-3">
+            <CreditCard />
+          </div>
+        </>
       )}
     </div>
   );
