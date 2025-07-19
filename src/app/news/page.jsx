@@ -15,28 +15,29 @@ const News = () => {
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
-    setIsLoading(true);
-    const toastId = toast.loading("Fetching News...");
+    const fetchNews = async () => {
+      setIsLoading(true);
+      const toastId = toast.loading("Fetching News...");
 
-    const getNews = async () => {
       try {
-        const [ktm, ekantipur] = await Promise.all([
-          axios.get(`/api/v1/news/thektmpost`),
-          axios.get(`/api/v1/news/ekantipur`),
+        const [ktmRes, ekantipurRes] = await Promise.all([
+          axios.get("/api/v1/news/thektmpost"),
+          axios.get("/api/v1/news/ekantipur"),
         ]);
 
-        setKtmPosts(ktm.data.news.slice(0, 3));
-        setEkantipurPosts(ekantipur.data.news.slice(0, 3));
+        setKtmPosts(ktmRes.data.news.slice(0, 3));
+        setEkantipurPosts(ekantipurRes.data.news.slice(0, 3));
+
         toast.success("News Loaded Successfully", { id: toastId });
       } catch (error) {
         console.error("Error fetching news:", error);
-        toast.error(error.message);
+        toast.error("Failed to fetch news", { id: toastId });
       } finally {
         setIsLoading(false);
       }
     };
 
-    getNews();
+    fetchNews();
   }, []);
 
   return (
@@ -53,7 +54,9 @@ const News = () => {
         <>
           <NewsGrid posts={ktmPosts} buttonLabel="Read at The Kathmandu Post" />
           <NewsGrid posts={ekantipurPosts} buttonLabel="Read at eKantipur" />
-          <div className="p-3"><CreditCard/></div>
+          <div className="p-3">
+            <CreditCard />
+          </div>
         </>
       )}
     </div>
