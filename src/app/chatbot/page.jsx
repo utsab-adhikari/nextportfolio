@@ -247,24 +247,29 @@ const Chatbot = () => {
         <div ref={chatEndRef}></div>
       </div>
 
-      <div className="w-full px-4 py-4 bg-gray-900 border-t border-gray-700 shadow-lg">
-        <form onSubmit={handleSubmit} className="flex gap-3 items-center">
-          <input
-            type="text"
-            value={message}
-            onChange={(e) => setMessage(e.target.value)}
-            placeholder="Ask me anything about Utsab..."
-            className="flex-1 px-5 py-3 rounded-full border border-gray-600 bg-gray-800 text-white outline-none focus:ring-2 focus:ring-green-500 text-sm transition-all duration-200"
-            disabled={loading}
-          />
-          <Button
-            type="submit"
-            disabled={loading || !message.trim()}
-            className="bg-green-600 text-white px-6 py-3 rounded-full hover:bg-green-700 focus:ring-2 focus:ring-green-500 focus:ring-offset-2 focus:ring-offset-gray-900 flex items-center gap-2 text-sm font-semibold transition-colors duration-200 disabled:bg-gray-700 disabled:cursor-not-allowed"
+      <div className="w-full mx-center">
+        <div className="fixed bottom-5 left-0 w-full px-4 z-50">
+          <form
+            onSubmit={handleSubmit}
+            className="flex items-center gap-2 sm:gap-3 bg-gray-900 border border-gray-700 shadow-lg rounded-full px-4 py-2 sm:px-6 sm:py-3 max-w-3xl mx-auto"
           >
-            Send <IoSend className="h-4 w-4" />
-          </Button>
-        </form>
+            <input
+              type="text"
+              value={message}
+              onChange={(e) => setMessage(e.target.value)}
+              placeholder="Ask me anything about Utsab..."
+              className="flex-1 bg-transparent text-white placeholder-gray-400 text-sm sm:text-base outline-none"
+              disabled={loading}
+            />
+            <Button
+              type="submit"
+              disabled={loading || !message.trim()}
+              className="bg-green-600 hover:bg-green-700 text-white px-4 sm:px-6 py-2 sm:py-3 rounded-full text-sm font-semibold transition disabled:bg-gray-700 disabled:cursor-not-allowed flex items-center gap-2"
+            >
+              Send <IoSend className="h-4 w-4" />
+            </Button>
+          </form>
+        </div>
       </div>
 
       <style jsx>{`
