@@ -76,7 +76,7 @@ export default function Layout({ children }) {
                 <div className="w-full">{children}</div>
               </main>
 
-              {!isIndex && (
+              {!isIndex || pathname === "/chatbot" && (
                 <div className="bg-slate-900">
                   <Link
                     className="block md:hidden mx-auto py-1 my-2 px-4 border border-indigo-600 text-indigo-500 font-semibold rounded-full flex items-center text-center gap-2 w-fit"
