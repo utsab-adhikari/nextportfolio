@@ -47,7 +47,7 @@ const Hireme = () => {
       toast.error(err.response?.data?.message || "Something went wrong.");
     } finally {
       setLoading(false);
-      router.push("/hireme/applications")
+      router.push("/");
     }
   };
 
@@ -58,16 +58,20 @@ const Hireme = () => {
       transition={{ duration: 0.6 }}
       className="min-h-screen flex items-center justify-center px-4 py-12"
     >
-      <div className="w-full max-w-4xl bg-white/10 backdrop-blur-md p-8 rounded-xl border border-indigo-500 shadow-2xl">
+      <div className="w-full max-w-4xl bg-white/5 backdrop-blur-md p-8 rounded-xl border border-indigo-500 shadow-2xl">
         <h2 className="text-center text-3xl sm:text-4xl font-bold text-indigo-400 mb-6">
           {formData.category || "Work With Me"} Offer Form
         </h2>
 
+        <div className="mb-6 p-4 border border-red-500 text-red-400 bg-red-500/10 rounded-lg">
+          ⚠️ Please <strong>authenticate</strong> before submitting the form.
+          You cannot access the application type unless authenticated.
+        </div>
         <form
           onSubmit={handleSubmit}
           className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-white"
         >
-              <input
+          <input
             type="text"
             name="companyName"
             placeholder="Company Name / Your Name"
@@ -108,7 +112,9 @@ const Hireme = () => {
           />
 
           <div className="sm:col-span-2">
-            <label className="block text-white mb-1 font-medium">Select Category</label>
+            <label className="block text-white mb-1 font-medium">
+              Select Category
+            </label>
             <select
               name="category"
               value={formData.category}
@@ -146,7 +152,9 @@ const Hireme = () => {
           </div>
 
           <div className="sm:col-span-2">
-            <label className="block mb-1 text-white font-medium">How did you find me?</label>
+            <label className="block mb-1 text-white font-medium">
+              How did you find me?
+            </label>
             <select
               name="source"
               value={formData.source}

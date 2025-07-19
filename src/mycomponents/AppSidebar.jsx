@@ -13,6 +13,10 @@ import {
 } from "@/components/ui/sidebar";
 import { IconSignRight } from "@tabler/icons-react";
 import { IoMdClose } from "react-icons/io";
+import { GiSkills } from "react-icons/gi";
+import { TbMessageChatbot } from "react-icons/tb";
+import { FaOm } from "react-icons/fa6";
+
 
 // Menu items.
 const items = [
@@ -27,19 +31,19 @@ const items = [
     icon: Inbox,
   },
   {
-    title: "Login",
-    url: "/login",
-    icon: LogIn,
+    title: "Rashifal",
+    url: "/rashifal",
+    icon: FaOm,
   },
   {
-    title: "Signup",
-    url: "/signup",
-    icon: IconSignRight,
+    title: "Chatbot",
+    url: "/chatbot",
+    icon: TbMessageChatbot,
   },
   {
-    title: "Create",
-    url: "/blog/create",
-    icon: Settings,
+    title: "Skills",
+    url: "/skills",
+    icon: GiSkills,
   },
 ];
 
