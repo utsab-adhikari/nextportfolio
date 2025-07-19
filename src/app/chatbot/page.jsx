@@ -172,10 +172,7 @@ const Chatbot = () => {
 
   return (
     <div className="flex flex-col h-screen bg-gray-950 text-white font-sans antialiased">
-      <div className="flex items-center justify-between p-4 bg-gray-900 border-b border-gray-700 shadow-md">
-        <h1 className="text-xl font-bold text-green-400">
-          Portfolio Assistant
-        </h1>
+      <div className=" fixed top-2 right-2 shadow-md">
         <Dialog>
           <DialogTrigger asChild>
             <Button
