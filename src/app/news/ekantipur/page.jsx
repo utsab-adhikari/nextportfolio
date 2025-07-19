@@ -52,7 +52,9 @@ const EkantipurPage = () => {
         </div>
       ) : (
         <>
+        {Array.isArray(newses) && 
           <NewsGrid posts={newses} buttonLabel="Read at eKantipur" />
+        }
           <div className="p-3">
             <CreditCard />
           </div>

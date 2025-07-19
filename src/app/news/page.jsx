@@ -52,8 +52,16 @@ const News = () => {
         </div>
       ) : (
         <>
-          <NewsGrid posts={ktmPosts} buttonLabel="Read at The Kathmandu Post" />
-          <NewsGrid posts={ekantipurPosts} buttonLabel="Read at eKantipur" />
+          {Array.isArray(ktmPosts) && (
+            <NewsGrid
+              posts={ktmPosts}
+              buttonLabel="Read at The Kathmandu Post"
+            />
+          )}
+
+          {Array.isArray(ekantipurPosts) && (
+            <NewsGrid posts={ekantipurPosts} buttonLabel="Read at eKantipur" />
+          )}
           <div className="p-3">
             <CreditCard />
           </div>
