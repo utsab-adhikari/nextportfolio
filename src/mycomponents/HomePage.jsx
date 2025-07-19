@@ -8,9 +8,11 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
 import ApiComponent from "@/mycomponents/ApiComponent";
+import { HiOutlineMail } from "react-icons/hi";
 import Head from "next/head";
 import BlogCard from "@/mycomponents/ProjectModel";
 import { IoChatbubblesOutline } from "react-icons/io5";
+import { FaFacebook, FaGithub, FaLinkedin, FaWhatsapp } from "react-icons/fa";
 
 const assistantSectionVariants = {
   hidden: { opacity: 0, y: 20 },
@@ -262,10 +264,10 @@ const Home = () => {
 
         <section
           id="contact"
-          className="max-w-5xl mx-auto px-6 py-16 text-center"
+          className="max-w-5xl mx-auto px-6 py-20 text-center"
         >
           <motion.h2
-            className="text-3xl sm:text-4xl font-bold mb-6 text-indigo-400"
+            className="text-4xl font-bold mb-6 text-indigo-400"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -273,8 +275,9 @@ const Home = () => {
           >
             📞 Contact Me
           </motion.h2>
+
           <motion.p
-            className="text-lg text-gray-300 mb-8"
+            className="text-lg text-gray-300 mb-10 leading-relaxed"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -282,36 +285,67 @@ const Home = () => {
           >
             I'm open to freelance work, collaborations, or just a friendly chat.
             <br />
-            Reach out to me anytime!
+            Reach out to me through any of the platforms below!
           </motion.p>
+
           <motion.div
-            className="flex flex-col sm:flex-row gap-6 justify-center"
+            className="flex flex-wrap gap-4 justify-center"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.4 }}
           >
+            {/* Email */}
             <a
-              href="mailto:utasb1adhikari@gmail.com"
-              className="px-6 py-3 bg-indigo-600 hover:bg-indigo-500 text-white rounded-lg shadow-md transition duration-300 transform hover:scale-105"
+              href="mailto:utsabadhikari075@gmail.com"
+              className="flex items-center gap-2 px-6 py-3 bg-red-600 hover:bg-red-500 text-white rounded-lg shadow-md transition duration-300 transform hover:scale-105"
             >
-              ✉️ Email Me
+              <HiOutlineMail className="text-xl" />
+              Email
             </a>
+
+            {/* WhatsApp */}
+            <a
+              href="https://wa.me/9867508725"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-2 px-6 py-3 bg-green-500 hover:bg-green-400 text-white rounded-lg shadow-md transition duration-300 transform hover:scale-105"
+            >
+              <FaWhatsapp className="text-xl" />
+              WhatsApp
+            </a>
+
+            {/* GitHub */}
             <a
               href="https://github.com/utsab-adhikari"
               target="_blank"
               rel="noopener noreferrer"
-              className="px-6 py-3 border border-indigo-600 text-indigo-400 hover:bg-indigo-600 hover:text-white rounded-lg shadow-md transition duration-300 transform hover:scale-105"
+              className="flex items-center gap-2 px-6 py-3 bg-gray-800 hover:bg-gray-700 text-white rounded-lg shadow-md transition duration-300 transform hover:scale-105"
             >
-              🌟 GitHub
+              <FaGithub className="text-xl" />
+              GitHub
             </a>
+
+            {/* LinkedIn */}
             <a
-              href="https://linkedin.com/"
+              href="#"
               target="_blank"
               rel="noopener noreferrer"
-              className="px-6 py-3 border border-indigo-600 text-indigo-400 hover:bg-indigo-600 hover:text-white rounded-lg shadow-md transition duration-300 transform hover:scale-105"
+              className="flex items-center gap-2 px-6 py-3 bg-blue-600 hover:bg-blue-500 text-white rounded-lg shadow-md transition duration-300 transform hover:scale-105"
             >
-              🔗 LinkedIn
+              <FaLinkedin className="text-xl" />
+              LinkedIn
+            </a>
+
+            {/* Facebook */}
+            <a
+              href="#"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-2 px-6 py-3 bg-blue-700 hover:bg-blue-600 text-white rounded-lg shadow-md transition duration-300 transform hover:scale-105"
+            >
+              <FaFacebook className="text-xl" />
+              Facebook
             </a>
           </motion.div>
         </section>
