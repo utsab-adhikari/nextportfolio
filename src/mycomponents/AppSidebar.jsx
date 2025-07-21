@@ -11,11 +11,11 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from "@/components/ui/sidebar";
-import { IconSignRight } from "@tabler/icons-react";
 import { IoMdClose } from "react-icons/io";
 import { GiSkills } from "react-icons/gi";
 import { TbMessageChatbot } from "react-icons/tb";
 import { FaOm } from "react-icons/fa6";
+import { FaExclamationCircle } from "react-icons/fa";
 
 
 // Menu items.
@@ -44,6 +44,11 @@ const items = [
     title: "Skills",
     url: "/skills",
     icon: GiSkills,
+  },
+   {
+    title: "About",
+    url: "/about",
+    icon: FaExclamationCircle,
   },
 ];
 
