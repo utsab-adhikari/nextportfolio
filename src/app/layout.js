@@ -11,6 +11,7 @@ import Footer from "@/mycomponents/Footer";
 import Link from "next/link";
 import { FaHome } from "react-icons/fa";
 import Script from "next/script";
+import { SessionProvider } from "next-auth/react";
 
 export default function Layout({ children }) {
   const pathname = usePathname();
@@ -57,39 +58,41 @@ export default function Layout({ children }) {
 
       <body className="flex min-h-screen flex-col bg-slate-950 text-white font-sans">
         <SidebarProvider>
-          <div className="flex flex-1 w-full">
-            <AppSidebar />
-            <SidebarTrigger className="fixed z-30 block md:hidden top-2 left-2" />
+          <SessionProvider>
+            <div className="flex flex-1 w-full">
+              <AppSidebar />
+              <SidebarTrigger className="fixed z-30 block md:hidden top-2 left-2" />
 
-            {!isIndex && (
-              <button
-                className="fixed top-10 z-30 text-white md:top-2 left-2 md:left-64 cursor-pointer hover:text-gray-400"
-                onClick={() => router.back()}
-              >
-                <IoMdArrowRoundBack size={24} />
-              </button>
-            )}
-
-            <div className="flex flex-1 flex-col">
-              <main className="flex flex-1 w-full min-h-screen">
-                <Toaster position="bottom-right" />
-                <div className="w-full">{children}</div>
-              </main>
-
-              {(!isIndex && pathname !== "/chatbot") && (
-                <div className="bg-slate-950">
-                  <Link
-                    className="block md:hidden mx-auto py-1 my-2 px-4 border border-indigo-600 text-indigo-500 font-semibold rounded-full flex items-center text-center gap-2 w-fit"
-                    href="/"
-                  >
-                    <FaHome />
-                    Home
-                  </Link>
-                </div>
+              {!isIndex && (
+                <button
+                  className="fixed top-10 z-30 text-white md:top-2 left-2 md:left-64 cursor-pointer hover:text-gray-400"
+                  onClick={() => router.back()}
+                >
+                  <IoMdArrowRoundBack size={24} />
+                </button>
               )}
-              {pathname !== "/chatbot" && <Footer />}
+
+              <div className="flex flex-1 flex-col">
+                <main className="flex flex-1 w-full min-h-screen">
+                  <Toaster position="bottom-right" />
+                  <div className="w-full">{children}</div>
+                </main>
+
+                {!isIndex && pathname !== "/chatbot" && (
+                  <div className="bg-slate-950">
+                    <Link
+                      className="block md:hidden mx-auto py-1 my-2 px-4 border border-indigo-600 text-indigo-500 font-semibold rounded-full flex items-center text-center gap-2 w-fit"
+                      href="/"
+                    >
+                      <FaHome />
+                      Home
+                    </Link>
+                  </div>
+                )}
+                {pathname !== "/chatbot" && <Footer />}
+              </div>
             </div>
-          </div>
+          </SessionProvider>
         </SidebarProvider>
       </body>
     </html>

@@ -15,8 +15,8 @@ import { IoMdClose } from "react-icons/io";
 import { GiSkills } from "react-icons/gi";
 import { TbMessageChatbot } from "react-icons/tb";
 import { FaOm } from "react-icons/fa6";
-import { FaExclamationCircle } from "react-icons/fa";
-
+import { FaExclamationCircle, FaGoogle } from "react-icons/fa";
+import { signIn, useSession } from "next-auth/react";
 
 // Menu items.
 const items = [
@@ -45,7 +45,7 @@ const items = [
     url: "/skills",
     icon: GiSkills,
   },
-   {
+  {
     title: "About",
     url: "/about",
     icon: FaExclamationCircle,
@@ -54,10 +54,11 @@ const items = [
 
 export function AppSidebar() {
   const { toggleSidebar } = useSidebar();
+  const { status } = useSession();
 
   return (
     <Sidebar>
-      <SidebarContent  className="bg-stone-900 backdrop-blur-lg text-white">
+      <SidebarContent className="bg-stone-900 backdrop-blur-lg text-white">
         <SidebarGroup>
           <div className="absolute p-3 flex justify-end items-center w-full block md:hidden">
             <button
@@ -85,6 +86,20 @@ export function AppSidebar() {
                   </SidebarMenuButton>
                 </SidebarMenuItem>
               ))}
+              {status && status === "unauthenticated" && (
+                <SidebarMenuItem>
+                  <SidebarMenuButton asChild>
+                    <button
+                      onClick={() => signIn("google", { callbackUrl: "/" })}
+                      className="flex items-center gap-3 px-4 py-2 rounded-md text-white hover:bg-stone-600 hover:text-white transition"
+                    >
+                        <FaGoogle /> Login
+                      <span>
+                      </span>
+                    </button>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+              )}
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
