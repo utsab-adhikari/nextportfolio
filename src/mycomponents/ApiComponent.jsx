@@ -19,7 +19,7 @@ const ApiComponent = () => {
   return (
     <>
       <div className="w-full font-noto-devanagari max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
-        <section className="relative overflow-hidden rounded-xl shadow-2xl bg-gradient-to-br from-gray-800 to-gray-900 p-5 sm:p-7 flex flex-col justify-between">
+        <section className="relative overflow-hidden rounded-xl shadow-2xl p-5 sm:p-7 flex flex-col justify-between">
           <div className="absolute inset-0 bg-white/5 backdrop-blur-sm rounded-xl"></div>
           <div className="relative z-10 flex flex-col gap-6">
             <motion.div
@@ -62,9 +62,9 @@ const ApiComponent = () => {
         </section>
         <section
           id="rashifal"
-          className="relative overflow-hidden rounded-xl shadow-2xl bg-gradient-to-br from-yellow-700 to-amber-800 p-5 sm:p-7 flex flex-col justify-between"
+          className="relative overflow-hidden rounded-xl shadow-2xl p-5 sm:p-7 flex flex-col justify-between"
         >
-          <div className="absolute inset-0 bg-white/5 backdrop-blur-sm rounded-xl"></div>
+          <div className="absolute inset-0 bg-yellow-600/10 backdrop-blur-sm rounded-xl"></div>
           <div className="relative z-10 flex flex-col gap-6">
             <motion.div
               initial="hidden"
@@ -103,8 +103,8 @@ const ApiComponent = () => {
             </motion.div>
           </div>
         </section>
-        <section className="relative overflow-hidden rounded-xl shadow-2xl bg-gradient-to-br from-blue-700 to-cyan-800 p-5 sm:p-7 flex flex-col justify-between">
-          <div className="absolute inset-0 bg-white/5 backdrop-blur-sm rounded-xl"></div>
+        <section className="relative overflow-hidden rounded-xl shadow-2xl to-cyan-800 p-5 sm:p-7 flex flex-col justify-between">
+          <div className="absolute inset-0 bg-blue-600/10 backdrop-blur-sm rounded-xl"></div>
           <div className="relative z-10 flex flex-col gap-6">
             <motion.div
               initial="hidden"

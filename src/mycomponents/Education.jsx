@@ -22,7 +22,7 @@ const Education = () => {
   return (
     <section
       id="education"
-      className="py-12 sm:py-16 px-4 sm:px-6 lg:px-8 w-full"
+      className="py-12 sm:py-16 px-4 w-full"
     >
       <div className="max-w-6xl mx-auto">
         <motion.div

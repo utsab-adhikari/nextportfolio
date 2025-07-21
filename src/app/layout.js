@@ -55,7 +55,7 @@ export default function Layout({ children }) {
         `}</style>
       </head>
 
-      <body className="flex min-h-screen flex-col bg-slate-900 text-white font-sans">
+      <body className="flex min-h-screen flex-col bg-slate-950 text-white font-sans">
         <SidebarProvider>
           <div className="flex flex-1 w-full">
             <AppSidebar />
@@ -77,7 +77,7 @@ export default function Layout({ children }) {
               </main>
 
               {(!isIndex && pathname !== "/chatbot") && (
-                <div className="bg-slate-900">
+                <div className="bg-slate-950">
                   <Link
                     className="block md:hidden mx-auto py-1 my-2 px-4 border border-indigo-600 text-indigo-500 font-semibold rounded-full flex items-center text-center gap-2 w-fit"
                     href="/"

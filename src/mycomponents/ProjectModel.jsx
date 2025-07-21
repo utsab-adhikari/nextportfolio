@@ -3,7 +3,7 @@ import React from 'react';
 
 function ProjectCard({ project }) {
   return (
-    <div className="bg-gray-800 text-white max-w-full mx-auto rounded-xl overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-300 border border-gray-700 transform hover:-translate-y-1">
+    <div className="bg-white/15 backdrop-blur-sm text-white max-w-full mx-auto rounded-xl overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-300 border border-gray-700 transform hover:-translate-y-1">
       <img
         src={project.imageUrl}
         alt={project.title}
