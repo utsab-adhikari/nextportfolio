@@ -5,7 +5,7 @@ import clientPromise from '@/lib/mongodb';
 import connectDB from '@/db/ConnectDB';
 import User from '@/app/models/User.model';
 
-export const authOptions = {
+const handler = NextAuth({
   adapter: MongoDBAdapter(clientPromise),
   providers: [
     GoogleProvider({
@@ -13,16 +13,16 @@ export const authOptions = {
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
     }),
   ],
-   pages: {
-  signIn: '/',
-},
+  pages: {
+    signIn: '/auth/login',
+  },
   callbacks: {
     async session({ session }) {
       await connectDB();
-     if (session?.user?.email) {
+      if (session?.user?.email) {
         const user = await User.findOne({ email: session.user.email });
         if (user) {
-          session.user.id = user._id.toString(); 
+          session.user.id = user._id.toString();
           session.user.name = user.name;
           session.user.image = user.image;
           session.user.role = user.role;
@@ -46,7 +46,6 @@ export const authOptions = {
   },
   session: { strategy: 'jwt' },
   secret: process.env.NEXTAUTH_SECRET,
-};
+});
 
-const handler = NextAuth(authOptions);
 export { handler as GET, handler as POST };

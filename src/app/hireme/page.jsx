@@ -65,7 +65,7 @@ const Hireme = () => {
 
         <div className="mb-6 p-4 border border-red-500 text-red-400 bg-red-500/10 rounded-lg">
           ⚠️ Please <strong>authenticate</strong> before submitting the form.
-          You cannot access the application type unless authenticated.
+          You cannot access the application unless authenticated.
         </div>
         <form
           onSubmit={handleSubmit}
