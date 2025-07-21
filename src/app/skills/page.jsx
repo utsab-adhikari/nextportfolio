@@ -1,4 +1,5 @@
 "use client";
+
 import React from "react";
 import {
   SiJavascript,
@@ -22,22 +23,6 @@ import { FaHtml5 } from "react-icons/fa6";
 import { FaCss3Alt } from "react-icons/fa";
 import { motion } from "framer-motion";
 
-// Animation variants
-const containerVariants = {
-  hidden: {},
-  show: {
-    transition: {
-      staggerChildren: 0.1,
-    },
-  },
-};
-
-const cardVariants = {
-  hidden: { opacity: 0, y: 30 },
-  show: { opacity: 1, y: 0, transition: { duration: 0.4 } },
-  hover: { scale: 1.03 },
-};
-
 const techStack = [
   {
     name: "HTML",
@@ -53,7 +38,7 @@ const techStack = [
     icon: <FaCss3Alt size={28} color="#1572B6" />,
     highlights: [
       "Flexbox, Grid layout systems",
-      "Responsive design principles (media queries)",
+      "Responsive design principles",
       "Animations & transitions",
     ],
   },
@@ -168,7 +153,7 @@ const techStack = [
   {
     name: "C / C++ (Foundation)",
     icon: (
-      <div className="flex gap-2">
+      <div className="flex gap-2 items-center">
         <SiC size={24} color="#00599C" />
         <SiCplusplus size={24} color="#00599C" />
       </div>
@@ -192,52 +177,62 @@ const techStack = [
 
 const Page = () => {
   return (
-   <section className=" min-h-screen py-20 px-6 sm:px-10">
-  <div className="max-w-7xl mx-auto">
-    <motion.h1
-      className="text-4xl font-bold text-center text-indigo-700 mb-12"
-      initial={{ opacity: 0, y: -30 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
-      transition={{ duration: 0.7, ease: "easeOut" }}
-    >
-      Key Learnings & Experience
-    </motion.h1>
+    <section className="min-h-screen py-20 px-6 sm:px-10 bg-slate-950 text-slate-100">
+      <div className="max-w-7xl mx-auto">
+        <motion.h1
+          className="text-4xl sm:text-5xl font-bold text-center mb-12 text-slate-200"
+          initial={{ opacity: 0, y: -30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.7, ease: "easeOut" }}
+        >
+          Key Learnings & Experience
+        </motion.h1>
 
-    {/* No container animation here — each card animates on scroll */}
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-  {techStack.map((tech, index) => (
-    <motion.div
-      key={index}
-      className="bg-gray-800/60 backdrop-blur-md border border-gray-700 p-5 rounded-xl shadow-md hover:shadow-xl transition duration-300 cursor-default"
-      initial={{ opacity: 0, y: 50 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, amount: 0.3 }}
-      transition={{ duration: 0.6, ease: "easeOut", delay: 0.05 }}
-      whileHover={{
-        scale: 1.03,
-        transition: { type: "spring", stiffness: 300 },
-      }}
-    >
-      <div className="flex items-center gap-3 mb-4">
-        {tech.icon}
-        <h2 className="text-lg font-semibold text-white">
-          {tech.name}
-        </h2>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {techStack.map((tech, index) => (
+            <motion.div
+              key={index}
+              className="bg-slate-800/70 backdrop-blur-md border border-slate-700 p-5 rounded-xl shadow-md hover:shadow-xl transition duration-300"
+              initial={{ opacity: 0, y: 50 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.3 }}
+              transition={{ duration: 0.6, ease: "easeOut", delay: 0.05 }}
+              whileHover={{ scale: 1.03 }}
+            >
+              <div className="flex items-center gap-3 mb-4">
+                {tech.icon}
+                <h2 className="text-lg font-semibold">{tech.name}</h2>
+              </div>
+              <ul className="list-disc list-inside text-sm text-slate-300 space-y-1">
+                {tech.highlights.map((point, idx) => (
+                  <li key={idx}>{point}</li>
+                ))}
+              </ul>
+            </motion.div>
+          ))}
+        </div>
+
+        {/* CTA Section */}
+        <motion.div
+          className="mt-20 text-center"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.7 }}
+        >
+          <p className="text-xl sm:text-2xl text-slate-200 font-medium mb-6">
+            Want to build your own dynamic, full-stack portfolio?
+          </p>
+          <a
+            href="/contact"
+            className="inline-block bg-blue-600 hover:bg-blue-500 text-white font-semibold px-6 py-3 rounded-lg transition duration-300"
+          >
+            Let’s Collaborate
+          </a>
+        </motion.div>
       </div>
-      <ul className="list-disc list-inside text-sm text-gray-300 space-y-1">
-        {tech.highlights.map((point, idx) => (
-          <li key={idx}>{point}</li>
-        ))}
-      </ul>
-    </motion.div>
-  ))}
-</div>
-
-  </div>
-</section>
-
-
+    </section>
   );
 };
 
