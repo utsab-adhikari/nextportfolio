@@ -10,9 +10,7 @@ import { Toaster } from "react-hot-toast";
 import Footer from "@/mycomponents/Footer";
 import Link from "next/link";
 import { FaHome } from "react-icons/fa";
-import Script from "next/script";
-import { SessionProvider } from "next-auth/react";
-
+import { Analytics } from "@vercel/analytics/next"
 export default function Layout({ children }) {
   const pathname = usePathname();
   const [isIndex, setIsIndex] = useState(false);
@@ -41,7 +39,7 @@ export default function Layout({ children }) {
 
       <body className="flex min-h-screen flex-col bg-slate-950 text-white font-sans">
         <SidebarProvider>
-          {/* <SessionProvider> */}
+          <Analytics/>
             <div className="flex flex-1 w-full">
               <AppSidebar />
               <SidebarTrigger className="fixed z-30 block md:hidden top-2 left-2" />
