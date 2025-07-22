@@ -16,7 +16,7 @@ import { GiSkills } from "react-icons/gi";
 import { TbMessageChatbot } from "react-icons/tb";
 import { FaOm } from "react-icons/fa6";
 import { FaExclamationCircle, FaGoogle } from "react-icons/fa";
-import { signIn, useSession } from "next-auth/react";
+// import { signIn, useSession } from "next-auth/react";
 
 // Menu items.
 const items = [
@@ -54,7 +54,7 @@ const items = [
 
 export function AppSidebar() {
   const { toggleSidebar } = useSidebar();
-  const { status } = useSession();
+  // const { status } = useSession();
 
   return (
     <Sidebar>
@@ -86,7 +86,7 @@ export function AppSidebar() {
                   </SidebarMenuButton>
                 </SidebarMenuItem>
               ))}
-              {status && status === "unauthenticated" && (
+              {/* {status && status === "unauthenticated" && (
                 <SidebarMenuItem>
                   <SidebarMenuButton asChild>
                     <button
@@ -99,7 +99,7 @@ export function AppSidebar() {
                     </button>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
-              )}
+              )} */}
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>

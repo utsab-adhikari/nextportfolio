@@ -25,23 +25,6 @@ export default function Layout({ children }) {
   return (
     <html lang="en">
       <head>
-        {/* Google Analytics */}
-        <Script
-          src={`https://www.googletagmanager.com/gtag/js?id=G-1ZMEDGLMSL`}
-          strategy="afterInteractive"
-        />
-        <Script id="google-analytics" strategy="afterInteractive">
-          {`
-            window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments);}
-            gtag('js', new Date());
-            gtag('config', 'G-1ZMEDGLMSL', {
-              page_path: window.location.pathname,
-            });
-          `}
-        </Script>
-
-        {/* Global Fonts */}
         <link
           href="https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari:wght@400;600;700&family=Inter:wght@400;600;700&display=swap"
           rel="stylesheet"
@@ -58,7 +41,7 @@ export default function Layout({ children }) {
 
       <body className="flex min-h-screen flex-col bg-slate-950 text-white font-sans">
         <SidebarProvider>
-          <SessionProvider>
+          {/* <SessionProvider> */}
             <div className="flex flex-1 w-full">
               <AppSidebar />
               <SidebarTrigger className="fixed z-30 block md:hidden top-2 left-2" />
@@ -92,7 +75,7 @@ export default function Layout({ children }) {
                 {pathname !== "/chatbot" && <Footer />}
               </div>
             </div>
-          </SessionProvider>
+          {/* </SessionProvider> */}
         </SidebarProvider>
       </body>
     </html>
