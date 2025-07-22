@@ -41,7 +41,7 @@ const EkantipurPage = () => {
       <NewsNavbar pathname={pathname} />
 
       <div className="p-4 flex justify-center items-center flex-col text-center">
-        <h1 className="text-2xl font-bold text-indigo-800 dark:text-indigo-400">eKantipur</h1>
+        <h1 className="text-2xl font-bold text-indigo-800 dark:text-indigo-400">Annapurna Post</h1>
       </div>
 
       {isLoading ? (
