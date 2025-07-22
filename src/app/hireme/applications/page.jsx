@@ -7,7 +7,6 @@ import { FaCheckCircle, FaTrash } from "react-icons/fa";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 
 const AdminHiremePage = () => {
-  console.log(status);
   const [applications, setApplications] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [actionLoading, setActionLoading] = useState(null);
