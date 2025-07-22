@@ -18,7 +18,15 @@ export default function CreditCard() {
             className="underline inline-flex items-center hover:text-blue-600"
           >
             Ekantipur <ExternalLink className="w-3 h-3 ml-1" />
-          </a>{" "}
+          </a>, 
+          <a
+            href="https://annapurnapost.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="underline inline-flex items-center hover:text-blue-600"
+          >
+            Annapurna Post<ExternalLink className="w-3 h-3 ml-1" />
+          </a>
           and{" "}
           <a
             href="https://kathmandupost.com"

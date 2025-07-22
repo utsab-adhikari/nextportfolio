@@ -8,7 +8,7 @@ const NewsNavbar = ({ pathname }) => {
       : "px-3 text-white py-2";
 
   return (
-    <div className="z-100 font-semibold flex justify-evenly items-center  rounded-xl m-2">
+    <div className="z-100 font-semibold flex flex-wrap justify-evenly items-center  rounded-xl m-2">
       <Link className={linkStyle("/news")} href="/news">
         Latest
       </Link>
@@ -19,10 +19,10 @@ const NewsNavbar = ({ pathname }) => {
         eKantipur
       </Link>
       <Link className={linkStyle("/news/thektmpost")} href="/news/thektmpost">
-        The KTM Post
+      KTMPost
       </Link>
       <Link className={linkStyle("/news/annapurnapost")} href="/news/annapurnapost">
-        Annapurna Post
+        Annapurna
       </Link>
     </div>
   );

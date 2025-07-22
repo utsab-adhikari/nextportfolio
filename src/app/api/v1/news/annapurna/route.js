@@ -42,8 +42,6 @@ export async function GET(request) {
       });
     });
 
-    console.log(newsList);
-
     return NextResponse.json({
       success: true,
       status: 200,
