@@ -5,10 +5,8 @@ import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { FaCheckCircle, FaTrash } from "react-icons/fa";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
-import {useSession} from "next-auth/react"
 
 const AdminHiremePage = () => {
-  const {status} = useSession();
   console.log(status);
   const [applications, setApplications] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
