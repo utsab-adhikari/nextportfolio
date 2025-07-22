@@ -68,7 +68,7 @@ const NewsGrid = ({ posts, buttonLabel }) => {
         {posts.map(
           (news) =>
             news.headline &&
-            news.link && (
+            news.slug && (
               <div
                 key={news.slug ?? news.link}
                 className="flex flex-col bg-gray-800/60 backdrop-blur-lg rounded-xl shadow-xl overflow-hidden
