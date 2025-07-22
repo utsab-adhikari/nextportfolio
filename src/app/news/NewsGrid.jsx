@@ -67,8 +67,6 @@ const NewsGrid = ({ posts, buttonLabel }) => {
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 py-6 max-w-7xl mx-auto">
         {posts.map(
           (news) =>
-            news.headline &&
-            news.slug && (
               <div
                 key={news.slug ?? news.link}
                 className="flex flex-col bg-gray-800/60 backdrop-blur-lg rounded-xl shadow-xl overflow-hidden
@@ -140,7 +138,7 @@ const NewsGrid = ({ posts, buttonLabel }) => {
                 </div>
               </div>
             )
-        )}
+        }
       </div>
     </div>
   );
