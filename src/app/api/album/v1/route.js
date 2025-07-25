@@ -1,4 +1,3 @@
-
 import connectDB from "@/db/ConnectDB";
 import { getServerSession } from "next-auth";
 import Image from "@/models/imageModel";
@@ -11,9 +10,10 @@ export async function GET(request, { params }) {
     await connectDB();
 
     const session = await getServerSession(authOptions);
-    const { nameofalbum } = params;
+    const { searchParams } = new URL(request.url);
+    const albumName = searchParams.get("albumName");
 
-    const album = await Album.findOne({ albumName:nameofalbum });
+    const album = await Album.findOne({ albumName: albumName });
     if (!album) {
       return NextResponse.json({
         status: 404,
