@@ -13,9 +13,9 @@ export async function GET(request, { params }) {
     await connectDB();
 
     const session = await getServerSession(authOptions);
-    const { albumName } = params;
+    const { nameofalbum } = params;
 
-    const album = await Album.findOne({ albumName });
+    const album = await Album.findOne({ albumName:nameofalbum });
     if (!album) {
       return NextResponse.json({
         status: 404,
