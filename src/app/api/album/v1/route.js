@@ -5,11 +5,9 @@ import { NextResponse } from "next/server";
 import Album from "@/models/albumModel";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 
-export async function GET(request, { params }) {
+export async function GET(request) {
   try {
     await connectDB();
-
-    const session = await getServerSession(authOptions);
     const { searchParams } = new URL(request.url);
     const albumName = searchParams.get("albumName");
 
