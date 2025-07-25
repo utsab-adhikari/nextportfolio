@@ -11,7 +11,6 @@ export async function POST(request) {
     const { albumName, albumImg, description } = await request.json();
 
     const existingAlbum = await Album.findOne({ albumName: albumName });
-    const data = await res.json();
     if (existingAlbum) {
       return NextResponse.json({
         status: 401,

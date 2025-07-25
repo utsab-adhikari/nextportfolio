@@ -1,5 +1,5 @@
-export const dynamic = "force-dynamic";  // ✅ prevents static generation
-export const revalidate = 0;             // ✅ ensures no caching
+export const dynamic = "force-dynamic"; 
+export const revalidate = 0;            
 
 import connectDB from "@/db/ConnectDB";
 import { getServerSession } from "next-auth";
