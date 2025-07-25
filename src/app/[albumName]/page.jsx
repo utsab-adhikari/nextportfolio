@@ -14,6 +14,8 @@ export default function AlbumDetailsPage() {
   const [uploading, setUploading] = useState(false);
   const [success, setSuccess] = useState("");
 
+  const [album, setAlbum] = useState([]);
+
   const [imageUrls, setImageUrls] = useState([]);
   const [openMenuId, setOpenMenuId] = useState(null);
   const [gridColumns, setGridColumns] = useState(4);
@@ -42,7 +44,9 @@ export default function AlbumDetailsPage() {
         const res = await axios.get(`/api/album/v1?albumName=${albumName}`);
         if (res.data.success) {
           setImages(res.data.images);
+          setAlbum(res.data.album);
         } else {
+          setAlbum(res.data.album);
           setError(res.data.message || "Failed to load images");
         }
       } catch (err) {
@@ -79,7 +83,9 @@ export default function AlbumDetailsPage() {
       if (res.data.success) {
         setSuccess(res.data.message);
         setImageUrls([]);
-        const updatedRes = await axios.get(`/api/album/v1?albumName=${albumName}`);
+        const updatedRes = await axios.get(
+          `/api/album/v1?albumName=${albumName}`
+        );
         if (updatedRes.data.success) {
           setImages(updatedRes.data.images);
         }
@@ -144,174 +150,195 @@ export default function AlbumDetailsPage() {
 
   const formatDate = (dateString) => {
     if (!dateString) return "N/A";
-    const options = { year: "numeric", month: "long", day: "numeric", hour: "2-digit", minute: "2-digit" };
+    const options = {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
+    };
     return new Date(dateString).toLocaleDateString(undefined, options);
   };
 
   return (
-    <div className="p-4 space-y-6 min-h-screen text-gray-100 font-inter">
-      <h2 className="text-3xl font-extrabold text-white mb-6 capitalize">
-        Album: {albumName}
-      </h2>
-
-      {/* Upload Section */}
-      <form
-        className="bg-gray-900 p-6 rounded-xl border border-gray-700 shadow-lg"
-        onSubmit={handleSubmit}
-      >
-        <h3 className="text-xl font-semibold text-white mb-4">Add more images</h3>
-        <div className="space-y-6">
-          <ImageUploader onUpload={handleImageUpload} />
-
-          {imageUrls.length > 0 && (
-            <>
-              <h3 className="text-base font-semibold text-gray-400">
-                Uploaded Images ({imageUrls.length})
-              </h3>
-
-              <div
-                className="grid gap-2 p-2 rounded-md border border-gray-600 bg-gray-800"
-                style={{
-                  gridTemplateColumns: `repeat(${gridColumns}, minmax(80px, 1fr))`,
-                  maxHeight: "300px",
-                  overflowY: "auto",
-                }}
-              >
-                {imageUrls.map((url, idx) => (
-                  <div
-                    key={idx}
-                    className="relative group rounded-md overflow-hidden hover:scale-105 transition-transform duration-200 ease-in-out shadow-md"
-                  >
-                    <img
-                      src={url}
-                      alt={`Uploaded ${idx + 1}`}
-                      className="w-full h-20 object-cover rounded-md"
-                      loading="lazy"
-                    />
-                    <button
-                      onClick={() => handleRemove(idx)}
-                      className="absolute top-1 right-1 bg-red-600 bg-opacity-70 text-white text-xs px-2 py-1 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-200"
-                      title="Remove"
-                    >
-                      ✕
-                    </button>
-                  </div>
-                ))}
-              </div>
-            </>
-          )}
+    <>
+      <div className="absolute top-0 right-0 w-full h-30 bg-blue-500">
+        <div className="absolute right-2 bottom-0 text-left">
+          <h2 className="text-xl font-bold text-gray-300">{album.albumName}</h2>
+          <h3 className="text-lg font-semibold text-gray-300">{album.creator}</h3>
+          <p className="text-sm font-semibold text-gray-400"> {formatDate(album.createdAt)}</p>
         </div>
-        {error && <p className="text-red-400 mt-4 text-sm">{error}</p>}
-        {success && <p className="text-green-400 mt-4 text-sm">{success}</p>}
-        <button
-          type="submit"
-          className="mt-6 px-6 py-2 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed shadow-md"
-          disabled={uploading || imageUrls.length === 0}
-        >
-          {uploading ? "Uploading..." : "Submit Images"}
-        </button>
-      </form>
-
-      {/* Grid Column Controller */}
-      <div className="flex justify-end items-center gap-2">
-        <label htmlFor="gridCols" className="text-gray-300 text-sm">
-          Grid Columns:
-        </label>
-        <select
-          id="gridCols"
-          className="bg-gray-800 text-white px-2 py-1 rounded-md border border-gray-600"
-          value={gridColumns}
-          onChange={(e) => setGridColumns(Number(e.target.value))}
-        >
-          {[2, 3, 4, 5, 6].map((num) => (
-            <option key={num} value={num}>{num}</option>
-          ))}
-        </select>
+        <img src={album.albumImg} alt="" className="absolute bottom-[-50] left-10 max-h-20 border border-white rounded-md" />
       </div>
-
-      {/* Display Images */}
-      {loading ? (
-        <p className="text-gray-400 text-lg">Loading images...</p>
-      ) : error && !success ? (
-        <p className="text-red-400 text-lg">{error}</p>
-      ) : images.length === 0 ? (
-        <p className="text-gray-400 text-lg">No images in this album yet.</p>
-      ) : (
-        <>
-          <h3 className="text-2xl font-semibold text-white mt-8 mb-4">
-            Total Images: {images.length}
+      <div className="p-4 mt-50 space-y-6 min-h-screen text-gray-100 font-inter">
+        {/* Upload Section */}
+        <form
+          className="bg-gray-900 p-6 rounded-xl border border-gray-700 shadow-lg"
+          onSubmit={handleSubmit}
+        >
+          <h3 className="text-xl font-semibold text-white mb-4">
+            Add more images
           </h3>
+          <div className="space-y-6">
+            <ImageUploader onUpload={handleImageUpload} />
 
-          {Object.keys(groupedImages)
-            .sort((a, b) => new Date(b) - new Date(a))
-            .map((date) => (
-              <div key={date} className="mb-10">
-                <h4 className="text-xl font-bold text-gray-300 mb-5 pb-2 border-b border-gray-700">
-                  {date}
-                </h4>
+            {imageUrls.length > 0 && (
+              <>
+                <h3 className="text-base font-semibold text-gray-400">
+                  Uploaded Images ({imageUrls.length})
+                </h3>
+
                 <div
-                  className="grid gap-4 overflow-visible"
+                  className="grid gap-2 p-2 rounded-md border border-gray-600 bg-gray-800"
                   style={{
-                    gridTemplateColumns: `repeat(${gridColumns}, minmax(0, 1fr))`,
+                    gridTemplateColumns: `repeat(${gridColumns}, minmax(80px, 1fr))`,
+                    maxHeight: "300px",
+                    overflowY: "auto",
                   }}
                 >
-                  {groupedImages[date].map((imageDoc) =>
-                    imageDoc.image.map((url, i) => {
-                      const uniqueId = imageDoc._id + "-" + i;
-                      return (
-                        <div
-                          key={uniqueId}
-                          className="relative group rounded-lg shadow-lg overflow-visible"
-                        >
-                          <img
-                            src={url}
-                            alt={`img-${i}`}
-                            className="w-full h-full rounded object-cover transition-transform duration-300 group-hover:scale-105 cursor-pointer"
-                            loading="lazy"
-                            onClick={() => handleShowDetails(imageDoc, url)}
-                          />
-                         
-                        </div>
-                      );
-                    })
-                  )}
+                  {imageUrls.map((url, idx) => (
+                    <div
+                      key={idx}
+                      className="relative group rounded-md overflow-hidden hover:scale-105 transition-transform duration-200 ease-in-out shadow-md"
+                    >
+                      <img
+                        src={url}
+                        alt={`Uploaded ${idx + 1}`}
+                        className="w-full h-20 object-cover rounded-md"
+                        loading="lazy"
+                      />
+                      <button
+                        onClick={() => handleRemove(idx)}
+                        className="absolute top-1 right-1 bg-red-600 bg-opacity-70 text-white text-xs px-2 py-1 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-200"
+                        title="Remove"
+                      >
+                        ✕
+                      </button>
+                    </div>
+                  ))}
                 </div>
-              </div>
-            ))}
-        </>
-      )}
-
-      {showDetailsModal && selectedImageDetails && (
-        <div className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-          <div className="bg-gray-900 p-6 rounded-xl shadow-2xl max-w-3xl w-full border border-gray-700 relative">
-            <img
-              src={selectedImageUrl}
-              alt="Full Image"
-              className="w-full max-h-[60vh] object-cover rounded-lg mb-4"
-            />
-            <h3 className="text-2xl font-bold text-white mb-2">Image Details</h3>
-            <p className="text-gray-300 mb-1">
-              <span className="font-semibold">Uploaded By:</span> {selectedImageDetails.uploader || "N/A"}
-            </p>
-            <p className="text-gray-300 mb-4">
-              <span className="font-semibold">Created At:</span> {formatDate(selectedImageDetails.createdAt)}
-            </p>
-
-            <button
-              onClick={() => handleDownload(selectedImageUrl, selectedImageDetails._id)}
-              className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors duration-200 mr-4"
-            >
-              Download
-            </button>
-            <button
-              onClick={() => setShowDetailsModal(false)}
-              className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors duration-200"
-            >
-              Close
-            </button>
+              </>
+            )}
           </div>
+          {error && <p className="text-red-400 mt-4 text-sm">{error}</p>}
+          {success && <p className="text-green-400 mt-4 text-sm">{success}</p>}
+          <button
+            type="submit"
+            className="mt-6 px-6 py-2 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed shadow-md"
+            disabled={uploading || imageUrls.length === 0}
+          >
+            {uploading ? "Uploading..." : "Submit Images"}
+          </button>
+        </form>
+
+        {/* Grid Column Controller */}
+        <div className="flex justify-end items-center gap-2">
+          <label htmlFor="gridCols" className="text-gray-300 text-sm">
+            Grid Columns:
+          </label>
+          <select
+            id="gridCols"
+            className="bg-gray-800 text-white px-2 py-1 rounded-md border border-gray-600"
+            value={gridColumns}
+            onChange={(e) => setGridColumns(Number(e.target.value))}
+          >
+            {[2, 3, 4, 5, 6].map((num) => (
+              <option key={num} value={num}>
+                {num}
+              </option>
+            ))}
+          </select>
         </div>
-      )}
-    </div>
+
+        {/* Display Images */}
+        {loading ? (
+          <p className="text-gray-400 text-lg">Loading images...</p>
+        ) : error && !success ? (
+          <p className="text-red-400 text-lg">{error}</p>
+        ) : images.length === 0 ? (
+          <p className="text-gray-400 text-lg">No images in this album yet.</p>
+        ) : (
+          <>
+            <h3 className="text-2xl font-semibold text-white mt-8 mb-4">
+              Total Images: {images.length}
+            </h3>
+
+            {Object.keys(groupedImages)
+              .sort((a, b) => new Date(b) - new Date(a))
+              .map((date) => (
+                <div key={date} className="mb-10">
+                  <h4 className="text-xl font-bold text-gray-300 mb-5 pb-2 border-b border-gray-700">
+                    {date}
+                  </h4>
+                  <div
+                    className="grid gap-4 overflow-visible"
+                    style={{
+                      gridTemplateColumns: `repeat(${gridColumns}, minmax(0, 1fr))`,
+                    }}
+                  >
+                    {groupedImages[date].map((imageDoc) =>
+                      imageDoc.image.map((url, i) => {
+                        const uniqueId = imageDoc._id + "-" + i;
+                        return (
+                          <div
+                            key={uniqueId}
+                            className="relative group rounded-lg shadow-lg overflow-visible"
+                          >
+                            <img
+                              src={url}
+                              alt={`img-${i}`}
+                              className="w-full h-full rounded object-cover transition-transform duration-300 group-hover:scale-105 cursor-pointer"
+                              loading="lazy"
+                              onClick={() => handleShowDetails(imageDoc, url)}
+                            />
+                          </div>
+                        );
+                      })
+                    )}
+                  </div>
+                </div>
+              ))}
+          </>
+        )}
+
+        {showDetailsModal && selectedImageDetails && (
+          <div className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+            <div className="bg-gray-900 p-6 rounded-xl shadow-2xl max-w-3xl w-full border border-gray-700 relative">
+              <img
+                src={selectedImageUrl}
+                alt="Full Image"
+                className="w-full max-h-[60vh] object-cover rounded-lg mb-4"
+              />
+              <h3 className="text-2xl font-bold text-white mb-2">
+                Image Details
+              </h3>
+              <p className="text-gray-300 mb-1">
+                <span className="font-semibold">Uploaded By:</span>{" "}
+                {selectedImageDetails.uploader || "N/A"}
+              </p>
+              <p className="text-gray-300 mb-4">
+                <span className="font-semibold">Created At:</span>{" "}
+                {formatDate(selectedImageDetails.createdAt)}
+              </p>
+
+              <button
+                onClick={() =>
+                  handleDownload(selectedImageUrl, selectedImageDetails._id)
+                }
+                className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors duration-200 mr-4"
+              >
+                Download
+              </button>
+              <button
+                onClick={() => setShowDetailsModal(false)}
+                className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors duration-200"
+              >
+                Close
+              </button>
+            </div>
+          </div>
+        )}
+      </div>
+    </>
   );
 }

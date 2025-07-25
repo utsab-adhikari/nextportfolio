@@ -27,6 +27,7 @@ export async function GET(request) {
         status: 404,
         success: false,
         message: "No images found",
+        album,
       });
     }
 
@@ -34,6 +35,7 @@ export async function GET(request) {
       status: 200,
       success: true,
       message: "Images loaded successfully",
+      album,
       images,
     });
   } catch (error) {
