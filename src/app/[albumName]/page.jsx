@@ -266,7 +266,7 @@ export default function AlbumDetailsPage() {
                           <img
                             src={url}
                             alt={`img-${i}`}
-                            className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105 cursor-pointer"
+                            className="w-full h-full rounded-md object-cover transition-transform duration-300 group-hover:scale-105 cursor-pointer"
                             loading="lazy"
                             onClick={() => handleShowDetails(imageDoc, url)}
                           />
