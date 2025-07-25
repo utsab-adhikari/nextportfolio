@@ -39,7 +39,7 @@ export default function AlbumDetailsPage() {
   useEffect(() => {
     const fetchImages = async () => {
       try {
-        const res = await axios.get(`/api/${albumName}`);
+        const res = await axios.get(`/api/album/${albumName}`);
         if (res.data.success) {
           setImages(res.data.images);
         } else {
@@ -79,7 +79,7 @@ export default function AlbumDetailsPage() {
       if (res.data.success) {
         setSuccess(res.data.message);
         setImageUrls([]);
-        const updatedRes = await axios.get(`/api/${albumName}`);
+        const updatedRes = await axios.get(`/api/album/${albumName}`);
         if (updatedRes.data.success) {
           setImages(updatedRes.data.images);
         }
