@@ -1,7 +1,10 @@
 "use client";
 
 import AlbumPage from "@/components/General/AlbumPage";
+import { useSession } from "next-auth/react";
 import React from "react";
+import RequestPage from "./RequestPage";
+import RequestsPage from "./Requests";
 
 export const metadata = {
   title: "Authenticated",
@@ -9,14 +12,23 @@ export const metadata = {
 };
 
 const Family = () => {
+  const { data: session } = useSession();
 
-  return (
-    <div className="p-6 ">
-      <AlbumPage />
+  if (session.user.family === "member") {
+    return <RequestPage />;
+  }
 
-      {/* Modal */}
-    </div>
-  );
+  if (session.user.family === "family") {
+    return (
+      <div className="p-6 ">
+        <AlbumPage />
+
+        {session.user.role === "admin" && <>
+          <RequestsPage/>
+        </>}
+      </div>
+    );
+  }
 };
 
 export default Family;

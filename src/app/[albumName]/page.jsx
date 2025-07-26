@@ -248,10 +248,6 @@ export default function AlbumDetailsPage() {
           <p className="text-gray-400 text-lg">No images in this album yet.</p>
         ) : (
           <>
-            <h3 className="text-2xl font-semibold text-white mt-8 mb-4">
-              Total Images: {images.length}
-            </h3>
-
             {Object.keys(groupedImages)
               .sort((a, b) => new Date(b) - new Date(a))
               .map((date) => (
