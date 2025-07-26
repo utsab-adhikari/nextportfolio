@@ -12,6 +12,7 @@ import BlogCard from "@/mycomponents/ProjectModel";
 import { IoChatbubblesOutline } from "react-icons/io5";
 import { FaFacebook, FaGithub, FaLinkedin, FaWhatsapp } from "react-icons/fa";
 import GitHubCalendar from "./GithubCalender";
+import GitHubCalendarMd from "./GithubCalenderMd";
 
 const assistantSectionVariants = {
   hidden: { opacity: 0, y: 20 },
@@ -145,8 +146,11 @@ const Home = () => {
           </motion.div>
         </section>
 
-        <div className="px-4 py-2 mt-10 rounded-sm flex mx-auto items-center justify-center bg-white/5 backdrop-blur-sm w-fit">
+        <div className="md:hidden block px-4 py-2 mt-10 rounded-sm flex mx-auto items-center justify-center bg-white/5 backdrop-blur-sm w-fit">
           <GitHubCalendar />
+        </div>
+        <div className="hidden md:block px-4 py-2 mt-10 rounded-sm flex mx-auto items-center justify-center bg-white/5 backdrop-blur-sm w-fit">
+          <GitHubCalendarMd />
         </div>
 
         <section id="skills" className="max-w-5xl mx-auto px-6 py-16">
