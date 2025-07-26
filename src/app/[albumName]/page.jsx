@@ -198,7 +198,7 @@ export default function AlbumDetailsPage() {
                       <button
                         type="button"
                         onClick={() => handleRemove(idx)}
-                        className="absolute top-1 right-1 bg-red-600 bg-opacity-70 text-white text-xs px-2 py-1 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-200"
+                        className="absolute top-1 right-1 bg-red-600 bg-opacity-70 text-white text-xs px-2 py-1 rounded-full transition-opacity duration-200"
                         title="Remove"
                       >
                         ✕
