@@ -20,9 +20,9 @@ const EkantipurPage = () => {
       const toastId = toast.loading("Fetching News...");
 
       try {
-        const response = await axios.get("/api/v1/news/ekantipur");
-        const safeNews = Array.isArray(response?.data?.news) ? response.data.news : [];
+        const response = await axios.get("/api/v1/news/v2/ekantipur");
         console.log(response.data);
+        const safeNews = Array.isArray(response?.data?.news) ? response.data.news : [];
         setNews(safeNews);
         toast.success("News Loaded Successfully", { id: toastId });
       } catch (error) {
