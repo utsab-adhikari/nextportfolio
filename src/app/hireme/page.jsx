@@ -58,7 +58,7 @@ const Hireme = () => {
       transition={{ duration: 0.6 }}
       className="min-h-screen flex items-center justify-center px-4 py-12"
     >
-      <div className="w-full max-w-4xl bg-white/5 backdrop-blur-md p-8 rounded-xl border border-indigo-500 shadow-2xl">
+      <div className="w-full">
         <h2 className="text-center text-3xl sm:text-4xl font-bold text-indigo-400 mb-6">
           {formData.category || "Work With Me"} Offer Form
         </h2>

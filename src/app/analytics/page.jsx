@@ -10,7 +10,7 @@ export default function AnalyticsDashboard() {
   useEffect(() => {
     async function fetchAnalytics() {
       try {
-        const res = await fetch("/api/analytics");
+        const res = await fetch("/api/v1/analytics");
         if (!res.ok) throw new Error("Failed to fetch analytics");
         const data = await res.json();
         setAnalytics(data.pages ?? []);
