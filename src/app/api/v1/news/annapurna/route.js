@@ -6,7 +6,6 @@ import { NextRequest, NextResponse } from "next/server";
 export async function GET(request) {
   try {
     // Annapurna Post को राष्ट्रिय पृष्ठबाट HTML ल्याउने
-    console.log("Hey");
     const response = await axios.get(
       "https://annapurnapost.com/category/latest-news",
       {
@@ -14,10 +13,13 @@ export async function GET(request) {
           "User-Agent":
             "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/115.0.0.0 Safari/537.36",
           "Accept-Language": "en-US,en;q=0.9",
+          Referer: "https://www.google.com/",
+          Accept:
+            "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+          Connection: "keep-alive",
         },
       }
     );
-    console.log("Hey01");
     const html = response.data;
     const $ = cheerio.load(html);
 
@@ -29,7 +31,8 @@ export async function GET(request) {
       const slug = $(el).find(".card__desc").text().trim(); // छोटकरीमा विवरण
       const link = $(el).find("a").attr("href");
       const image =
-        $(el).find(".card__img img").attr("data-src") || $(el).find(".card__img img").attr("src");
+        $(el).find(".card__img img").attr("data-src") ||
+        $(el).find(".card__img img").attr("src");
 
       newsList.push({
         headline,

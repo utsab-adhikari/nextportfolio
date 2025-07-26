@@ -37,8 +37,6 @@ const EkantipurPage = () => {
     fetchNews();
   }, []);
 
-  console.log(newses);
-
   return (
     <div className="min-h-screen">
       <NewsNavbar pathname={pathname} />
