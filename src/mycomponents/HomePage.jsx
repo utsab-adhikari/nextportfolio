@@ -5,14 +5,13 @@ import Education from "@/mycomponents/Education";
 import Skills from "@/mycomponents/Skills";
 import ReportDrawer from "@/mycomponents/ReportDrawer";
 import { motion, AnimatePresence } from "framer-motion";
-import { Button } from "@/components/ui/button";
-import { ArrowRight } from "lucide-react";
 import ApiComponent from "@/mycomponents/ApiComponent";
 import { HiOutlineMail } from "react-icons/hi";
 import Head from "next/head";
 import BlogCard from "@/mycomponents/ProjectModel";
 import { IoChatbubblesOutline } from "react-icons/io5";
 import { FaFacebook, FaGithub, FaLinkedin, FaWhatsapp } from "react-icons/fa";
+import GitHubCalendar from "./GithubCalender";
 
 const assistantSectionVariants = {
   hidden: { opacity: 0, y: 20 },
@@ -145,6 +144,10 @@ const Home = () => {
             </motion.div>
           </motion.div>
         </section>
+
+        <div className="px-4 py-2 mt-10 rounded-sm flex mx-auto items-center justify-center bg-white/5 backdrop-blur-sm w-fit">
+          <GitHubCalendar />
+        </div>
 
         <section id="skills" className="max-w-5xl mx-auto px-6 py-16">
           <motion.h2
