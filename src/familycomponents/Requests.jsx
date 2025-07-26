@@ -7,6 +7,7 @@ export default function RequestsPage() {
   const [requests, setRequests] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [acceptingId, setAcceptingId] = useState(null);
 
   useEffect(() => {
     const fetchRequests = async () => {
@@ -26,6 +27,22 @@ export default function RequestsPage() {
     fetchRequests();
   }, []);
 
+  const handleAccept = async (userId) => {
+    setAcceptingId(userId);
+    try {
+      const res = await axios.post(`/api/request`, { userId });
+      if (res.data.success) {
+        setRequests((prev) => prev.filter((user) => user._id !== userId));
+      } else {
+        alert(res.data.message || "Failed to accept request.");
+      }
+    } catch (err) {
+      alert("Something went wrong accepting the request.");
+    } finally {
+      setAcceptingId(null);
+    }
+  };
+
   return (
     <div className="px-4 py-10 flex flex-col items-center">
       <h1 className="text-3xl font-bold text-white mb-8">Pending Requests</h1>
@@ -43,25 +60,42 @@ export default function RequestsPage() {
           {requests.map((user) => (
             <div
               key={user._id}
-              className="w-full bg-gray-900 border border-gray-800 rounded-2xl shadow-lg flex items-center p-5"
+              className="w-full bg-gray-900 border border-gray-800 rounded-2xl shadow-lg"
             >
-              <img
-                src={user.image || "/avatar-placeholder.png"}
-                alt={user.name}
-                className="w-16 h-16 rounded-full border-2 border-blue-500 object-cover mr-5 shadow"
-              />
-              <div className="flex-1">
-                <h2 className="text-xl font-semibold text-white">
-                  {user.name}
-                </h2>
-                <p className="text-gray-400 text-sm">{user.email}</p>
-                <span className="mt-2 inline-block px-3 py-1 bg-yellow-400/20 text-yellow-400 rounded-full text-xs font-semibold">
-                  Status: Pending
-                </span>
+              <div className="w-full flex items-center p-5">
+                <img
+                  src={user.image || "/avatar-placeholder.png"}
+                  alt={user.name}
+                  className="w-16 h-16 rounded-full border-2 border-blue-500 object-cover mr-5 shadow"
+                />
+                <div className="flex-1">
+                  <h2 className="text-xl font-semibold text-white">
+                    {user.name}
+                  </h2>
+                  <p className="text-gray-400 text-sm">{user.email}</p>
+                  <span className="mt-2 inline-block px-3 py-1 bg-yellow-400/20 text-yellow-400 rounded-full text-xs font-semibold">
+                    Status: Pending
+                  </span>
+                </div>
+                {/* Accept button for md+ screens */}
+                <button
+                  className="md:flex-1 hidden md:block bg-green-400 py-2 px-6 rounded-md text-black font-semibold hover:bg-green-300 cursor-pointer transition disabled:opacity-60"
+                  disabled={acceptingId === user._id}
+                  onClick={() => handleAccept(user._id)}
+                >
+                  {acceptingId === user._id ? "Accepting..." : "Accept"}
+                </button>
               </div>
-              <button className="flex-1 bg-green-400 py-2 rounded-md text-black font-semibold  hover:bg-green-300 cursor-pointer">
-                Accept
-              </button>
+              {/* Accept button for small screens */}
+              <div className="w-full flex items-center p-5 justify-end md:hidden">
+                <button
+                  className="bg-green-400 py-2 px-6 rounded-md text-black font-semibold hover:bg-green-300 cursor-pointer transition w-full disabled:opacity-60"
+                  disabled={acceptingId === user._id}
+                  onClick={() => handleAccept(user._id)}
+                >
+                  {acceptingId === user._id ? "Accepting..." : "Accept"}
+                </button>
+              </div>
             </div>
           ))}
         </div>
