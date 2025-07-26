@@ -30,8 +30,6 @@ import { GiProgression } from "react-icons/gi";
 
 const baseMenuItems = [
   { title: "Home", url: "/", icon: Home },
-  { title: "Tasks", url: "/tasks", icon: Newspaper },
-  { title: "Progress", url: "/progress", icon: GiProgression },
 ];
 
 const userItems = [
@@ -58,7 +56,7 @@ export function AppSidebar() {
           </div>
 
           <SidebarGroupLabel className="pt-6">
-            🧠 Utsab's Blog App
+            Family Album
           </SidebarGroupLabel>
 
           {/* Main Navigation */}
