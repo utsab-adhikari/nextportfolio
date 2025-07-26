@@ -3,7 +3,7 @@
 import { useEffect, useState, useRef } from "react";
 import { useParams } from "next/navigation";
 import axios from "axios";
-import ImageUploader from "@/components/ImageUploader"; // Ensure this exists
+import ImageUploader from "@/components/ImageUploader"; // Make sure this path is correct
 
 export default function AlbumDetailsPage() {
   const { albumName } = useParams();
@@ -13,31 +13,15 @@ export default function AlbumDetailsPage() {
   const [error, setError] = useState("");
   const [uploading, setUploading] = useState(false);
   const [success, setSuccess] = useState("");
-
-  const [album, setAlbum] = useState([]);
-
+  const [album, setAlbum] = useState({});
   const [imageUrls, setImageUrls] = useState([]);
-  const [openMenuId, setOpenMenuId] = useState(null);
   const [gridColumns, setGridColumns] = useState(4);
 
   const [showDetailsModal, setShowDetailsModal] = useState(false);
   const [selectedImageDetails, setSelectedImageDetails] = useState(null);
   const [selectedImageUrl, setSelectedImageUrl] = useState(null);
 
-  const menuRef = useRef(null);
-
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (menuRef.current && !menuRef.current.contains(event.target)) {
-        setOpenMenuId(null);
-      }
-    };
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, []);
-
+  // Fetch album and images
   useEffect(() => {
     const fetchImages = async () => {
       try {
@@ -46,7 +30,7 @@ export default function AlbumDetailsPage() {
           setImages(res.data.images);
           setAlbum(res.data.album);
         } else {
-          setAlbum(res.data.album);
+          setAlbum(res.data.album || {});
           setError(res.data.message || "Failed to load images");
         }
       } catch (err) {
@@ -55,7 +39,6 @@ export default function AlbumDetailsPage() {
         setLoading(false);
       }
     };
-
     fetchImages();
   }, [albumName]);
 
@@ -69,7 +52,7 @@ export default function AlbumDetailsPage() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError(null);
+    setError("");
     setSuccess("");
     setUploading(true);
 
@@ -93,7 +76,6 @@ export default function AlbumDetailsPage() {
         setError(res.data.message || "Something went wrong");
       }
     } catch (err) {
-      console.error(err);
       setError(err.response?.data?.message || "Error submitting the form.");
     } finally {
       setUploading(false);
@@ -118,10 +100,6 @@ export default function AlbumDetailsPage() {
 
   const groupedImages = groupImagesByDate(images);
 
-  const toggleMenu = (id) => {
-    setOpenMenuId(openMenuId === id ? null : id);
-  };
-
   const handleDownload = async (imageUrl, imageId) => {
     try {
       const response = await fetch(imageUrl);
@@ -134,9 +112,7 @@ export default function AlbumDetailsPage() {
       link.click();
       document.body.removeChild(link);
       window.URL.revokeObjectURL(url);
-      setOpenMenuId(null);
     } catch (error) {
-      console.error("Error downloading image:", error);
       setError("Failed to download image.");
     }
   };
@@ -145,7 +121,6 @@ export default function AlbumDetailsPage() {
     setSelectedImageDetails(imageDoc);
     setSelectedImageUrl(url);
     setShowDetailsModal(true);
-    setOpenMenuId(null);
   };
 
   const formatDate = (dateString) => {
@@ -162,15 +137,28 @@ export default function AlbumDetailsPage() {
 
   return (
     <>
-      <div className="absolute top-0 right-0 w-full h-30 bg-blue-500">
-        <div className="absolute right-2 bottom-0 text-left">
-          <h2 className="text-xl font-bold text-gray-300">{album.albumName}</h2>
-          <h3 className="text-lg font-semibold text-gray-300">{album.creator}</h3>
-          <p className="text-sm font-semibold text-gray-400"> {formatDate(album.createdAt)}</p>
+      {/* Album Header */}
+      <div className="relative w-full h-32 sm:h-40 bg-blue-500 mb-24 rounded-b-xl shadow-lg">
+        <div className="absolute right-6 top-6 text-right z-10">
+          <h2 className="text-2xl font-bold text-white drop-shadow">
+            {album.albumName}
+          </h2>
+          <h3 className="text-lg font-medium text-white/90">
+            {album.creator}
+          </h3>
+          <p className="text-sm text-white/70">
+            {formatDate(album.createdAt)}
+          </p>
         </div>
-        <img src={album.albumImg} alt="" className="absolute bottom-[-50] left-10 max-h-20 border border-white rounded-md" />
+        {album.albumImg && (
+          <img
+            src={album.albumImg}
+            alt=""
+            className="absolute bottom-0 left-8 h-20 w-20 object-cover border-4 border-white rounded-lg shadow-md bg-white"
+          />
+        )}
       </div>
-      <div className="p-4 mt-50 space-y-6 min-h-screen text-gray-100 font-inter">
+      <div className="p-4 pt-0 space-y-6 min-h-screen text-gray-100 font-inter mx-auto max-w-6xl">
         {/* Upload Section */}
         <form
           className="bg-gray-900 p-6 rounded-xl border border-gray-700 shadow-lg"
@@ -208,6 +196,7 @@ export default function AlbumDetailsPage() {
                         loading="lazy"
                       />
                       <button
+                        type="button"
                         onClick={() => handleRemove(idx)}
                         className="absolute top-1 right-1 bg-red-600 bg-opacity-70 text-white text-xs px-2 py-1 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-200"
                         title="Remove"
@@ -301,6 +290,7 @@ export default function AlbumDetailsPage() {
           </>
         )}
 
+        {/* Modal for image details */}
         {showDetailsModal && selectedImageDetails && (
           <div className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-50 p-4">
             <div className="bg-gray-900 p-6 rounded-xl shadow-2xl max-w-3xl w-full border border-gray-700 relative">
