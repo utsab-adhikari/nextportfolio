@@ -24,6 +24,9 @@ const NewsNavbar = ({ pathname }) => {
       <Link className={linkStyle("/news/annapurnapost")} href="/news/annapurnapost">
         Annapurna
       </Link>
+       <Link className={linkStyle("/news/wion")} href="/news/wion">
+        WION
+      </Link>
     </div>
   );
 };
