@@ -27,13 +27,13 @@ export default function CreditCard() {
           <p className="text-sm text-gray-300">
             This platform fetches news from publicly available sources like{" "}
             <a
-              href="https://ekantipur.com"
+              href="https://nagariknews.nagariknetwork.com"
               target="_blank"
               rel="noopener noreferrer"
               className="underline inline-flex items-center text-indigo-400 hover:text-indigo-300 transition"
               aria-label="Visit Ekantipur website"
             >
-              Ekantipur <ExternalLink className="w-3 h-3 ml-1" />
+              Nagarik News <ExternalLink className="w-3 h-3 ml-1" />
             </a>,{" "}
             <a
               href="https://annapurnapost.com"

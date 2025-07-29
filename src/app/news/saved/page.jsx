@@ -162,9 +162,7 @@ const KtmPost = () => {
                           <Link href={news.link} target="_blank">
                             <button className="w-full cursor-pointer bg-blue-700 text-white py-2 px-4 rounded hover:bg-blue-600 transition-colors duration-300">
                               Read at{" "}
-                              {news.source === "ekantipur"
-                                ? "eKantipur"
-                                : "The Kathmandu Post"}
+                              {news.source}
                             </button>
                           </Link>
                         )}

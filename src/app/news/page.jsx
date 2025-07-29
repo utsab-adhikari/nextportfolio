@@ -12,7 +12,7 @@ const News = () => {
   const pathname = usePathname();
   const [ktmPosts, setKtmPosts] = useState([]);
   const [annapurna, setAnnapurna] = useState([]);
-  const [ekantipurPosts, setEkantipurPosts] = useState([]);
+  const [nagarik, setNagarik] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
@@ -21,13 +21,15 @@ const News = () => {
       const toastId = toast.loading("Fetching News...");
 
       try {
-        const [ktmRes, annaRes] = await Promise.all([
+        const [ktmRes, annaRes, nagarikRes] = await Promise.all([
           axios.get("/api/v1/news/thektmpost"),
           axios.get("/api/v1/news/annapurna"),
+          axios.get("/api/v1/news/nagarik"),
         ]);
 
         setKtmPosts(ktmRes.data.news.slice(0, 3));
         setAnnapurna(annaRes.data.news.slice(0, 3));
+        setNagarik(nagarikRes.data.news.slice(0, 3));
 
         toast.success("News Loaded Successfully", { id: toastId });
       } catch (error) {
@@ -62,6 +64,9 @@ const News = () => {
 
           {Array.isArray(annapurna) && (
             <NewsGrid posts={annapurna} buttonLabel="Read at Annapurna Post" />
+          )}
+          {Array.isArray(nagarik) && (
+            <NewsGrid posts={nagarik} buttonLabel="Read at Nagarik News" />
           )}
           <div className="p-3">
             <CreditCard />
