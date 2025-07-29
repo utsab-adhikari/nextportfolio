@@ -1,5 +1,4 @@
 "use client";
-
 import * as React from "react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
@@ -27,33 +26,38 @@ import { Textarea } from "@/components/ui/textarea";
 import toast from "react-hot-toast";
 import axios from "axios";
 import { useRouter } from "next/navigation";
+import { motion } from "framer-motion";
+
+const formVariants = {
+  hidden: { opacity: 0, y: 20 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.5 } },
+};
 
 export default function ReportDrawer() {
   const [open, setOpen] = React.useState(false);
   const isDesktop = useMediaQuery("(min-width: 768px)");
 
   const sharedContent = (
-    <>
-      <div className="text-sm text-muted-foreground mb-4">
-        Let us know your thoughts, bugs, or issues you’ve encountered.
+    <motion.div
+      initial="hidden"
+      animate="visible"
+      variants={formVariants}
+    >
+      <div className="text-sm text-gray-400 mb-4">
+        Share your feedback, report bugs, or suggest improvements.
       </div>
       <SubjectForm onClose={() => setOpen(false)} />
-    </>
+    </motion.div>
   );
 
   return isDesktop ? (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <button
-          className="bg-blue-500 px-3 cursor-pointer py-1 rounded hover:bg-blue-400"
-          variant="outline"
-        >
-          Feedback / Report
-        </button>
+        <Button className="bg-indigo-600 hover:bg-indigo-500 text-white px-4 py-2 rounded-lg transition">Feedback / Report</Button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[500px] bg-slate-900">
+      <DialogContent className="sm:max-w-[500px] bg-slate-900/95 backdrop-blur-lg border border-indigo-700">
         <DialogHeader>
-          <DialogTitle className="text-white">Feedback / Report</DialogTitle>
+          <DialogTitle className="text-white text-xl">Feedback / Report</DialogTitle>
         </DialogHeader>
         {sharedContent}
       </DialogContent>
@@ -61,21 +65,16 @@ export default function ReportDrawer() {
   ) : (
     <Drawer open={open} onOpenChange={setOpen}>
       <DrawerTrigger asChild>
-        <button
-          className="bg-blue-500 px-3 cursor-pointer py-1 rounded hover:bg-blue-400"
-          variant="outline"
-        >
-          Feedback / Report
-        </button>
+        <Button className="bg-indigo-600 hover:bg-indigo-500 text-white px-4 py-2 rounded-lg transition">Feedback / Report</Button>
       </DrawerTrigger>
-      <DrawerContent className="bg-slate-900">
+      <DrawerContent className="bg-slate-900/95 backdrop-blur-lg border-t border-indigo-700">
         <DrawerHeader className="text-left">
-          <DrawerTitle className="text-white">Feedback / Report</DrawerTitle>
+          <DrawerTitle className="text-white text-xl">Feedback / Report</DrawerTitle>
         </DrawerHeader>
-        <div className="px-4" >{sharedContent}</div>
+        <div className="px-4">{sharedContent}</div>
         <DrawerFooter className="pt-2">
           <DrawerClose asChild>
-            <Button className="bg-stone-700 hover:bg-stone-600 cursor-pointer text-white" variant="secondary">Cancel</Button>
+            <Button className="bg-slate-700 hover:bg-slate-600 text-white" variant="secondary">Cancel</Button>
           </DrawerClose>
         </DrawerFooter>
       </DrawerContent>
@@ -95,23 +94,15 @@ function SubjectForm({ onClose }) {
     const toastId = toast.loading("Submitting feedback...");
 
     try {
-      const response = await axios.post("/api/feedback", {
-        title,
-        description,
-      });
-
+      const response = await axios.post("/api/feedback", { title, description });
       if (response.data.success) {
-        toast.success(response.data.message || "Feedback submitted!", {
-          id: toastId,
-        });
+        toast.success(response.data.message || "Feedback submitted!", { id: toastId });
         setTitle("");
         setDescription("");
-        onClose?.(); // Close dialog or drawer
+        onClose?.();
         router.refresh();
       } else {
-        toast.error(response.data.message || "Submission failed.", {
-          id: toastId,
-        });
+        toast.error(response.data.message || "Submission failed.", { id: toastId });
       }
     } catch (error) {
       toast.error("Failed to submit feedback.", { id: toastId });
@@ -122,34 +113,34 @@ function SubjectForm({ onClose }) {
 
   return (
     <form onSubmit={handleSubmit} className="grid gap-6">
-      <div className="bg grid gap-2">
-        <Label htmlFor="title">Title</Label>
+      <div className="grid gap-2">
+        <Label htmlFor="title" className="text-gray-300">Title</Label>
         <Input
           id="title"
           type="text"
-          placeholder="Enter your feedback title"
+          placeholder="Enter feedback title"
           value={title}
           onChange={(e) => setTitle(e.target.value)}
           required
+          className="bg-slate-800 border-indigo-700 text-white focus:ring-indigo-500"
         />
       </div>
-
       <div className="grid gap-2">
-        <Label htmlFor="description">Description</Label>
+        <Label htmlFor="description" className="text-gray-300">Description</Label>
         <Textarea
           id="description"
-          placeholder="Enter more details (optional)"
+          placeholder="Enter details (optional)"
           value={description}
           onChange={(e) => setDescription(e.target.value)}
+          className="bg-slate-800 border-indigo-700 text-white focus:ring-indigo-500"
         />
       </div>
-
       <Button
         type="submit"
         disabled={isLoading}
         className={cn(
-          "w-full bg-green-600 hover:bg-green-700 cursor-pointer",
-          isLoading && "cursor-not-allowed"
+          "w-full bg-indigo-600 hover:bg-indigo-500 text-white",
+          isLoading && "cursor-not-allowed opacity-70"
         )}
       >
         {isLoading ? "Submitting..." : "Submit Feedback"}

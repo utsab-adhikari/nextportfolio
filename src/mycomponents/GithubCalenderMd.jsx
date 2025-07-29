@@ -1,5 +1,11 @@
 "use client";
 import { useEffect, useState } from "react";
+import { motion } from "framer-motion";
+
+const calendarVariants = {
+  hidden: { opacity: 0, scale: 0.95 },
+  visible: { opacity: 1, scale: 1, transition: { duration: 0.5 } },
+};
 
 export default function GitHubCalendarMd() {
   const [weeks, setWeeks] = useState([]);
@@ -26,44 +32,36 @@ export default function GitHubCalendarMd() {
   }
 
   return (
-    <div className="p-4">
-      <h2 className="text-xl text-center font-bold mb-2 text-indigo-800">
-        GitHub Contributions
-      </h2>
-      <p className="text-sm text-gray-500 mb-4">
-        Total contributions in the last year:{" "}
-        <span className="font-semibold text-green-600">{total}</span>
+    <motion.div
+      className="p-4 bg-slate-900/50 backdrop-blur-lg rounded-xl"
+      initial="hidden"
+      animate="visible"
+      variants={calendarVariants}
+    >
+      <h2 className="text-xl text-center font-bold mb-2 gradient-text">GitHub Contributions</h2>
+      <p className="text-sm text-gray-400 mb-4">
+        Total contributions in the last year: <span className="font-semibold text-green-400">{total}</span>
       </p>
-
-      {/* GitHub-style grid */}
-      <div className="flex gap-1">
+      <div className="flex gap-1 overflow-x-auto">
         {weeks.map((week, weekIndex) => (
           <div key={weekIndex} className="flex flex-col gap-1">
             {week.contributionDays.map((day, dayIndex) => (
               <div
                 key={dayIndex}
-                className="w-3 h-3 rounded-sm"
-                style={{
-                  backgroundColor: day.color || "#ebedf0",
-                }}
+                className="w-4 h-4 rounded-sm transition-transform hover:scale-125"
+                style={{ backgroundColor: day.color || "#ebedf0" }}
                 title={`${day.date} — ${day.contributionCount} contributions`}
               ></div>
             ))}
           </div>
         ))}
       </div>
-
       <p className="mt-3 text-xs text-gray-400">
-        Data fetched live from{" "}
-        <a
-          href="https://github.com"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="underline text-blue-500"
-        >
+        Data fetched from{" "}
+        <a href="https://github.com" target="_blank" rel="noopener noreferrer" className="underline text-indigo-400 hover:text-indigo-300">
           GitHub API
         </a>
       </p>
-    </div>
+    </motion.div>
   );
 }
