@@ -118,40 +118,6 @@ const SkillsPage = () => {
 
   return (
     <div className="min-h-screen bg-slate-950 text-gray-100 font-inter">
-      <motion.header
-        className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${isScrolled ? "bg-slate-900/95 backdrop-blur-md shadow-lg" : "bg-transparent"}`}
-        initial="hidden"
-        animate="visible"
-        variants={navVariants}
-      >
-        <nav className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
-          <Link href="/" className="text-2xl font-bold gradient-text">Utsab Adhikari</Link>
-          <div className="hidden md:flex items-center gap-6">
-            <Link href="/" className="text-gray-300 hover:text-indigo-400 transition">Portfolio</Link>
-            <Link href="/skills" className="text-gray-300 hover:text-indigo-400 transition">Skills</Link>
-            <Link href="#contact" className="text-gray-300 hover:text-indigo-400 transition">Contact</Link>
-            <Link href="/hireme" className="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-500 transition">Hire Me</Link>
-          </div>
-          <button className="md:hidden text-gray-300" onClick={() => setIsMenuOpen(!isMenuOpen)}>
-            {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
-          </button>
-        </nav>
-        <motion.div
-          className="md:hidden bg-slate-900/95 backdrop-blur-md"
-          initial={{ opacity: 0, height: 0 }}
-          animate={{ opacity: isMenuOpen ? 1 : 0, height: isMenuOpen ? "auto" : 0 }}
-          transition={{ duration: 0.3 }}
-        >
-          {isMenuOpen && (
-            <div className="flex flex-col items-center gap-4 py-4">
-              <Link href="/" className="text-gray-300 hover:text-indigo-400 transition" onClick={() => setIsMenuOpen(false)}>Portfolio</Link>
-              <Link href="/skills" className="text-gray-300 hover:text-indigo-400 transition" onClick={() => setIsMenuOpen(false)}>Skills</Link>
-              <Link href="#contact" className="text-gray-300 hover:text-indigo-400 transition" onClick={() => setIsMenuOpen(false)}>Contact</Link>
-              <Link href="/hireme" className="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-500 transition" onClick={() => setIsMenuOpen(false)}>Hire Me</Link>
-            </div>
-          )}
-        </motion.div>
-      </motion.header>
 
       <section className="pt-24 pb-16 px-6 sm:px-10 max-w-7xl mx-auto">
         <motion.h1
