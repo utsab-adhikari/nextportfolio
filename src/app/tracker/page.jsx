@@ -1,6 +1,9 @@
 "use client";
 
+import Loader from "@/mycomponents/Loader";
+import { useSession } from "next-auth/react";
 import React, { useState, useRef, useEffect, useCallback } from "react";
+import { AiOutlineLoading3Quarters } from "react-icons/ai";
 
 // --- MiniEditor Component ---
 function MiniEditor({
@@ -179,7 +182,7 @@ const DEFAULT_TASKS = [
 function isEditableNow() {
   const now = new Date();
   const hour = now.getHours();
-  return hour >= 3 && hour < 24;
+  return hour >= 3 && hour < 22;
 }
 
 export default function Tracker() {
@@ -194,6 +197,8 @@ export default function Tracker() {
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
   const [editable, setEditable] = useState(isEditableNow());
+
+  const { data: session, status } = useSession();
 
   // Load today's tracker or create if not exists
   useEffect(() => {
@@ -344,11 +349,25 @@ export default function Tracker() {
     }
   };
 
+  if (status === "loading") {
+    return <Loader />;
+  }
+
+  if (!session || session.user.role !== "admin") {
+    return (
+      <div className="flex flex-col justify-center items-center py-10 min-h-screen">
+        <AiOutlineLoading3Quarters className="animate-spin text-3xl text-indigo-500" />
+
+        <p className="text-md font-semibold text-gray-400 mt-4">Only <b className="text-indigo-600">Utsab Adhikari</b> is allowed for this route</p>
+      </div>
+    );
+  }
+
   return (
     <div className="container">
       {!editable && (
         <div className="notice">
-          <b>Editing is disabled outside 3:00 AM – 11:00 PM.</b>
+          <b>Editing is disabled outside 3:00 AM – 10:00 PM.</b>
         </div>
       )}
       <h1>Daily Progress Tracker</h1>

@@ -16,6 +16,10 @@ import { GiSkills } from "react-icons/gi";
 import { TbMessageChatbot } from "react-icons/tb";
 import { FaOm } from "react-icons/fa6";
 import { FaExclamationCircle, FaGoogle } from "react-icons/fa";
+import { signIn, signOut, useSession } from "next-auth/react";
+import { LuLogOut } from "react-icons/lu";
+import { IoAnalyticsOutline } from "react-icons/io5";
+import Link from "next/link";
 // import { signIn, useSession } from "next-auth/react";
 
 // Menu items.
@@ -54,7 +58,7 @@ const items = [
 
 export function AppSidebar() {
   const { toggleSidebar } = useSidebar();
-  // const { status } = useSession();
+  const { data: session, status } = useSession();
 
   return (
     <Sidebar>
@@ -86,20 +90,48 @@ export function AppSidebar() {
                   </SidebarMenuButton>
                 </SidebarMenuItem>
               ))}
-              {/* {status && status === "unauthenticated" && (
+              {status && status === "unauthenticated" && (
                 <SidebarMenuItem>
                   <SidebarMenuButton asChild>
                     <button
                       onClick={() => signIn("google", { callbackUrl: "/" })}
-                      className="flex items-center gap-3 px-4 py-2 rounded-md text-white hover:bg-stone-600 hover:text-white transition"
+                      className="flex cursor-pointer items-center gap-3 px-4 py-2 rounded-md text-white hover:bg-stone-600 hover:text-white transition"
                     >
-                        <FaGoogle /> Login
-                      <span>
-                      </span>
+                      <FaGoogle /> Login
+                      <span></span>
                     </button>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
-              )} */}
+              )}
+              {status && status === "authenticated" && (
+                <SidebarMenuItem>
+                  <SidebarMenuButton asChild>
+                    <button
+                      onClick={() => signOut()}
+                      className="flex items-center gap-3 px-4 py-2 rounded-md text-white hover:bg-stone-600 hover:text-white transition"
+                    >
+                      <LuLogOut /> Log Out
+                      <span></span>
+                    </button>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+              )}
+              {status &&
+                status === "authenticated" &&
+                session &&
+                session.user.role === "admin" && (
+                  <SidebarMenuItem>
+                    <SidebarMenuButton asChild>
+                      <Link
+                        href={`/tracker`}
+                        className="flex items-center gap-3 px-4 py-2 rounded-md text-white hover:bg-stone-600 hover:text-white transition"
+                      >
+                        <IoAnalyticsOutline /> Tracker
+                        <span></span>
+                      </Link>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                )}
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>

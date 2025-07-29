@@ -10,7 +10,8 @@ import { Toaster } from "react-hot-toast";
 import Footer from "@/mycomponents/Footer";
 import Link from "next/link";
 import { FaHome } from "react-icons/fa";
-import { Analytics } from "@vercel/analytics/next"
+import { Analytics } from "@vercel/analytics/next";
+import { SessionProvider } from "next-auth/react";
 export default function Layout({ children }) {
   const pathname = usePathname();
   const [isIndex, setIsIndex] = useState(false);
@@ -38,8 +39,9 @@ export default function Layout({ children }) {
       </head>
 
       <body className="flex min-h-screen flex-col bg-slate-950 text-white font-sans">
-        <SidebarProvider>
-          <Analytics/>
+        <SessionProvider>
+          <SidebarProvider>
+            <Analytics />
             <div className="flex flex-1 w-full">
               <AppSidebar />
               <SidebarTrigger className="fixed z-30 block md:hidden top-2 left-2" />
@@ -73,8 +75,8 @@ export default function Layout({ children }) {
                 {pathname !== "/chatbot" && <Footer />}
               </div>
             </div>
-          {/* </SessionProvider> */}
-        </SidebarProvider>
+          </SidebarProvider>
+        </SessionProvider>
       </body>
     </html>
   );

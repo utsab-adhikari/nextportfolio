@@ -1,21 +1,20 @@
-import NextAuth from 'next-auth';
-import GoogleProvider from 'next-auth/providers/google';
-import { MongoDBAdapter } from '@auth/mongodb-adapter';
-import clientPromise from '@/lib/mongodb';
-import connectDB from '@/db/ConnectDB';
-import User from '@/app/models/User.model';
+import NextAuth from "next-auth";
+import GoogleProvider from "next-auth/providers/google";
+import connectDB from "@/db/ConnectDB";
+import User from "@/app/models/User.model";
 
-const handler = NextAuth({
-  adapter: MongoDBAdapter(clientPromise),
+export const authOptions = {
   providers: [
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
     }),
   ],
+
   pages: {
-    signIn: '/auth/login',
+    signIn: "/auth/login",
   },
+
   callbacks: {
     async session({ session }) {
       await connectDB();
@@ -24,28 +23,35 @@ const handler = NextAuth({
         if (user) {
           session.user.id = user._id.toString();
           session.user.name = user.name;
-          session.user.image = user.image;
           session.user.role = user.role;
+          session.user.badge = user.badge;
         }
       }
       return session;
     },
+
     async signIn({ user }) {
       await connectDB();
-      const existingUser = await User.findOne({ email: user.email });
+      let existingUser = await User.findOne({ email: user.email });
+
       if (!existingUser) {
         await User.create({
           name: user.name,
           email: user.email,
           image: user.image,
-          role: 'user',
+          provider: "google",
+          role: "user",
         });
       }
       return true;
     },
   },
-  session: { strategy: 'jwt' },
-  secret: process.env.NEXTAUTH_SECRET,
-});
 
-export { handler as GET, handler as POST };
+  session: { strategy: "jwt" },
+  secret: process.env.NEXTAUTH_SECRET,
+};
+
+// ✅ App Router export (NextAuth v5 syntax)
+const { handlers } = NextAuth(authOptions);
+export const GET = handlers.GET;
+export const POST = handlers.POST;
