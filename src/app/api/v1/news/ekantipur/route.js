@@ -3,12 +3,13 @@ import { NextResponse } from "next/server";
 import axios from "axios";
 import * as cheerio from "cheerio";
 
+// In-memory cache (use Vercel KV or Redis for production)
 const cache = {};
 const CACHE_DURATION = 5 * 60 * 1000; // Cache for 5 minutes
 
 export async function GET() {
   try {
-    const url = "https://ekantipur.com/news";
+    const url = process.env.SCRAPE_URL || "https://ekantipur.com/news";
     const cacheKey = url;
 
     // Check cache
@@ -32,7 +33,7 @@ export async function GET() {
     const response = await axios.get(url, {
       headers: {
         "User-Agent":
-          "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/115.0.0.0 Safari/537.36",
+          "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
         Accept:
           "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8",
         "Accept-Language": "en-US,en;q=0.9",
@@ -40,7 +41,7 @@ export async function GET() {
         Connection: "keep-alive",
         "Upgrade-Insecure-Requests": "1",
       },
-      timeout: 8000, // Stay within Vercel’s 10-second limit
+      timeout: 7000, // Reduced to ensure Vercel compliance
     });
 
     const html = response.data;
@@ -66,6 +67,7 @@ export async function GET() {
         success: false,
         status: error.response?.status || 500,
         message: `Error while fetching news: ${error.message}`,
+        errorDetails: error.response?.data || "No additional error data",
       },
       { status: error.response?.status || 500 }
     );
