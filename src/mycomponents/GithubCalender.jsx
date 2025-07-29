@@ -26,7 +26,7 @@ export default function GitHubCalendar() {
   }
 
   return (
-    <div className="p-4">
+    <div className="p-4 flex justify-center items-center flex-col">
       <h2 className="text-xl text-center font-bold mb-2 text-indigo-800">
         GitHub Contributions
       </h2>
@@ -36,7 +36,7 @@ export default function GitHubCalendar() {
       </p>
 
       {/* GitHub-style grid */}
-      <div className="flex gap-1">
+      <div className="flex gap-1 border-1 border-white p-2 rounded-md">
         {weeks.map((week, weekIndex) => (
           <div key={weekIndex} className="flex flex-col gap-1">
             {week.contributionDays.map((day, dayIndex) => (
