@@ -5,7 +5,7 @@ export const metadata = {
   title: "Utsab's Portfolio",
   description: "Welcome to the portfolio of Utsab Adhikari",
   icons: {
-    icon: "./public/icon.png",
+    icon: "../public/icon.png",
   },
 };
 
