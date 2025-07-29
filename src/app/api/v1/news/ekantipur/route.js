@@ -1,50 +1,95 @@
+// app/api/news/route.js
+import { NextResponse } from "next/server";
 import axios from "axios";
 import * as cheerio from "cheerio";
-import { NextRequest, NextResponse } from "next/server";
 
-export async function GET(request) {
+const cache = {};
+const CACHE_DURATION = 5 * 60 * 1000; // Cache for 5 minutes
+
+export async function GET() {
   try {
-    const response = await axios.get("https://ekantipur.com/news", {
+    const url = "https://ekantipur.com/news";
+    const cacheKey = url;
+
+    // Check cache
+    if (
+      cache[cacheKey] &&
+      Date.now() - cache[cacheKey].timestamp < CACHE_DURATION
+    ) {
+      console.log(`Serving from cache: ${url}`);
+      const $ = cheerio.load(cache[cacheKey].html);
+      const newsList = processNews($);
+      return NextResponse.json({
+        success: true,
+        status: 200,
+        message: "News loaded successfully from cache",
+        total: newsList.length,
+        news: newsList,
+      });
+    }
+
+    // Fetch HTML
+    const response = await axios.get(url, {
       headers: {
         "User-Agent":
           "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/115.0.0.0 Safari/537.36",
+        Accept:
+          "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8",
         "Accept-Language": "en-US,en;q=0.9",
+        "Accept-Encoding": "gzip, deflate, br",
+        Connection: "keep-alive",
+        "Upgrade-Insecure-Requests": "1",
       },
+      timeout: 8000, // Stay within Vercel’s 10-second limit
     });
+
     const html = response.data;
+    cache[cacheKey] = { html, timestamp: Date.now() }; // Store in cache
     const $ = cheerio.load(html);
-    const newsList = [];
-
-    $("article.normal").each((_, el) => {
-      const headline = $(el).find("h2 a").text().trim();
-      const anchor = $(el).find("h2 a").attr("href");
-      const link = anchor ? `https://ekantipur.com${anchor}` : undefined;
-      const slug = $(el).find("p").text().trim();
-      const image =
-        $(el).find(".image figure a img").attr("src") ||
-        $(el).find(".image figure a img").attr("data-src");
-
-      newsList.push({
-        headline,
-        slug,
-        image,
-        link,
-        source: "ekantipur",
-      });
-    });
+    const newsList = processNews($);
 
     return NextResponse.json({
       success: true,
       status: 200,
-      message: "News Loaded successfully",
+      message: "News loaded successfully",
       total: newsList.length,
       news: newsList,
     });
   } catch (error) {
-    return NextResponse.json({
-      success: false,
-      status: 500,
-      message: ["Error while fetching news: ", error.message],
+    console.error("Error fetching news:", {
+      message: error.message,
+      status: error.response?.status,
+      data: error.response?.data,
     });
+    return NextResponse.json(
+      {
+        success: false,
+        status: error.response?.status || 500,
+        message: `Error while fetching news: ${error.message}`,
+      },
+      { status: error.response?.status || 500 }
+    );
   }
+}
+
+function processNews($) {
+  const newsList = [];
+  $("article.normal").each((_, el) => {
+    const headline = $(el).find("h2 a").text().trim();
+    const anchor = $(el).find("h2 a").attr("href");
+    const link = anchor ? `https://ekantipur.com${anchor}` : undefined;
+    const slug = $(el).find("p").text().trim();
+    const image =
+      $(el).find(".image figure a img").attr("src") ||
+      $(el).find(".image figure a img").attr("data-src");
+
+    newsList.push({
+      headline,
+      slug,
+      image,
+      link,
+      source: "ekantipur",
+    });
+  });
+  return newsList;
 }
