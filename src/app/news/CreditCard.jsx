@@ -36,6 +36,15 @@ export default function CreditCard() {
               Nagarik News <ExternalLink className="w-3 h-3 ml-1" />
             </a>,{" "}
             <a
+              href="https://wionews.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="underline inline-flex items-center text-indigo-400 hover:text-indigo-300 transition"
+              aria-label="Visit Ekantipur website"
+            >
+              WION<ExternalLink className="w-3 h-3 ml-1" />
+            </a>,{" "}
+            <a
               href="https://annapurnapost.com"
               target="_blank"
               rel="noopener noreferrer"

@@ -1,26 +1,26 @@
-// app/api/rashifal/route.ts
-import { getHoroscope } from 'hamro-patro-scraper';
-import { NextResponse } from 'next/server';
+import { NextResponse } from "next/server";
+import { getHoroscope, hamroPatro } from "hamro-patro-scraper";
 
 export async function GET() {
   try {
-    const data = await getHoroscope(); 
-    // Data is an array: each object has `rashi` (1–12), `name` (Nepali sign), `text`
-    
+    const horoscopeData = await getHoroscope(); // Array: { rashi, name,
+    const dateNepali = await hamroPatro();
+
     return NextResponse.json({
       status: 200,
       success: true,
-      rashifals: data.map(item => ({
+      rashifals: horoscopeData.map((item) => ({
         sign: item.name,
         rashifal: item.text,
       })),
+      dateNepali,
     });
   } catch (err) {
-    console.error('Error fetching rashifal:', err);
+    console.error("Error fetching data:", err);
     return NextResponse.json({
       status: 500,
       success: false,
-      message: 'Internal server error',
+      message: "Internal server error",
     });
   }
 }
