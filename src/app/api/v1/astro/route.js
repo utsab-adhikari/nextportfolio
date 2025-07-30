@@ -129,7 +129,7 @@ export async function POST() {
     const geoDetail = await geoRes.json();
     const nakshatraRaw = await nakshatraRes.json();
     const goodbadRaw = await goodbadRes.json();
-    console.log(goodbadRes);
+
 
     const tithiOutput = JSON.parse(tithiRaw.output);
     const brahmaOutput = JSON.parse(brahmaRaw.output);
@@ -139,7 +139,7 @@ export async function POST() {
       tithi: tithiOutput,
       brahmaMuhurat: brahmaOutput,
       nakshatra: nakshatraOutput,
-      goodbad: goodbadOutput,
+      goodbad: goodbadRaw,
     });
   } catch (error) {
     console.error("Astrology API error:", error);
