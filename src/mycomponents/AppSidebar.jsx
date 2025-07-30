@@ -15,7 +15,7 @@ import { IoMdClose } from "react-icons/io";
 import { GiSkills } from "react-icons/gi";
 import { TbMessageChatbot } from "react-icons/tb";
 import { FaOm } from "react-icons/fa6";
-import { FaExclamationCircle, FaGoogle } from "react-icons/fa";
+import { FaExclamationCircle, FaGoogle, FaStroopwafel } from "react-icons/fa";
 import { signIn, signOut, useSession } from "next-auth/react";
 import { LuLogOut } from "react-icons/lu";
 import { IoAnalyticsOutline } from "react-icons/io5";
@@ -90,6 +90,17 @@ export function AppSidebar() {
                   </SidebarMenuButton>
                 </SidebarMenuItem>
               ))}
+               <SidebarMenuItem>
+                  <SidebarMenuButton asChild>
+                    <a
+                      href="/astro"
+                      className="flex items-center gap-3 px-4 py-2 rounded-md text-white hover:bg-stone-600 hover:text-white transition"
+                    >
+                      <FaStroopwafel className="w-5 h-5" />
+                      <span>Astro</span>
+                    </a>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
               {status && status === "unauthenticated" && (
                 <SidebarMenuItem>
                   <SidebarMenuButton asChild>
