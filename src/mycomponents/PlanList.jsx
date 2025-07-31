@@ -50,15 +50,19 @@ export default function PlanList({ plans: initialPlans }) {
             <p>
               <span className="font-medium text-gray-200">📌 Status:</span>{" "}
               <span
-                className={`px-2 py-0.5 rounded text-xs ${
-                  plan.status === "completed"
-                    ? "bg-green-600 text-white"
-                    : "bg-yellow-600 text-white"
-                }`}
+                className={`px-2 py-0.5 rounded text-xs capitalize
+      ${
+        plan.status === "completed"
+          ? "bg-green-600 text-white"
+          : plan.status === "started"
+          ? "bg-blue-600 text-white"
+          : "bg-yellow-600 text-black"
+      }`}
               >
                 {plan.status}
               </span>
             </p>
+
             <p>
               <span className="font-medium text-gray-200">📅 Last Date:</span>{" "}
               {plan.lastDate
