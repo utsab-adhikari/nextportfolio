@@ -112,6 +112,7 @@ export default function HomePage() {
         <div className="mt-12">
           <WarnCard />
         </div>
+        
       </main>
     </>
   );

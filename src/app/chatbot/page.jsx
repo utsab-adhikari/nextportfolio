@@ -24,7 +24,7 @@ const Chatbot = () => {
     setChatHistory([
       {
         sender: "agent",
-        text: "Hello! I'm UtsabBot, your virtual assistant. Ask me anything about Utsab, and I'll do my best to provide information.",
+        text: "Hello! I'm UtsabBot, your AI assistant. I can help you with information about Utsab, his projects, and skills. What would you like to know?",
       },
     ]);
   }, []);
@@ -86,30 +86,30 @@ const Chatbot = () => {
     return parts.map((part, i) => {
       const isCode = i % 2 !== 0;
       return isCode ? (
-        <div key={i} className="relative my-2 rounded-md overflow-hidden">
+        <div key={i} className="relative my-2 rounded-lg overflow-hidden code-block">
           <SyntaxHighlighter
             language="javascript"
             style={oneDark}
             customStyle={{
-              padding: "1rem",
+              padding: "0.75rem",
               borderRadius: "0.5rem",
-              background: "#1e1e1e",
-              fontSize: "0.875rem",
+              background: "#1f2937",
+              fontSize: "0.75rem",
             }}
           >
             {part.trim()}
           </SyntaxHighlighter>
           <button
             onClick={() => copyToClipboard(part.trim())}
-            className="absolute top-2 right-2 px-2 py-1 text-xs bg-gray-700 text-white rounded-md hover:bg-gray-600 transition-colors duration-200"
+            className="copy-btn absolute top-2 right-2 px-2 py-1 text-xs bg-gray-700 text-white rounded hover:bg-gray-600 transition-opacity duration-200 opacity-0"
           >
-            Copy
+            <i className="fas fa-copy mr-1"></i>Copy
           </button>
         </div>
       ) : (
         <div
           key={i}
-          className="text-gray-200 whitespace-pre-line text-sm leading-relaxed"
+          className="text-gray-100 whitespace-pre-line text-sm leading-relaxed"
         >
           <p>
             {part.split(/(https?:\/\/[^\s)]+[^.,;:)\s])/g).map((chunk, index) =>
@@ -119,7 +119,7 @@ const Chatbot = () => {
                   href={chunk}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-blue-400 underline hover:text-blue-300 transition"
+                  className="text-blue-400 hover:underline"
                 >
                   {getFriendlyLinkName(chunk)}
                 </a>
@@ -128,7 +128,6 @@ const Chatbot = () => {
               )
             )}
           </p>
-
           {part.trim() && (
             <button
               onClick={() => copyToClipboard(part.trim())}
@@ -171,38 +170,69 @@ const Chatbot = () => {
   };
 
   return (
-    <div className="flex flex-col h-screen bg-gray-950 text-white font-sans antialiased">
-      <div className=" fixed top-2 right-2 shadow-md">
+    <div className="flex flex-col h-screen max-w-6xl mx-auto bg-slate-950 text-gray-100 font-sans antialiased">
+      {/* Header */}
+      <header className="bg-gray-800/80 backdrop-blur-sm border-b border-gray-700 p-4 flex items-center justify-between sticky top-0 z-10">
+        <div className="flex items-center space-x-3">
+          <div className="w-10 h-10 rounded-full bg-gradient-to-br from-green-500 to-blue-500 flex items-center justify-center">
+            <i className="fas fa-robot text-white"></i>
+          </div>
+          <div>
+            <h1 className="font-bold text-lg">UtsabBot</h1>
+            <p className="text-xs text-gray-400">AI Assistant</p>
+          </div>
+        </div>
         <Dialog>
           <DialogTrigger asChild>
             <Button
               variant="ghost"
               size="icon"
-              className="text-gray-400 hover:text-green-400 transition-colors duration-200"
+              className="text-gray-400 hover:text-green-400 transition-colors p-2 rounded-full"
               title="About UtsabBot"
             >
-              <IoInformationCircleOutline className="h-6 w-6" />
+              <IoInformationCircleOutline className="h-5 w-5" />
             </Button>
           </DialogTrigger>
-          <DialogContent className="sm:max-w-[425px] bg-gray-800 text-white border-gray-700 rounded-lg">
+          <DialogContent className="sm:max-w-md bg-gray-800 text-gray-300 border border-gray-700 rounded-xl">
             <DialogHeader>
-              <DialogTitle className="text-green-400 text-lg">
-                About Assistant
-              </DialogTitle>
-              <DialogDescription className="text-gray-300 text-sm">
-                This virtual assistant provides information about Utsab. Built
-                using React, Next.js, and a custom backend.
+              <div className="flex justify-between items-center">
+                <DialogTitle className="text-xl font-bold text-green-400">
+                  About UtsabBot
+                </DialogTitle>
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="text-gray-400 hover:text-white"
+                  onClick={() => document.getElementById("close-modal")?.click()}
+                >
+                  <i className="fas fa-times"></i>
+                </Button>
+              </div>
+              <DialogDescription className="text-sm text-gray-300">
+                This AI assistant is designed to provide information about Utsab, including his skills, projects, and professional background.
               </DialogDescription>
             </DialogHeader>
-            <div className="mt-4 text-gray-400 text-xs">
-              <p>Developed for portfolio demonstration.</p>
-              <p>&copy; {new Date().getFullYear()} Utsab</p>
+            <div className="space-y-4 text-sm text-gray-300">
+              <div className="bg-gray-900 rounded-lg p-4">
+                <h3 className="font-medium text-green-400 mb-2">Capabilities</h3>
+                <ul className="list-disc pl-5 space-y-1">
+                  <li>Answer questions about Utsab's experience</li>
+                  <li>Explain technical concepts</li>
+                  <li>Provide code examples</li>
+                  <li>Share project details</li>
+                </ul>
+              </div>
+              <div className="pt-2 text-xs text-gray-500">
+                <p>Version 1.0.0</p>
+                <p>&copy; {new Date().getFullYear()} Utsab. All rights reserved.</p>
+              </div>
             </div>
           </DialogContent>
         </Dialog>
-      </div>
+      </header>
 
-      <div className="flex-1 overflow-y-auto p-4 space-y-6 custom-scrollbar">
+      {/* Chat Container */}
+      <div className="flex-1 overflow-y-auto p-4 space-y-4 chat-container">
         {chatHistory.map((chat, index) => (
           <div
             key={index}
@@ -211,15 +241,33 @@ const Chatbot = () => {
             }`}
           >
             <div
-              className={`max-w-[95%] px-5 py-3 rounded-2xl shadow-lg border ${
+              className={`max-w-[85%] md:max-w-[75%] px-4 py-3 rounded-xl ${
                 chat.sender === "user"
-                  ? "bg-green-700 text-white border-green-600"
-                  : "bg-gray-850 text-gray-100 border-gray-700"
-              } transition-all duration-300 ease-in-out transform hover:scale-[1.01]`}
+                  ? "bg-gradient-to-r from-green-600 to-green-700 text-white"
+                  : "bg-gray-800 border border-gray-700"
+              } message-transition`}
             >
-              <p className="text-xs mb-1 font-semibold text-gray-300">
-                {chat.sender === "user" ? "You" : "UtsabBot"}
-              </p>
+              <div
+                className={`flex items-center space-x-2 mb-1 ${
+                  chat.sender === "user" ? "justify-end" : ""
+                }`}
+              >
+                {chat.sender === "user" ? (
+                  <>
+                    <span className="text-xs font-medium text-green-100">You</span>
+                    <div className="w-6 h-6 rounded-full bg-white/20 flex items-center justify-center">
+                      <i className="fas fa-user text-xs"></i>
+                    </div>
+                  </>
+                ) : (
+                  <>
+                    <div className="w-6 h-6 rounded-full bg-gradient-to-br from-green-500 to-blue-500 flex items-center justify-center">
+                      <i className="fas fa-robot text-xs text-white"></i>
+                    </div>
+                    <span className="text-xs font-medium text-gray-300">UtsabBot</span>
+                  </>
+                )}
+              </div>
               {chat.sender === "agent" ? (
                 <div className="space-y-2">{renderAgentMessage(chat.text)}</div>
               ) : (
@@ -231,15 +279,17 @@ const Chatbot = () => {
 
         {loading && (
           <div className="flex justify-start">
-            <div className="max-w-[75%] px-5 py-3 rounded-2xl bg-gray-850 text-gray-300 animate-pulse shadow-lg border border-gray-700">
-              <p className="text-xs text-gray-400 font-semibold mb-1">
-                Assistant
-              </p>
-              <p>
-                Typing<span className="dot-animation">.</span>
-                <span className="dot-animation delay-1">.</span>
-                <span className="dot-animation delay-2">.</span>
-              </p>
+            <div className="max-w-[85%] md:max-w-[75%] px-4 py-3 rounded-xl bg-gray-800 border border-gray-700">
+              <div className="flex items-center space-x-2">
+                <div className="w-6 h-6 rounded-full bg-gradient-to-br from-green-500 to-blue-500 flex items-center justify-center">
+                  <i className="fas fa-robot text-xs text-white"></i>
+                </div>
+                <div className="typing-indicator text-sm text-gray-400">
+                  <span>.</span>
+                  <span>.</span>
+                  <span>.</span>
+                </div>
+              </div>
             </div>
           </div>
         )}
@@ -247,53 +297,108 @@ const Chatbot = () => {
         <div ref={chatEndRef}></div>
       </div>
 
-      <div className="w-full mx-center">
-        <div className="fixed bottom-5 left-0 w-full px-4 z-50">
-          <form
-            onSubmit={handleSubmit}
-            className="flex items-center gap-2 sm:gap-3 bg-gray-900 border border-gray-700 shadow-lg rounded-full px-4 py-2 sm:px-6 sm:py-3 max-w-3xl mx-auto"
-          >
+      {/* Input Area */}
+      <div className="sticky bottom-0 bg-gray-900/80 backdrop-blur-sm border-t border-gray-700 p-4">
+        <form
+          onSubmit={handleSubmit}
+          className="flex items-center space-x-2 max-w-3xl mx-auto"
+        >
+          <div className="flex-1 relative">
             <input
               type="text"
               value={message}
               onChange={(e) => setMessage(e.target.value)}
               placeholder="Ask me anything about Utsab..."
-              className="flex-1 bg-transparent text-white placeholder-gray-400 text-sm sm:text-base outline-none"
+              className="w-full bg-gray-800 border border-gray-700 rounded-full py-3 px-4 text-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
               disabled={loading}
+              autoComplete="off"
             />
-            <Button
-              type="submit"
-              disabled={loading || !message.trim()}
-              className="bg-green-600 hover:bg-green-700 text-white px-4 sm:px-6 py-2 sm:py-3 rounded-full text-sm font-semibold transition disabled:bg-gray-700 disabled:cursor-not-allowed flex items-center gap-2"
+            <button
+              type="button"
+              onClick={() => setMessage("")}
+              className={`absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-300 ${
+                message.trim() ? "" : "hidden"
+              }`}
             >
-              Send <IoSend className="h-4 w-4" />
-            </Button>
-          </form>
+              <i className="fas fa-times"></i>
+            </button>
+          </div>
+          <Button
+            type="submit"
+            disabled={loading || !message.trim()}
+            className="bg-gradient-to-r from-green-600 to-blue-600 hover:from-green-700 hover:to-blue-700 text-white rounded-full w-12 h-12 flex items-center justify-center transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            <IoSend className="h-4 w-4" />
+          </Button>
+        </form>
+        <div className="text-xs text-gray-500 mt-2 text-center">
+          UtsabBot may produce inaccurate information. Last updated: June 2023.
         </div>
       </div>
 
+      {/* DeepSite Footer */}
+      <p
+        className="fixed left-2 bottom-2 text-xs text-white bg-black/80 rounded-lg px-2 py-1 z-10"
+      >
+        Made with{" "}
+        <a href="https://enzostvs-deepsite.hf.space" target="_blank" rel="noopener noreferrer">
+          <img
+            src="https://enzostvs-deepsite.hf.space/logo.svg"
+            alt="DeepSite Logo"
+            className="inline-block w-4 h-4 mx-1 align-middle brightness-0 invert"
+          />
+        </a>
+        <a
+          href="https://enzostvs-deepsite.hf.space"
+          className="text-white underline"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          DeepSite
+        </a>{" "}
+        - 🧬{" "}
+        <a
+          href="https://enzostvs-deepsite inteligência.hf.space?remix=utsab-ad01/chati-bot"
+          className="text-white underline"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Remix
+        </a>
+      </p>
+
       <style jsx>{`
-        .custom-scrollbar::-webkit-scrollbar {
-          width: 8px;
+        .chat-container {
+          scrollbar-width: thin;
+          scrollbar-color: #4b5563 #1f2937;
         }
-        .custom-scrollbar::-webkit-scrollbar-track {
-          background: #1a1a1a;
+        .chat-container::-webkit-scrollbar {
+          width: 6px;
         }
-        .custom-scrollbar::-webkit-scrollbar-thumb {
-          background-color: #4a4a4a;
-          border-radius: 4px;
-          border: 2px solid #1a1a1a;
+        .chat-container::-webkit-scrollbar-track {
+          background: #1f2937;
         }
-        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-          background-color: #6b6b6b;
+        .chat-container::-webkit-scrollbar-thumb {
+          background-color: #4b5563;
+          border-radius: 6px;
         }
-        .dot-animation {
-          animation: blink 1s infinite;
+        .message-transition {
+          transition: all 0.3s ease-out;
         }
-        .dot-animation.delay-1 {
+        .code-block:hover .copy-btn {
+          opacity: 1;
+        }
+        .copy-btn {
+          opacity: 0;
+          transition: opacity 0.2s ease;
+        }
+        .typing-indicator span {
+          animation: blink 1.4s infinite both;
+        }
+        .typing-indicator span:nth-child(2) {
           animation-delay: 0.2s;
         }
-        .dot-animation.delay-2 {
+        .typing-indicator span:nth-child(3) {
           animation-delay: 0.4s;
         }
         @keyframes blink {

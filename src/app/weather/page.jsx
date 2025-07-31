@@ -2,29 +2,22 @@
 
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import toast, { Toaster } from "react-hot-toast";
 
 export default function WeatherPage() {
-  // State for the selected city in the dropdown (for global search)
   const [selectedCityForSearch, setSelectedCityForSearch] = useState("Kathmandu");
-  // State for weather data of the selected city in the dropdown
   const [searchWeather, setSearchWeather] = useState(null);
-  // State for location data of the selected city in the dropdown
   const [searchLocation, setSearchLocation] = useState(null);
+  const [searchError, setSearchError] = useState(null);
 
-  // State for Kathmandu's current weather data
   const [kathmanduWeather, setKathmanduWeather] = useState(null);
-  // State for Kathmandu's location data
   const [kathmanduLocation, setKathmanduLocation] = useState(null);
-  // State for Kathmandu's local time string
   const [kathmanduLocalTime, setKathmanduLocalTime] = useState("");
+  const [kathmanduError, setKathmanduError] = useState(null);
 
-  // Loading state for any weather fetch operation
-  const [loading, setLoading] = useState(false);
-  // State to track if an initial fetch for the search section has occurred
+  const [loadingKathmandu, setLoadingKathmandu] = useState(false);
+  const [loadingSearch, setLoadingSearch] = useState(false);
   const [hasFetchedSearchInitial, setHasFetchedSearchInitial] = useState(false);
 
-  // List of pre-defined cities for the dropdown
   const cities = [
     "Kathmandu",
     "Pokhara",
@@ -43,8 +36,6 @@ export default function WeatherPage() {
     "Cairo",
   ];
 
-  // Helper function to get a simple weather icon and condition based on temperature
-  // Note: For real-world apps, you'd map Open-Meteo's 'weathercode' to more precise conditions.
   const getWeatherDisplay = (temp) => {
     let icon = "❓";
     let condition = "Unknown";
@@ -71,10 +62,12 @@ export default function WeatherPage() {
     return { icon, condition };
   };
 
-  // Function to fetch weather data for a given city
   const fetchWeatherData = async (cityToFetch, isKathmandu = false) => {
+    const setLoading = isKathmandu ? setLoadingKathmandu : setLoadingSearch;
+    const setError = isKathmandu ? setKathmanduError : setSearchError;
+
     setLoading(true);
-    const toastId = toast.loading(`Fetching weather for ${cityToFetch}...`);
+    setError(null);
 
     try {
       const res = await fetch(`/api/v1/weather?city=${encodeURIComponent(cityToFetch)}`);
@@ -87,28 +80,25 @@ export default function WeatherPage() {
       if (isKathmandu) {
         setKathmanduLocation(data.location);
         setKathmanduWeather(data.weather);
-        // For Kathmandu, also set a continuously updating local time
         const updateLocalTime = () => {
           const date = new Date();
-          // Assuming Kathmandu is UTC+5:45, adjust as needed or fetch timezone from API
           const options = {
-            hour: '2-digit',
-            minute: '2-digit',
-            second: '2-digit',
+            hour: "2-digit",
+            minute: "2-digit",
+            second: "2-digit",
             hour12: true,
-            timeZone: 'Asia/Kathmandu' // Specify Kathmandu's timezone
+            timeZone: "Asia/Kathmandu",
           };
-          setKathmanduLocalTime(date.toLocaleString('en-US', options));
+          setKathmanduLocalTime(date.toLocaleString("en-US", options));
         };
-        updateLocalTime(); // Set initially
-        const intervalId = setInterval(updateLocalTime, 1000); // Update every second
-        return () => clearInterval(intervalId); // Cleanup on unmount
+        updateLocalTime();
+        const intervalId = setInterval(updateLocalTime, 1000);
+        return () => clearInterval(intervalId);
       } else {
         setSearchLocation(data.location);
         setSearchWeather(data.weather);
         setHasFetchedSearchInitial(true);
       }
-      toast.success(`Weather loaded for ${data.location.name}!`, { id: toastId });
     } catch (err) {
       if (isKathmandu) {
         setKathmanduLocation(null);
@@ -118,29 +108,26 @@ export default function WeatherPage() {
         setSearchLocation(null);
         setSearchWeather(null);
       }
-      toast.error(err.message || "Something went wrong!", { id: toastId });
+      setError(err.message || "Something went wrong!");
     } finally {
       setLoading(false);
     }
   };
 
-  // Effect to fetch Kathmandu weather on initial load
   useEffect(() => {
     fetchWeatherData("Kathmandu", true);
   }, []);
 
-  // Effect to fetch weather for the selected city in the search dropdown
   useEffect(() => {
     if (selectedCityForSearch && hasFetchedSearchInitial) {
       fetchWeatherData(selectedCityForSearch, false);
     }
   }, [selectedCityForSearch, hasFetchedSearchInitial]);
 
-
   return (
-    <main className="min-h-screen bg-gray-900 text-gray-200 font-sans p-6 md:p-10 flex flex-col items-center">
+    <main className="min-h-screen text-gray-200 font-sans p-4 sm:p-6 md:p-8 lg:p-10 flex flex-col items-center">
       <motion.h1
-        className="text-4xl md:text-5xl font-bold text-blue-300 mb-10"
+        className="text-3xl sm:text-4xl md:text-5xl font-bold text-blue-300 mb-8 md:mb-12"
         initial={{ opacity: 0, y: -30 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
@@ -148,10 +135,10 @@ export default function WeatherPage() {
         🌦️ Weather Dashboard
       </motion.h1>
 
-      <div className="w-full max-w-5xl grid grid-cols-1 lg:grid-cols-2 gap-12">
-        {/* | Section 1 | Kathmandu Overview */}
-        <section className="bg-gray-800 rounded-xl p-8 shadow-lg relative overflow-hidden">
-          <h2 className="text-2xl md:text-3xl font-semibold text-blue-300 mb-6">
+      <div className="w-full max-w-6xl grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-8 lg:gap-12">
+        {/* Kathmandu Section */}
+        <section className="bg-gray-800/50 backdrop-blur-md rounded-2xl p-6 md:p-8 shadow-xl border border-gray-700/50">
+          <h2 className="text-xl sm:text-2xl md:text-3xl font-semibold text-blue-300 mb-4 md:mb-6">
             📍 Kathmandu, Nepal
           </h2>
 
@@ -163,25 +150,25 @@ export default function WeatherPage() {
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -20 }}
                 transition={{ duration: 0.5 }}
-                className="space-y-4"
+                className="space-y-4 md:space-y-6"
               >
-                <div className="flex items-baseline justify-center space-x-4">
-                  <span className="text-6xl font-bold text-blue-400">
+                <div className="flex items-baseline justify-center space-x-3 md:space-x-4">
+                  <span className="text-5xl md:text-6xl font-bold text-blue-400">
                     {kathmanduWeather.temperature}°C
                   </span>
-                  <span className="text-4xl">
+                  <span className="text-3xl md:text-4xl">
                     {getWeatherDisplay(kathmanduWeather.temperature).icon}
                   </span>
                 </div>
-                <p className="text-xl text-center">
+                <p className="text-lg md:text-xl text-center font-medium">
                   {getWeatherDisplay(kathmanduWeather.temperature).condition}
                 </p>
-                <div className="flex justify-between text-gray-300">
+                <div className="flex flex-wrap justify-between text-gray-300 text-sm md:text-base gap-2">
                   <span>💨 {kathmanduWeather.windspeed} km/h</span>
                   <span>🧭 {kathmanduWeather.winddirection}°</span>
                   <span>🕒 {kathmanduLocalTime}</span>
                 </div>
-                <p className="text-sm text-gray-400 text-center">
+                <p className="text-xs md:text-sm text-gray-400 text-center">
                   Updated: {new Date(kathmanduWeather.time).toLocaleTimeString()}
                 </p>
               </motion.div>
@@ -191,31 +178,32 @@ export default function WeatherPage() {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ duration: 0.3 }}
-                className="text-center text-gray-500 py-10"
+                className="text-center text-gray-500 py-6 md:py-10"
               >
-                {loading ? (
-                  <span className="inline-flex items-center space-x-2">
-                    <span className="spinner h-6 w-6 border-4 border-t-blue-300 rounded-full animate-spin" />
-                    <span>Fetching Kathmandu weather...</span>
-                  </span>
+                {loadingKathmandu ? (
+                  <div className="flex flex-col items-center space-y-4">
+                    <div className="h-8 w-8 border-4 border-t-blue-400 border-gray-600 rounded-full animate-spin" />
+                    <span className="text-sm md:text-base">Fetching Kathmandu weather...</span>
+                  </div>
                 ) : (
-                  "Unable to load Kathmandu’s weather."
+                  <span className="text-sm md:text-base">{kathmanduError || "Unable to load Kathmandu’s weather."}</span>
                 )}
               </motion.div>
             )}
           </AnimatePresence>
         </section>
 
-        {/* | Section 2 | Global City Search */}
-        <section className="bg-gray-800 rounded-xl p-8 shadow-lg">
-          <h2 className="text-2xl md:text-3xl font-semibold text-blue-300 mb-6">
+        {/* Global City Search Section */}
+        <section className="bg-gray-800/50 backdrop-blur-md rounded-2xl p-6 md:p-8 shadow-xl border border-gray-700/50">
+          <h2 className="text-xl sm:text-2xl md:text-3xl font-semibold text-blue-300 mb-4 md:mb-6">
             Search By City
           </h2>
           <div className="space-y-4">
             <select
               value={selectedCityForSearch}
               onChange={(e) => setSelectedCityForSearch(e.target.value)}
-              className="w-full p-3 bg-gray-700 rounded-lg border border-gray-600 focus:border-blue-400 focus:outline-none"
+              className="w-full p-3 bg-gray-700/50 rounded-lg border border-gray-600 focus:border-blue-400 focus:outline-none focus:ring-2 focus:ring-blue-400/50 transition text-gray-200 text-sm md:text-base"
+              aria-label="Select a city"
             >
               {cities.map((c) => (
                 <option key={c} value={c}>
@@ -225,10 +213,17 @@ export default function WeatherPage() {
             </select>
             <button
               onClick={() => fetchWeatherData(selectedCityForSearch)}
-              disabled={loading}
-              className="w-full py-3 bg-blue-500 hover:bg-blue-600 active:bg-blue-700 rounded-lg font-medium transition"
+              disabled={loadingSearch}
+              className="w-full py-3 bg-blue-500 hover:bg-blue-600 active:bg-blue-700 rounded-lg font-medium transition disabled:bg-blue-500/50 disabled:cursor-not-allowed text-sm md:text-base"
             >
-              {loading ? "Loading..." : "Get Weather"}
+              {loadingSearch ? (
+                <span className="flex items-center justify-center space-x-2">
+                  <span className="h-5 w-5 border-2 border-t-white border-gray-300 rounded-full animate-spin" />
+                  <span>Loading...</span>
+                </span>
+              ) : (
+                "Get Weather"
+              )}
             </button>
 
             <AnimatePresence mode="wait">
@@ -239,31 +234,32 @@ export default function WeatherPage() {
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -20 }}
                   transition={{ duration: 0.4 }}
-                  className="mt-6 bg-gray-700 rounded-lg p-6 space-y-4 text-center"
+                  className="mt-6 bg-gray-700/50 rounded-lg p-4 md:p-6 space-y-4 text-center"
                 >
-                  <div className="flex justify-center items-center space-x-2 text-3xl">
+                  <div className="flex justify-center items-center space-x-2 text-lg md:text-2xl">
                     <span>
                       {getWeatherDisplay(searchWeather.temperature).icon}
                     </span>
                     <span className="font-semibold text-blue-300">{searchLocation.name}</span>
                   </div>
-                  <p className="text-4xl font-bold">{searchWeather.temperature}°C</p>
-                  <p className="text-lg">
+                  <p className="text-3xl md:text-4xl font-bold">{searchWeather.temperature}°C</p>
+                  <p className="text-sm md:text-lg">
                     <span className="font-medium">Wind:</span> {searchWeather.windspeed} km/h, {searchWeather.winddirection}°
                   </p>
-                  <p className="text-sm text-gray-400">
+                  <p className="text-xs md:text-sm text-gray-400">
                     As of {new Date(searchWeather.time).toLocaleString()}
                   </p>
                 </motion.div>
               ) : (
-                hasFetchedSearchInitial && !loading && (
+                hasFetchedSearchInitial && !loadingSearch && (
                   <motion.p
                     key="search-none"
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
-                    className="mt-6 text-center text-gray-500"
+                    transition={{ duration: 0.3 }}
+                    className="mt-6 text-center text-gray-500 text-sm md:text-base"
                   >
-                    No data available. Try a different city.
+                    {searchError || "No data available. Try a different city."}
                   </motion.p>
                 )
               )}
