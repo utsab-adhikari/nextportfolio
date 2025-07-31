@@ -170,16 +170,16 @@ const Chatbot = () => {
   };
 
   return (
-    <div className="flex flex-col h-screen max-w-6xl mx-auto bg-slate-950 text-gray-100 font-sans antialiased">
+    <div className="flex flex-col min-h-screen max-w-full mx-auto bg-slate-950 text-gray-100 font-sans antialiased">
       {/* Header */}
-      <header className="bg-gray-800/80 backdrop-blur-sm border-b border-gray-700 p-4 flex items-center justify-between sticky top-0 z-10">
-        <div className="flex items-center space-x-3">
-          <div className="w-10 h-10 rounded-full bg-gradient-to-br from-green-500 to-blue-500 flex items-center justify-center">
-            <i className="fas fa-robot text-white"></i>
+      <header className="bg-gray-800/80 backdrop-blur-sm border-b border-gray-700 p-3 sm:p-4 flex items-center justify-between sticky top-0 z-10">
+        <div className="flex items-center space-x-2 sm:space-x-3">
+          <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-gradient-to-br from-green-500 to-blue-500 flex items-center justify-center">
+            <i className="fas fa-robot text-white text-sm sm:text-base"></i>
           </div>
           <div>
-            <h1 className="font-bold text-lg">UtsabBot</h1>
-            <p className="text-xs text-gray-400">AI Assistant</p>
+            <h1 className="font-bold text-base sm:text-lg">UtsabBot</h1>
+            <p className="text-xs text-gray-400 hidden sm:block">AI Assistant</p>
           </div>
         </div>
         <Dialog>
@@ -190,13 +190,13 @@ const Chatbot = () => {
               className="text-gray-400 hover:text-green-400 transition-colors p-2 rounded-full"
               title="About UtsabBot"
             >
-              <IoInformationCircleOutline className="h-5 w-5" />
+              <IoInformationCircleOutline className="h-5 w-5 sm:h-6 sm:w-6" />
             </Button>
           </DialogTrigger>
-          <DialogContent className="sm:max-w-md bg-gray-800 text-gray-300 border border-gray-700 rounded-xl">
+          <DialogContent className="w-[90vw] max-w-md bg-gray-800 text-gray-300 border border-gray-700 rounded-xl p-4 sm:p-6">
             <DialogHeader>
               <div className="flex justify-between items-center">
-                <DialogTitle className="text-xl font-bold text-green-400">
+                <DialogTitle className="text-lg sm:text-xl font-bold text-green-400">
                   About UtsabBot
                 </DialogTitle>
                 <Button
@@ -205,15 +205,15 @@ const Chatbot = () => {
                   className="text-gray-400 hover:text-white"
                   onClick={() => document.getElementById("close-modal")?.click()}
                 >
-                  <i className="fas fa-times"></i>
+                  <i className="fas fa-times text-sm sm:text-base"></i>
                 </Button>
               </div>
-              <DialogDescription className="text-sm text-gray-300">
+              <DialogDescription className="text-xs sm:text-sm text-gray-300">
                 This AI assistant is designed to provide information about Utsab, including his skills, projects, and professional background.
               </DialogDescription>
             </DialogHeader>
-            <div className="space-y-4 text-sm text-gray-300">
-              <div className="bg-gray-900 rounded-lg p-4">
+            <div className="space-y-3 text-xs sm:text-sm text-gray-300">
+              <div className="bg-gray-900 rounded-lg p-3 sm:p-4">
                 <h3 className="font-medium text-green-400 mb-2">Capabilities</h3>
                 <ul className="list-disc pl-5 space-y-1">
                   <li>Answer questions about Utsab's experience</li>
@@ -232,7 +232,7 @@ const Chatbot = () => {
       </header>
 
       {/* Chat Container */}
-      <div className="flex-1 overflow-y-auto p-4 space-y-4 chat-container">
+      <div className="flex-1 overflow-y-auto max-w-[95%] p-2 sm:p-4 space-y-3 sm:space-y-4 chat-container">
         {chatHistory.map((chat, index) => (
           <div
             key={index}
@@ -241,7 +241,7 @@ const Chatbot = () => {
             }`}
           >
             <div
-              className={`max-w-[85%] md:max-w-[75%] px-4 py-3 rounded-xl ${
+              className={`max-w-[90%] xs:max-w-[85%] sm:max-w-[75%] px-3 sm:px-4 py-2 sm:py-3 rounded-xl ${
                 chat.sender === "user"
                   ? "bg-gradient-to-r from-green-600 to-green-700 text-white"
                   : "bg-gray-800 border border-gray-700"
@@ -255,13 +255,13 @@ const Chatbot = () => {
                 {chat.sender === "user" ? (
                   <>
                     <span className="text-xs font-medium text-green-100">You</span>
-                    <div className="w-6 h-6 rounded-full bg-white/20 flex items-center justify-center">
+                    <div className="w-5 h-5 sm:w-6 sm:h-6 rounded-full bg-white/20 flex items-center justify-center">
                       <i className="fas fa-user text-xs"></i>
                     </div>
                   </>
                 ) : (
                   <>
-                    <div className="w-6 h-6 rounded-full bg-gradient-to-br from-green-500 to-blue-500 flex items-center justify-center">
+                    <div className="w-5 h-5 sm:w-6 sm:h-6 rounded-full bg-gradient-to-br from-green-500 to-blue-500 flex items-center justify-center">
                       <i className="fas fa-robot text-xs text-white"></i>
                     </div>
                     <span className="text-xs font-medium text-gray-300">UtsabBot</span>
@@ -271,7 +271,7 @@ const Chatbot = () => {
               {chat.sender === "agent" ? (
                 <div className="space-y-2">{renderAgentMessage(chat.text)}</div>
               ) : (
-                <p className="text-sm leading-relaxed">{chat.text}</p>
+                <p className="text-xs sm:text-sm leading-relaxed">{chat.text}</p>
               )}
             </div>
           </div>
@@ -279,12 +279,12 @@ const Chatbot = () => {
 
         {loading && (
           <div className="flex justify-start">
-            <div className="max-w-[85%] md:max-w-[75%] px-4 py-3 rounded-xl bg-gray-800 border border-gray-700">
+            <div className="max-w-[90%] xs:max-w-[85%] sm:max-w-[75%] px-3 sm:px-4 py-2 sm:py-3 rounded-xl bg-gray-800 border border-gray-700">
               <div className="flex items-center space-x-2">
-                <div className="w-6 h-6 rounded-full bg-gradient-to-br from-green-500 to-blue-500 flex items-center justify-center">
+                <div className="w-5 h-5 sm:w-6 sm:h-6 rounded-full bg-gradient-to-br from-green-500 to-blue-500 flex items-center justify-center">
                   <i className="fas fa-robot text-xs text-white"></i>
                 </div>
-                <div className="typing-indicator text-sm text-gray-400">
+                <div className="typing-indicator text-xs sm:text-sm text-gray-400">
                   <span>.</span>
                   <span>.</span>
                   <span>.</span>
@@ -298,10 +298,10 @@ const Chatbot = () => {
       </div>
 
       {/* Input Area */}
-      <div className="sticky bottom-0 bg-gray-900/80 backdrop-blur-sm border-t border-gray-700 p-4">
+      <div className="sticky bottom-0 bg-gray-900/80 backdrop-blur-sm border-t border-gray-700 p-3 sm:p-4">
         <form
           onSubmit={handleSubmit}
-          className="flex items-center space-x-2 max-w-3xl mx-auto"
+          className="flex items-center space-x-2 max-w-full sm:max-w-3xl mx-auto"
         >
           <div className="flex-1 relative">
             <input
@@ -309,7 +309,7 @@ const Chatbot = () => {
               value={message}
               onChange={(e) => setMessage(e.target.value)}
               placeholder="Ask me anything about Utsab..."
-              className="w-full bg-gray-800 border border-gray-700 rounded-full py-3 px-4 text-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
+              className="w-full bg-gray-800 border border-gray-700 rounded-full py-2 sm:py-3 px-3 sm:px-4 text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
               disabled={loading}
               autoComplete="off"
             />
@@ -320,13 +320,13 @@ const Chatbot = () => {
                 message.trim() ? "" : "hidden"
               }`}
             >
-              <i className="fas fa-times"></i>
+              <i className="fas fa-times text-sm"></i>
             </button>
           </div>
           <Button
             type="submit"
             disabled={loading || !message.trim()}
-            className="bg-gradient-to-r from-green-600 to-blue-600 hover:from-green-700 hover:to-blue-700 text-white rounded-full w-12 h-12 flex items-center justify-center transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+            className="bg-gradient-to-r from-green-600 to-blue-600 hover:from-green-700 hover:to-blue-700 text-white rounded-full w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
           >
             <IoSend className="h-4 w-4" />
           </Button>
@@ -335,37 +335,6 @@ const Chatbot = () => {
           UtsabBot may produce inaccurate information. Last updated: June 2023.
         </div>
       </div>
-
-      {/* DeepSite Footer */}
-      <p
-        className="fixed left-2 bottom-2 text-xs text-white bg-black/80 rounded-lg px-2 py-1 z-10"
-      >
-        Made with{" "}
-        <a href="https://enzostvs-deepsite.hf.space" target="_blank" rel="noopener noreferrer">
-          <img
-            src="https://enzostvs-deepsite.hf.space/logo.svg"
-            alt="DeepSite Logo"
-            className="inline-block w-4 h-4 mx-1 align-middle brightness-0 invert"
-          />
-        </a>
-        <a
-          href="https://enzostvs-deepsite.hf.space"
-          className="text-white underline"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          DeepSite
-        </a>{" "}
-        - 🧬{" "}
-        <a
-          href="https://enzostvs-deepsite inteligência.hf.space?remix=utsab-ad01/chati-bot"
-          className="text-white underline"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Remix
-        </a>
-      </p>
 
       <style jsx>{`
         .chat-container {
