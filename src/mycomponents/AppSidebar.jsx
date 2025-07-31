@@ -131,6 +131,7 @@ export function AppSidebar() {
                 status === "authenticated" &&
                 session &&
                 session.user.role === "admin" && (
+                  <>
                   <SidebarMenuItem>
                     <SidebarMenuButton asChild>
                       <Link
@@ -142,6 +143,19 @@ export function AppSidebar() {
                       </Link>
                     </SidebarMenuButton>
                   </SidebarMenuItem>
+                  <SidebarMenuItem>
+                    <SidebarMenuButton asChild>
+                      <Link
+                        href={`/plans`}
+                        className="flex items-center gap-3 px-4 py-2 rounded-md text-white hover:bg-stone-600 hover:text-white transition"
+                      >
+                        <IoAnalyticsOutline /> Plans
+                        <span></span>
+                      </Link>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                  </>
+                  
                 )}
             </SidebarMenu>
           </SidebarGroupContent>
