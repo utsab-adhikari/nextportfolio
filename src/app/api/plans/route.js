@@ -1,4 +1,3 @@
-
 import Plan from "@/app/models/Plan.model";
 import connectDB from "@/db/ConnectDB";
 import { NextResponse } from "next/server";
@@ -6,7 +5,7 @@ import { NextResponse } from "next/server";
 export async function GET() {
   try {
     await connectDB();
-    const plans = await Plan.find().sort({ createdAt: -1 }).lean();
+    const plans = await Plan.find().sort({ createdAt: -1 });
     return NextResponse.json({ success: true, data: plans }, { status: 200 });
   } catch (error) {
     return NextResponse.json(

@@ -54,9 +54,8 @@ export default function TextEditor({ value, onChange }) {
       <div
         ref={editorRef}
         contentEditable
-        onInput={handleInput}
+        onBlur={handleInput}
         className="min-h-[120px] bg-slate-950 border border-slate-700 p-2 rounded text-gray-100 focus:outline-none focus:ring-2 focus:ring-emerald-500"
-        dangerouslySetInnerHTML={{ __html: content }}
       />
     </div>
   );

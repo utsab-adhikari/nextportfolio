@@ -7,22 +7,34 @@ import axios from "axios";
 export default function PlansPage() {
   const [plans, setPlans] = useState([]);
   const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(true); // ✅ NEW: loader state
 
   useEffect(() => {
     const fetchPlans = async () => {
       try {
-        const response = await axios.get("/api/plans", {
-          headers: { "Cache-Control": "no-store" },
+        setLoading(true); // ✅ start loading
+        const { data } = await axios.get("/api/plans", {
+          withCredentials: true,
         });
-        setPlans(response.data.data);
+
+        if (data?.success && Array.isArray(data.data)) {
+          setPlans(data.data);
+        } else {
+          setPlans([]);
+        }
         setError(null);
       } catch (err) {
+        console.error("❌ Error fetching plans:", err);
         setError("⚠️ Failed to load plans");
+      } finally {
+        setLoading(false); // ✅ stop loading
       }
     };
+
     fetchPlans();
   }, []);
 
+  // ❌ Error screen
   if (error) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-slate-950 text-red-400 text-lg">
@@ -39,7 +51,6 @@ export default function PlansPage() {
           📋 Your Plans
         </h1>
 
-        {/* Create New Plan Button */}
         <div className="flex justify-center mb-6">
           <Link
             href="/plans/new"
@@ -49,8 +60,23 @@ export default function PlansPage() {
           </Link>
         </div>
 
-        {/* Plan List */}
-        <PlanList plans={plans} />
+        {/* ✅ Loader */}
+        {loading ? (
+          <div className="flex justify-center py-20">
+            <div className="w-10 h-10 border-4 border-emerald-500 border-t-transparent rounded-full animate-spin"></div>
+          </div>
+        ) : plans.length === 0 ? (
+          // ✅ Empty state
+          <div className="text-center text-gray-400 mt-12">
+            <p className="text-lg">No plans yet! 🚀</p>
+            <p className="text-sm mt-1">
+              Click <span className="text-emerald-400">“Create New Plan”</span> to get started.
+            </p>
+          </div>
+        ) : (
+          // ✅ Plan list
+          <PlanList plans={plans} />
+        )}
       </div>
     </div>
   );
