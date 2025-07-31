@@ -332,7 +332,7 @@ const Chatbot = () => {
           </Button>
         </form>
         <div className="text-xs text-gray-500 mt-2 text-center">
-          UtsabBot may produce inaccurate information. Last updated: June 2023.
+          UtsabBot may produce inaccurate information.
         </div>
       </div>
 
