@@ -232,7 +232,7 @@ const Chatbot = () => {
       </header>
 
       {/* Chat Container */}
-      <div className="flex-1 overflow-y-auto max-w-[95%] p-2 sm:p-4 space-y-3 sm:space-y-4 chat-container">
+      <div className="flex-1 overflow-y-auto p-2 sm:p-4 space-y-3 sm:space-y-4 chat-container">
         {chatHistory.map((chat, index) => (
           <div
             key={index}
@@ -269,7 +269,7 @@ const Chatbot = () => {
                 )}
               </div>
               {chat.sender === "agent" ? (
-                <div className="space-y-2">{renderAgentMessage(chat.text)}</div>
+                <div className="space-y-2 max-w-[96%]">{renderAgentMessage(chat.text)}</div>
               ) : (
                 <p className="text-xs sm:text-sm leading-relaxed">{chat.text}</p>
               )}
