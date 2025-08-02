@@ -86,7 +86,7 @@ const adminItems = [
   },
   {
     title: "Applications",
-    url: "/hireme/application",
+    url: "/hireme/applications",
     icon: SiGoogledocs,
     description: "Hireme applications",
   },
