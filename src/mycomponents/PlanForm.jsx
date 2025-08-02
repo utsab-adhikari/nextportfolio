@@ -1,8 +1,8 @@
 "use client";
-
 import { useState } from "react";
 import TextEditor from "./TextEditor";
 import { useRouter } from "next/navigation";
+import { FiSave } from "react-icons/fi";
 
 export default function PlanForm({ initialData = {} }) {
   const router = useRouter();
@@ -77,10 +77,14 @@ export default function PlanForm({ initialData = {} }) {
   return (
     <form
       onSubmit={handleSubmit}
-      className="space-y-6 max-w-2xl mx-auto text-gray-100"
+      className="space-y-6 max-w-2xl mx-auto p-4 bg-slate-950 text-gray-100"
     >
       {/* Error Message */}
-      {error && <div className="text-red-400 text-sm">{error}</div>}
+      {error && (
+        <div className="text-red-400 text-sm bg-red-900/50 p-3 rounded-lg">
+          {error}
+        </div>
+      )}
 
       {/* Title */}
       <div>
@@ -92,7 +96,7 @@ export default function PlanForm({ initialData = {} }) {
           value={formData.title}
           onChange={(e) => setFormData({ ...formData, title: e.target.value })}
           required
-          className="w-full bg-slate-900 border border-slate-700 p-2 rounded focus:outline-none focus:ring-2 focus:ring-emerald-500 placeholder-gray-400"
+          className="w-full bg-slate-800 border border-slate-700 p-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder-gray-400 text-gray-100"
           placeholder="Enter plan title"
         />
       </div>
@@ -108,7 +112,7 @@ export default function PlanForm({ initialData = {} }) {
             setFormData({ ...formData, description: e.target.value })
           }
           rows="4"
-          className="w-full bg-slate-900 border border-slate-700 p-2 rounded focus:outline-none focus:ring-2 focus:ring-emerald-500 placeholder-gray-400"
+          className="w-full bg-slate-800 border border-slate-700 p-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder-gray-400 text-gray-100"
           placeholder="Enter plan description"
         />
       </div>
@@ -118,10 +122,12 @@ export default function PlanForm({ initialData = {} }) {
         <label className="block text-sm font-medium text-gray-300 mb-1">
           Progress
         </label>
-        <TextEditor
-          value={formData.progress}
-          onChange={(value) => setFormData({ ...formData, progress: value })}
-        />
+        <div className="bg-slate-800 border border-slate-700 rounded-lg p-2">
+          <TextEditor
+            value={formData.progress}
+            onChange={(value) => setFormData({ ...formData, progress: value })}
+          />
+        </div>
       </div>
 
       {/* Category */}
@@ -132,7 +138,7 @@ export default function PlanForm({ initialData = {} }) {
         <select
           value={formData.category}
           onChange={(e) => setFormData({ ...formData, category: e.target.value })}
-          className="w-full bg-slate-900 border border-slate-700 p-2 rounded focus:outline-none focus:ring-2 focus:ring-emerald-500"
+          className="w-full bg-slate-800 border border-slate-700 p-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-100"
         >
           <option value="Day">Day</option>
           <option value="Month">Month</option>
@@ -148,7 +154,7 @@ export default function PlanForm({ initialData = {} }) {
         <select
           value={formData.status}
           onChange={(e) => setFormData({ ...formData, status: e.target.value })}
-          className="w-full bg-slate-900 border border-slate-700 p-2 rounded focus:outline-none focus:ring-2 focus:ring-emerald-500"
+          className="w-full bg-slate-800 border border-slate-700 p-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-100"
         >
           <option value="pending">Pending</option>
           <option value="started">Started</option>
@@ -159,7 +165,7 @@ export default function PlanForm({ initialData = {} }) {
       {/* Last Date */}
       <div>
         <label className="block text-sm font-medium text-gray-300 mb-1">
-          Last Date
+          Due Date
         </label>
         <input
           type="date"
@@ -167,27 +173,27 @@ export default function PlanForm({ initialData = {} }) {
           onChange={(e) =>
             setFormData({ ...formData, lastDate: e.target.value })
           }
-          className="w-full bg-slate-900 border border-slate-700 p-2 rounded focus:outline-none focus:ring-2 focus:ring-emerald-500"
+          className="w-full bg-slate-800 border border-slate-700 p-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-100"
         />
       </div>
 
       {/* Tasks Section */}
       <div>
-        <h3 className="text-lg font-medium text-gray-200 mb-2">Tasks</h3>
+        <h3 className="text-lg font-semibold text-gray-200 mb-3">Tasks</h3>
 
         {formData.tasks.map((task, index) => (
           <div
             key={index}
-            className="border border-slate-700 p-4 mb-4 rounded bg-slate-800"
+            className="border border-slate-700 p-4 mb-4 rounded-lg bg-slate-800"
           >
-            <div className="flex items-center gap-2 mb-2">
+            <div className="flex items-center gap-3 mb-3">
               <input
                 type="checkbox"
                 checked={task.completed}
                 onChange={(e) =>
                   updateTask(index, "completed", e.target.checked)
                 }
-                className="h-5 w-5 accent-emerald-500"
+                className="h-5 w-5 text-blue-500 rounded border-slate-600 focus:ring-blue-500"
               />
               <input
                 type="text"
@@ -195,36 +201,38 @@ export default function PlanForm({ initialData = {} }) {
                 onChange={(e) => updateTask(index, "name", e.target.value)}
                 placeholder="Task name"
                 required
-                className="flex-1 bg-slate-900 border border-slate-700 p-2 rounded focus:outline-none focus:ring-2 focus:ring-emerald-500 placeholder-gray-400"
+                className="flex-1 bg-slate-900 border border-slate-700 p-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder-gray-400 text-gray-100"
               />
               <button
                 type="button"
                 onClick={() => deleteTask(index)}
-                className="text-red-400 hover:text-red-500 text-sm font-medium"
+                className="text-red-400 hover:text-red-500 text-sm font-medium transition"
               >
                 Delete
               </button>
             </div>
-            <TextEditor
-              value={task.notes}
-              onChange={(value) => updateTask(index, "notes", value)}
-            />
+            <div className="bg-slate-900 border border-slate-700 rounded-lg p-2">
+              <TextEditor
+                value={task.notes}
+                onChange={(value) => updateTask(index, "notes", value)}
+              />
+            </div>
           </div>
         ))}
 
         {/* Add New Task */}
-        <div className="flex gap-2">
+        <div className="flex gap-3">
           <input
             type="text"
             value={newTask.name}
             onChange={(e) => setNewTask({ ...newTask, name: e.target.value })}
             placeholder="New task name"
-            className="flex-1 bg-slate-900 border border-slate-700 p-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder-gray-400"
+            className="flex-1 bg-slate-800 border border-slate-700 p-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder-gray-400 text-gray-100"
           />
           <button
             type="button"
             onClick={addTask}
-            className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded"
+            className="bg-blue-700 hover:bg-blue-800 text-white px-4 py-2 rounded-lg font-medium transition"
           >
             Add Task
           </button>
@@ -234,9 +242,10 @@ export default function PlanForm({ initialData = {} }) {
       {/* Save Button */}
       <button
         type="submit"
-        className="w-full bg-emerald-600 hover:bg-emerald-700 text-white px-4 py-2 rounded font-medium text-lg transition"
+        className="w-full bg-blue-700 hover:bg-blue-800 text-white px-4 py-2 rounded-lg font-medium text-lg transition flex items-center justify-center gap-2"
       >
-        💾 Save Plan
+        <FiSave />
+        Save Plan
       </button>
     </form>
   );

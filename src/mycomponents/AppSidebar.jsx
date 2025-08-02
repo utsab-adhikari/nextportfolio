@@ -1,5 +1,4 @@
-import { Calendar, Home, Inbox, LogIn, Search, Settings } from "lucide-react";
-
+import { Home, Inbox, Calendar } from "lucide-react";
 import {
   Sidebar,
   SidebarContent,
@@ -20,147 +19,289 @@ import { signIn, signOut, useSession } from "next-auth/react";
 import { LuLogOut } from "react-icons/lu";
 import { IoAnalyticsOutline } from "react-icons/io5";
 import Link from "next/link";
-// import { signIn, useSession } from "next-auth/react";
+import { Skeleton } from "@/components/ui/skeleton";
+import { FiUser } from "react-icons/fi";
+import { motion, AnimatePresence } from "framer-motion";
+import { useState, useEffect } from "react";
+import { SiGoogledocs } from "react-icons/si";
 
-// Menu items.
-const items = [
+// Menu items with additional descriptions
+const navItems = [
   {
     title: "Home",
     url: "/",
     icon: Home,
+    description: "Main landing page",
   },
   {
     title: "News",
     url: "/news",
     icon: Inbox,
+    description: "Latest updates",
   },
   {
     title: "Rashifal",
     url: "/rashifal",
     icon: FaOm,
+    description: "Horoscope insights",
   },
   {
     title: "Chatbot",
     url: "/chatbot",
     icon: TbMessageChatbot,
+    description: "AI conversation",
   },
   {
     title: "Skills",
     url: "/skills",
     icon: GiSkills,
+    description: "My capabilities",
   },
   {
     title: "About",
     url: "/about",
     icon: FaExclamationCircle,
+    description: "About this portfolio",
+  },
+  {
+    title: "Astro",
+    url: "/astro",
+    icon: FaStroopwafel,
+    description: "Astronomy content",
+  },
+];
+
+const adminItems = [
+  {
+    title: "Tracker",
+    url: "/tracker",
+    icon: IoAnalyticsOutline,
+    description: "Analytics dashboard",
+  },
+  {
+    title: "Plans",
+    url: "/plans",
+    icon: Calendar,
+    description: "Roadmap & features",
+  },
+  {
+    title: "Applications",
+    url: "/hireme/application",
+    icon: SiGoogledocs,
+    description: "Hireme applications",
   },
 ];
 
 export function AppSidebar() {
   const { toggleSidebar } = useSidebar();
   const { data: session, status } = useSession();
+  const isLoading = status === "loading";
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    setIsMounted(true);
+    return () => setIsMounted(false);
+  }, []);
 
   return (
     <Sidebar>
-      <SidebarContent className="bg-stone-900 backdrop-blur-lg text-white">
-        <SidebarGroup>
-          <div className="absolute p-3 flex justify-end items-center w-full block md:hidden">
-            <button
-              onClick={() => toggleSidebar()}
-              className="text-gray-300 hover:text-white transition"
-            >
-              <IoMdClose size={24} />
-            </button>
+      <SidebarContent className="bg-slate-900 border-r border-slate-800 backdrop-blur-lg text-slate-200 flex flex-col h-screen">
+        {/* Mobile close button */}
+        <div className="absolute p-3 flex justify-end items-center w-full block md:hidden">
+          <button
+            onClick={toggleSidebar}
+            className="text-slate-400 hover:text-slate-200 transition rounded-lg bg-slate-800 p-1.5 z-10"
+            aria-label="Close sidebar"
+          >
+            <IoMdClose size={18} />
+          </button>
+        </div>
+
+        <div className="flex flex-col flex-1 overflow-hidden pt-12 md:pt-0">
+          {/* Brand header */}
+          <div className="p-4 mb-2 border-b border-slate-800">
+            <h1 className="text-xl font-bold bg-gradient-to-r from-blue-400 to-cyan-300 bg-clip-text text-transparent">
+              Utsab Adhikari
+            </h1>
+            <p className="text-xs text-slate-500 mt-1">Developer Portfolio</p>
           </div>
-          <SidebarGroupLabel className="text-stone-700 font-semibold">
-            Utsab Adhikari's Portfolio
-          </SidebarGroupLabel>
-          <SidebarGroupContent>
-            <SidebarMenu>
-              {items.map((item) => (
-                <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton asChild>
-                    <a
-                      href={item.url}
-                      className="flex items-center gap-3 px-4 py-2 rounded-md text-white hover:bg-stone-600 hover:text-white transition"
+
+          {/* Scrollable content with custom scrollbar */}
+          <div className="flex-1 overflow-y-auto custom-scrollbar pb-4">
+            {/* Main navigation */}
+            <SidebarGroup className="mt-2">
+              <SidebarGroupLabel className="text-slate-600 text-xs uppercase tracking-wider px-4">
+                Navigation
+              </SidebarGroupLabel>
+              <SidebarGroupContent>
+                <SidebarMenu>
+                  {navItems.map((item) => (
+                    <SidebarMenuItem key={item.title}>
+                      <SidebarMenuButton asChild>
+                        <Link
+                          href={item.url}
+                          className="flex items-center gap-3 px-4 py-3 rounded-lg text-slate-300 hover:bg-slate-800 hover:text-white transition group"
+                          onClick={toggleSidebar}
+                        >
+                          <item.icon className="w-5 h-5 text-cyan-400 transition-transform group-hover:scale-110" />
+                          <div className="flex-1">
+                            <span className="font-medium">{item.title}</span>
+                            <p className="text-xs text-slate-500 mt-0.5">
+                              {item.description}
+                            </p>
+                          </div>
+                        </Link>
+                      </SidebarMenuButton>
+                    </SidebarMenuItem>
+                  ))}
+                </SidebarMenu>
+              </SidebarGroupContent>
+            </SidebarGroup>
+
+            {/* Admin section */}
+            {session?.user?.role === "admin" && (
+              <SidebarGroup className="mt-4">
+                <SidebarGroupLabel className="text-slate-600 text-xs uppercase tracking-wider px-4">
+                  Admin Tools
+                </SidebarGroupLabel>
+                <SidebarGroupContent>
+                  <SidebarMenu>
+                    {adminItems.map((item) => (
+                      <SidebarMenuItem key={item.title}>
+                        <SidebarMenuButton asChild>
+                          <Link
+                            href={item.url}
+                            className="flex items-center gap-3 px-4 py-3 rounded-lg text-slate-300 hover:bg-slate-800 hover:text-white transition group"
+                            onClick={toggleSidebar}
+                          >
+                            <item.icon className="w-5 h-5 text-violet-400 transition-transform group-hover:scale-110" />
+                            <div className="flex-1">
+                              <span className="font-medium">{item.title}</span>
+                              <p className="text-xs text-slate-500 mt-0.5">
+                                {item.description}
+                              </p>
+                            </div>
+                          </Link>
+                        </SidebarMenuButton>
+                      </SidebarMenuItem>
+                    ))}
+                  </SidebarMenu>
+                </SidebarGroupContent>
+              </SidebarGroup>
+            )}
+          </div>
+
+          {/* Fixed profile section */}
+          <div className="mt-auto p-4 border-t border-slate-800">
+            <AnimatePresence>
+              {isLoading ? (
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  className="flex items-center gap-3"
+                >
+                  <Skeleton className="h-10 w-10 rounded-full bg-slate-800" />
+                  <div className="space-y-1">
+                    <Skeleton className="h-4 w-32 bg-slate-800" />
+                    <Skeleton className="h-3 w-24 bg-slate-800" />
+                  </div>
+                </motion.div>
+              ) : session ? (
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className="flex flex-col gap-3"
+                >
+                  <div className="flex items-center gap-3">
+                    {session.user?.image ? (
+                      <div className="relative">
+                        <div className="absolute inset-0 bg-gradient-to-br from-cyan-400 to-blue-500 rounded-full opacity-0 group-hover:opacity-100 transition-opacity blur-sm" />
+                        <img
+                          src={session.user.image}
+                          alt={session.user.name || "User avatar"}
+                          width={40}
+                          height={40}
+                          className="rounded-full border border-slate-700 relative z-1"
+                        />
+                      </div>
+                    ) : (
+                      <div className="bg-slate-800 border border-slate-700 rounded-full w-10 h-10 flex items-center justify-center">
+                        <FiUser className="text-slate-400" size={18} />
+                      </div>
+                    )}
+                    <div>
+                      <p className="font-medium text-sm text-slate-200 truncate max-w-[150px]">
+                        {session.user?.name || "User"}
+                      </p>
+                      <p className="text-xs text-slate-500">
+                        {session.user?.email}
+                      </p>
+                    </div>
+                  </div>
+                  <button
+                    onClick={() => signOut()}
+                    className="flex items-center justify-center gap-2 w-full mt-2 px-4 py-2.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white border border-slate-700 transition group"
+                  >
+                    <motion.span
+                      whileHover={{ x: -3 }}
+                      className="flex items-center gap-2"
                     >
-                      <item.icon className="w-5 h-5" />
-                      <span>{item.title}</span>
-                    </a>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
-              ))}
-               <SidebarMenuItem>
-                  <SidebarMenuButton asChild>
-                    <a
-                      href="/astro"
-                      className="flex items-center gap-3 px-4 py-2 rounded-md text-white hover:bg-stone-600 hover:text-white transition"
-                    >
-                      <FaStroopwafel className="w-5 h-5" />
-                      <span>Astro</span>
-                    </a>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
-              {status && status === "unauthenticated" && (
-                <SidebarMenuItem>
-                  <SidebarMenuButton asChild>
-                    <button
-                      onClick={() => signIn("google", { callbackUrl: "/" })}
-                      className="flex cursor-pointer items-center gap-3 px-4 py-2 rounded-md text-white hover:bg-stone-600 hover:text-white transition"
-                    >
-                      <FaGoogle /> Login
-                      <span></span>
-                    </button>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
+                      <LuLogOut size={16} />
+                      <span>Sign Out</span>
+                    </motion.span>
+                  </button>
+                </motion.div>
+              ) : (
+                <motion.button
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  onClick={() => signIn("google")}
+                  className="flex items-center justify-center gap-3 w-full px-4 py-3 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white border border-slate-700 transition group"
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                >
+                  <FaGoogle className="text-blue-400 group-hover:animate-pulse" />
+                  <span>Sign in with Google</span>
+                </motion.button>
               )}
-              {status && status === "authenticated" && (
-                <SidebarMenuItem>
-                  <SidebarMenuButton asChild>
-                    <button
-                      onClick={() => signOut()}
-                      className="flex items-center gap-3 px-4 py-2 rounded-md text-white hover:bg-stone-600 hover:text-white transition"
-                    >
-                      <LuLogOut /> Log Out
-                      <span></span>
-                    </button>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
-              )}
-              {status &&
-                status === "authenticated" &&
-                session &&
-                session.user.role === "admin" && (
-                  <>
-                  <SidebarMenuItem>
-                    <SidebarMenuButton asChild>
-                      <Link
-                        href={`/tracker`}
-                        className="flex items-center gap-3 px-4 py-2 rounded-md text-white hover:bg-stone-600 hover:text-white transition"
-                      >
-                        <IoAnalyticsOutline /> Tracker
-                        <span></span>
-                      </Link>
-                    </SidebarMenuButton>
-                  </SidebarMenuItem>
-                  <SidebarMenuItem>
-                    <SidebarMenuButton asChild>
-                      <Link
-                        href={`/plans`}
-                        className="flex items-center gap-3 px-4 py-2 rounded-md text-white hover:bg-stone-600 hover:text-white transition"
-                      >
-                        <IoAnalyticsOutline /> Plans
-                        <span></span>
-                      </Link>
-                    </SidebarMenuButton>
-                  </SidebarMenuItem>
-                  </>
-                  
-                )}
-            </SidebarMenu>
-          </SidebarGroupContent>
-        </SidebarGroup>
+            </AnimatePresence>
+          </div>
+        </div>
       </SidebarContent>
+
+      <style jsx global>{`
+        .custom-scrollbar {
+          scrollbar-width: thin;
+          scrollbar-color: #334155 transparent;
+        }
+        
+        .custom-scrollbar::-webkit-scrollbar {
+          width: 6px;
+          height: 6px;
+        }
+        
+        .custom-scrollbar::-webkit-scrollbar-track {
+          background: transparent;
+          border-radius: 10px;
+          margin: 4px 0;
+        }
+        
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+          background-color: #334155;
+          border-radius: 10px;
+          border: 2px solid transparent;
+          background-clip: content-box;
+          transition: background-color 0.3s;
+        }
+        
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+          background-color: #475569;
+        }
+        
+        .custom-scrollbar::-webkit-scrollbar-corner {
+          background: transparent;
+        }
+      `}</style>
     </Sidebar>
   );
 }
