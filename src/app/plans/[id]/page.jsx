@@ -1,9 +1,9 @@
 "use client";
 
-import PlanForm from "@/mycomponents/PlanForm";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { useParams } from "next/navigation";
+import PlanForm from "@/components/trackerandplans/PlanForm";
 
 export default function EditPlanPage() {
   const [plan, setPlan] = useState(null);
