@@ -1,5 +1,7 @@
 "use client"
-import PlanForm from "@/mycomponents/PlanForm";
+
+import PlanForm from "@/components/trackerandplans/PlanForm";
+
 
 export default function NewPlanPage() {
   return (

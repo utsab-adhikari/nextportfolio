@@ -1,8 +1,8 @@
 "use client";
-import PlanList from "@/mycomponents/PlanList";
 import Link from "next/link";
 import { useState, useEffect } from "react";
 import axios from "axios";
+import PlanList from "@/components/trackerandplans/PlanList";
 
 export default function PlansPage() {
   const [plans, setPlans] = useState([]);
