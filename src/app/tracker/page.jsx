@@ -1,6 +1,6 @@
 "use client";
 
-import Loader from "@/mycomponents/Loader";
+import Loader from "@/components/Loader";
 import { useSession } from "next-auth/react";
 import React, { useState, useRef, useEffect, useCallback } from "react";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
