@@ -21,13 +21,13 @@ const NewsNavbar = ({ pathname }) => {
 
   return (
     <nav 
-      className="sticky top-0 z-50 bg-gradient-to-r from-indigo-900 to-indigo-700 shadow-lg"
+      className="sticky top-0 z-30 bg-gradient-to-r from-indigo-900 to-indigo-700 shadow-lg"
       aria-label="News Navigation"
     >
       <div className="max-w-7xl mx-auto px-2 sm:px-4">
         <div className="relative flex items-center justify-between h-16">
           {/* Mobile dropdown button (hidden on desktop) */}
-          <div className="md:hidden absolute inset-y-0 left-0 flex items-center">
+          <div className="md:hidden absolute inset-y-0 right-0 flex items-center">
             <select
               className="block w-full bg-indigo-800 text-white border-0 py-2 pl-3 pr-10 rounded-lg focus:ring-2 focus:ring-white"
               value={pathname}

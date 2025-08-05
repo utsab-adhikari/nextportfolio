@@ -76,7 +76,7 @@ export default function Layout({ children }) {
             <SidebarController />
             <div className="flex flex-1 w-full">
               <AppSidebar />
-              <SidebarTrigger className="fixed z-30 block md:hidden top-2 left-2" />
+              <SidebarTrigger className="fixed z-50 block md:hidden top-2 left-2" />
 
               {!isIndex && (
                 <button
