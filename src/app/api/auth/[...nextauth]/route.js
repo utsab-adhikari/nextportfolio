@@ -3,7 +3,7 @@ import GoogleProvider from 'next-auth/providers/google';
 import { MongoDBAdapter } from '@auth/mongodb-adapter';
 import clientPromise from '@/lib/mongodb';
 import connectDB from '@/db/ConnectDB';
-import User from "@/models/userModel";
+import User from "@/models/User.model";
 
 export const authOptions = {
   adapter: MongoDBAdapter(clientPromise),
@@ -26,7 +26,6 @@ export const authOptions = {
           session.user.name = user.name;
           session.user.image = user.image;
           session.user.role = user.role;
-          session.user.family = user.family;
         }
       }
       return session;

@@ -120,3 +120,82 @@
     @apply bg-background text-foreground;
   }
 }
+
+/* src/app/globals.css */
+
+/* Smoother fade-in-down animation */
+@keyframes fade-in-down-smoother {
+  from {
+    opacity: 0;
+    transform: translateY(-50px); /* Slightly more movement */
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Smoother fade-in animation */
+@keyframes fade-in-smoother {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Slow, continuous spin animation for loaders */
+@keyframes spin-slow {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Even slower pulse animation for background elements */
+@keyframes pulse-slower {
+  0% {
+    transform: scale(1);
+    opacity: 0.2; /* Slightly less intense */
+  }
+  50% {
+    transform: scale(1.05); /* Smaller scale change */
+    opacity: 0.5;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 0.2;
+  }
+}
+
+/* Custom easing function for a more dynamic feel */
+/* This can be applied to transitions for a "snappier" but smooth feel */
+.ease-out-expo {
+  transition-timing-function: cubic-bezier(0.19, 1, 0.22, 1);
+}
+
+
+/* Applying the animations to specific classes */
+.animate-fade-in-down-smoother {
+  animation: fade-in-down-smoother 1.2s ease-out forwards; /* Increased duration */
+}
+
+.animate-fade-in-smoother {
+  animation: fade-in-smoother 1.5s ease-out forwards; /* Increased duration */
+}
+
+.animate-spin-slow {
+  animation: spin-slow 3s linear infinite;
+}
+
+.animate-pulse-slower {
+  animation: pulse-slower 12s infinite ease-in-out; /* Significantly increased duration */
+}
+
+/* Custom radial gradient for card hover effect */
+.bg-radial-gradient {
+  background-image: radial-gradient(circle at center, var(--tw-gradient-from), var(--tw-gradient-to));
+}

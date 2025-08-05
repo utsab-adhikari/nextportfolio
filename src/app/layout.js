@@ -1,80 +1,110 @@
-'use client';
+"use client";
+import "./globals.css";
+import { usePathname } from "next/navigation";
+import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+import { SidebarProvider, SidebarTrigger, useSidebar } from "@/components/ui/sidebar";
+import { AppSidebar } from "@/components/AppSidebar";
+import { IoMdArrowRoundBack } from "react-icons/io";
+import { Toaster } from "react-hot-toast";
+import Footer from "@/components/Footer";
+import Link from "next/link";
+import { FaHome } from "react-icons/fa";
+import { SessionProvider } from "next-auth/react";
 
-import './globals.css';
-import { usePathname, useRouter } from 'next/navigation';
-import { useEffect, useState } from 'react';
-import { SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar';
-import { AppSidebar } from '@/components/AppSidebar';
-import { IoMdArrowRoundBack } from 'react-icons/io';
-import { Toaster } from 'react-hot-toast';
-import Link from 'next/link';
-import { FaHome } from 'react-icons/fa';
-import Footer from '@/components/Footer';
-import { SessionProvider } from 'next-auth/react';
-
-export default function RootLayout({ children }) {
-  const pathname = usePathname();
-  const router = useRouter();
-  const [isIndex, setIsIndex] = useState(false);
+function useMediaQuery(query) {
+  const [matches, setMatches] = useState(false);
 
   useEffect(() => {
-    setIsIndex(pathname === '/' || pathname === '/slide');
+    const media = window.matchMedia(query);
+    if (media.matches !== matches) {
+      setMatches(media.matches);
+    }
+
+    const listener = () => setMatches(media.matches);
+    media.addEventListener("change", listener);
+
+    return () => media.removeEventListener("change", listener);
+  }, [matches]);
+
+  return matches;
+}
+
+function SidebarController() {
+  const { setOpen } = useSidebar();
+  const isMediumOrAbove = useMediaQuery("(min-width: 768px)");
+
+  useEffect(() => {
+    if (isMediumOrAbove) {
+      setOpen(true);
+    }
+  }, [isMediumOrAbove, setOpen]);
+
+  return null;
+}
+
+export default function Layout({ children }) {
+  const pathname = usePathname();
+  const [isIndex, setIsIndex] = useState(false);
+  const router = useRouter();
+
+  useEffect(() => {
+    setIsIndex(pathname === "/");
   }, [pathname]);
 
   return (
-    <html>
-      <body className="flex min-h-screen flex-col bg-[#0f1117] text-white font-sans">
+    <html lang="en">
+      <head>
+        <title>Utsab's Portfolio</title>
+        <link
+          href="https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari:wght@400;600;700&family=Inter:wght@400;600;700&display=swap"
+          rel="stylesheet"
+        />
+        <style>{`
+          .font-noto-devanagari {
+            font-family: 'Noto Sans Devanagari', sans-serif;
+          }
+          .font-inter {
+            font-family: 'Inter', sans-serif;
+          }
+        `}</style>
+      </head>
+
+      <body className="flex min-h-screen flex-col bg-slate-950 text-white font-sans">
         <SessionProvider>
           <SidebarProvider>
-            <div className="flex w-full flex-1">
-              {/* Sidebar + Sidebar Toggle */}
+            <SidebarController />
+            <div className="flex flex-1 w-full">
               <AppSidebar />
-              <SidebarTrigger className="fixed z-30 top-3 left-3 md:left-2" />
+              <SidebarTrigger className="fixed z-30 block md:hidden top-2 left-2" />
 
-              {/* Back Button (when not on home/slide) */}
               {!isIndex && (
                 <button
+                  className="fixed top-10 z-30 text-white md:top-2 left-2 md:left-64 cursor-pointer hover:text-gray-400"
                   onClick={() => router.back()}
-                  className="fixed z-30 top-16 md:top-4 left-3 md:left-64 bg-[#1c1e26] text-white hover:text-lime-300 hover:bg-[#22252e] p-2 rounded-full shadow-sm transition"
                 >
-                  <IoMdArrowRoundBack size={22} />
+                  <IoMdArrowRoundBack size={24} />
                 </button>
               )}
 
-              <div className="flex flex-1 flex-col bg-black/90 relative">
-                {/* Toast */}
-                <Toaster
-                  position="bottom-center"
-                  toastOptions={{
-                    style: {
-                      background: '#1c1e26',
-                      color: '#d1fae5',
-                      border: '1px solid #14532d',
-                      boxShadow: '0 4px 14px rgba(0,0,0,0.4)',
-                    },
-                  }}
-                />
-
-                {/* Main content */}
-                <main className="flex flex-1 w-full min-h-screen px-2 sm:px-4">
-                  <div className="w-full">{children}</div>
+              <div className="flex flex-1 flex-col">
+                <main className="flex flex-1 w-full min-h-screen">
+                  <Toaster position="bottom-right" />
+                  <div className="w-full pl-0 ">{children}</div>
                 </main>
-                {/* Mobile Home Link */}
-                {!isIndex && (
-                  <div className="block md:hidden text-center my-6">
+
+                {!isIndex && pathname !== "/chatbot" && (
+                  <div className="">
                     <Link
+                      className="block md:hidden mx-auto py-1 my-2 px-4 border border-indigo-600 text-indigo-500 font-semibold rounded-full flex items-center text-center gap-2 w-fit"
                       href="/"
-                      className="inline-flex items-center gap-2 px-5 py-2 text-lime-400 hover:text-white border border-lime-600 hover:bg-lime-700 rounded-full transition-all"
                     >
                       <FaHome />
                       Home
                     </Link>
                   </div>
                 )}
-
-
-                {/* Footer */}
-                <Footer />
+                {pathname !== "/chatbot" && <Footer />}
               </div>
             </div>
           </SidebarProvider>
