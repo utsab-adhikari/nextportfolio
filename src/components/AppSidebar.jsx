@@ -57,7 +57,7 @@ export function AppSidebar() {
 
   return (
     <Sidebar>
-      <SidebarContent className="bg-slate-900 border-r border-slate-800 backdrop-blur-lg text-slate-200 flex flex-col h-screen fixed md:static z-40">
+      <SidebarContent className="bg-slate-900 border-r border-slate-800 backdrop-blur-lg text-slate-200 flex flex-col h-screen w-74 md:w-auto fixed md:static z-40">
         {!isMediumOrAbove && (
           <div className="absolute p-3 flex justify-end items-center w-full md:hidden">
             <button
