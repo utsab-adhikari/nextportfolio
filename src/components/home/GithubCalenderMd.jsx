@@ -295,7 +295,7 @@ export default function GitHubCalendarFull() {
             <div className="lg:w-1/2">
               <h2 className="text-xl font-bold text-white mb-4 flex items-center gap-2">
                 <FaInfoCircle className="text-green-400" />
-                Understanding Your Contribution Graph
+                Understanding Contribution Graph
               </h2>
 
               <div className="space-y-4">

@@ -1,15 +1,26 @@
 "use client";
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import { FaGithub, FaCalendarAlt, FaChartLine, FaSyncAlt, FaInfoCircle } from "react-icons/fa";
+import {
+  FaGithub,
+  FaCalendarAlt,
+  FaChartLine,
+  FaSyncAlt,
+  FaInfoCircle,
+} from "react-icons/fa";
 
 export default function GitHubCalendar() {
   const [weeks, setWeeks] = useState([]);
   const [total, setTotal] = useState(0);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [stats, setStats] = useState({ currentStreak: 0, maxStreak: 0, activeDays: 0 });
-  const [timePeriodDescription, setTimePeriodDescription] = useState("past year"); // Dynamic description
+  const [stats, setStats] = useState({
+    currentStreak: 0,
+    maxStreak: 0,
+    activeDays: 0,
+  });
+  const [timePeriodDescription, setTimePeriodDescription] =
+    useState("past year"); // Dynamic description
 
   // Function to fetch and process GitHub contributions data
   const fetchData = async () => {
@@ -28,8 +39,8 @@ export default function GitHubCalendar() {
       setTotal(data.total || 0);
 
       // Calculate additional stats
-      const contributions = data.weeks.flatMap(week =>
-        week.contributionDays.map(day => day.contributionCount)
+      const contributions = data.weeks.flatMap((week) =>
+        week.contributionDays.map((day) => day.contributionCount)
       );
 
       let currentStreak = 0;
@@ -67,14 +78,18 @@ export default function GitHubCalendar() {
       setStats({
         currentStreak,
         maxStreak,
-        activeDays: contributions.length > 0 ? Math.round((activeDaysCount / contributions.length) * 100) : 0
+        activeDays:
+          contributions.length > 0
+            ? Math.round((activeDaysCount / contributions.length) * 100)
+            : 0,
       });
 
       // Determine the time period description dynamically based on available data
       if (data.weeks && data.weeks.length > 0) {
         const firstDayOfFirstWeek = data.weeks[0]?.contributionDays[0];
         const lastWeek = data.weeks[data.weeks.length - 1];
-        const lastDayOfLastWeek = lastWeek?.contributionDays[lastWeek.contributionDays.length - 1]; // Safely get the last day
+        const lastDayOfLastWeek =
+          lastWeek?.contributionDays[lastWeek.contributionDays.length - 1]; // Safely get the last day
 
         if (firstDayOfFirstWeek && lastDayOfLastWeek) {
           const firstDate = new Date(firstDayOfFirstWeek.date);
@@ -83,8 +98,11 @@ export default function GitHubCalendar() {
           const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
           const diffMonths = Math.round(diffDays / 30.44); // Average days in a month
 
-          if (diffMonths <= 6 && diffMonths > 0) { // If 6 months or less, show specific months
-            setTimePeriodDescription(`past ${diffMonths} month${diffMonths === 1 ? '' : 's'}`);
+          if (diffMonths <= 6 && diffMonths > 0) {
+            // If 6 months or less, show specific months
+            setTimePeriodDescription(
+              `past ${diffMonths} month${diffMonths === 1 ? "" : "s"}`
+            );
           } else if (diffMonths > 6) {
             setTimePeriodDescription("past year");
           } else {
@@ -114,8 +132,8 @@ export default function GitHubCalendar() {
   // Ensures maxContributions is at least 1 to prevent division by zero or negative infinity
   const maxContributions = Math.max(
     1,
-    ...weeks.flatMap(week =>
-      week.contributionDays.map(day => day.contributionCount)
+    ...weeks.flatMap((week) =>
+      week.contributionDays.map((day) => day.contributionCount)
     )
   );
 
@@ -123,12 +141,25 @@ export default function GitHubCalendar() {
   const getMonthLabels = () => {
     if (!weeks || weeks.length === 0) return [];
 
-    const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+    const monthNames = [
+      "Jan",
+      "Feb",
+      "Mar",
+      "Apr",
+      "May",
+      "Jun",
+      "Jul",
+      "Aug",
+      "Sep",
+      "Oct",
+      "Nov",
+      "Dec",
+    ];
     const monthsInView = new Set();
     const monthPositions = [];
 
     weeks.forEach((week, weekIndex) => {
-      week.contributionDays.forEach(day => {
+      week.contributionDays.forEach((day) => {
         // Ensure day is not undefined and has a date property before accessing it
         if (day && day.date) {
           const date = new Date(day.date);
@@ -142,7 +173,7 @@ export default function GitHubCalendar() {
               name: monthNames[month],
               weekIndex: weekIndex,
               month: month,
-              year: year
+              year: year,
             });
           }
         }
@@ -175,15 +206,17 @@ export default function GitHubCalendar() {
           <h2 className="text-2xl font-bold text-gray-200 mb-4">
             Loading GitHub Contributions
           </h2>
-          <p className="text-gray-400 mb-8">
-            Fetching your coding activity...
-          </p>
+          <p className="text-gray-400 mb-8">Fetching your coding activity...</p>
           <div className="w-32 h-2 bg-gray-700 rounded-full overflow-hidden mx-auto">
             <motion.div
               className="h-full bg-green-500 rounded-full"
               initial={{ width: 0 }}
               animate={{ width: "100%" }}
-              transition={{ duration: 2, repeat: Infinity, repeatType: "reverse" }}
+              transition={{
+                duration: 2,
+                repeat: Infinity,
+                repeatType: "reverse",
+              }}
             />
           </div>
         </motion.div>
@@ -197,7 +230,9 @@ export default function GitHubCalendar() {
       <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-b from-gray-900 to-gray-800 p-4 font-inter">
         <div className="text-center max-w-2xl">
           <div className="text-red-500 text-5xl mb-4">⚠️</div>
-          <h2 className="text-2xl font-bold text-gray-200 mb-2">Data Loading Error</h2>
+          <h2 className="text-2xl font-bold text-gray-200 mb-2">
+            Data Loading Error
+          </h2>
           <p className="text-gray-400 mb-6">{error}</p>
           <button
             onClick={fetchData} // Use fetchData to retry
@@ -213,7 +248,9 @@ export default function GitHubCalendar() {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-900 to-gray-800 text-gray-200 p-4 font-inter overflow-x-hidden">
-      <div className="max-w-7xl mx-auto w-full"> {/* Ensure main content stays within bounds */}
+      <div className="max-w-7xl mx-auto w-full">
+        {" "}
+        {/* Ensure main content stays within bounds */}
         {/* Header - Optimized for smaller screens */}
         <motion.header
           initial={{ opacity: 0, y: -20 }}
@@ -228,10 +265,10 @@ export default function GitHubCalendar() {
             GitHub Contributions
           </h1>
           <p className="text-gray-400 max-w-xs mx-auto text-sm">
-            Visual representation of your coding activity over the {timePeriodDescription}.
+            Visual representation of your coding activity over the{" "}
+            {timePeriodDescription}.
           </p>
         </motion.header>
-
         {/* Stats Summary - Optimized for smaller screens */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -253,20 +290,33 @@ export default function GitHubCalendar() {
               <FaChartLine className="text-blue-400 w-5 h-5" />
               <h3 className="text-sm font-semibold">Current Streak</h3>
             </div>
-            <p className="text-xl font-bold text-blue-400">{stats.currentStreak} days</p>
+            <p className="text-xl font-bold text-blue-400">
+              {stats.currentStreak} days
+            </p>
             <p className="text-xs text-gray-400 mt-0.5">active</p>
           </div>
 
           <div className="bg-gray-800/50 backdrop-blur-sm rounded-xl p-3 border border-gray-700 shadow-lg text-center">
             <div className="flex items-center justify-center gap-2 mb-1">
               <div className="bg-yellow-400 rounded-full p-0.5 flex items-center justify-center">
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-3 w-3 text-gray-900" viewBox="0 0 20 20" fill="currentColor">
-                  <path fillRule="evenodd" d="M12.395 2.553a1 1 0 00-1.45-.385c-.345.23-.614.558-.822.88-.214.33-.403.713-.57 1.116-.334.804-.614 1.768-.84 2.734a31.365 31.365 0 00-.613 3.58 2.64 2.64 0 01-.945-1.067c-.328-.68-.398-1.534-.398-2.654A1 1 0 005.05 6.05 6.981 6.981 0 003 11a7 7 0 1011.95-4.95c-.592-.591-.98-.985-1.348-1.467-.363-.476-.724-1.063-1.207-2.03zM12.12 15.12A3 3 0 017 13s.879.5 2.5.5c0-1 .5-4 1.25-4.5.5 1 .786 1.293 1.371 1.879A2.99 2.99 0 0113 13a2.99 2.99 0 01-.879 2.121z" clipRule="evenodd" />
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-3 w-3 text-gray-900"
+                  viewBox="0 0 20 20"
+                  fill="currentColor"
+                >
+                  <path
+                    fillRule="evenodd"
+                    d="M12.395 2.553a1 1 0 00-1.45-.385c-.345.23-.614.558-.822.88-.214.33-.403.713-.57 1.116-.334.804-.614 1.768-.84 2.734a31.365 31.365 0 00-.613 3.58 2.64 2.64 0 01-.945-1.067c-.328-.68-.398-1.534-.398-2.654A1 1 0 005.05 6.05 6.981 6.981 0 003 11a7 7 0 1011.95-4.95c-.592-.591-.98-.985-1.348-1.467-.363-.476-.724-1.063-1.207-2.03zM12.12 15.12A3 3 0 017 13s.879.5 2.5.5c0-1 .5-4 1.25-4.5.5 1 .786 1.293 1.371 1.879A2.99 2.99 0 0113 13a2.99 2.99 0 01-.879 2.121z"
+                    clipRule="evenodd"
+                  />
                 </svg>
               </div>
               <h3 className="text-sm font-semibold">Max Streak</h3>
             </div>
-            <p className="text-xl font-bold text-yellow-400">{stats.maxStreak} days</p>
+            <p className="text-xl font-bold text-yellow-400">
+              {stats.maxStreak} days
+            </p>
             <p className="text-xs text-gray-400 mt-0.5">longest</p>
           </div>
 
@@ -277,11 +327,12 @@ export default function GitHubCalendar() {
               </div>
               <h3 className="text-sm font-semibold">Active Days</h3>
             </div>
-            <p className="text-xl font-bold text-purple-400">{stats.activeDays}%</p>
+            <p className="text-xl font-bold text-purple-400">
+              {stats.activeDays}%
+            </p>
             <p className="text-xs text-gray-400 mt-0.5">with contributions</p>
           </div>
         </motion.div>
-
         {/* Visualization Section */}
         <motion.div
           initial={{ opacity: 0 }}
@@ -294,12 +345,14 @@ export default function GitHubCalendar() {
             <div className="w-full">
               <h2 className="text-lg font-bold text-white mb-3 flex items-center gap-2">
                 <FaInfoCircle className="text-green-400" />
-                Understanding Your Graph
+                Understanding Contribution Graph
               </h2>
 
               <div className="space-y-3">
                 <div className="p-3 bg-gray-800/40 rounded-lg border border-gray-700">
-                  <h3 className="font-semibold text-green-300 mb-1 text-sm">Color Intensity</h3>
+                  <h3 className="font-semibold text-green-300 mb-1 text-sm">
+                    Color Intensity
+                  </h3>
                   <p className="text-xs text-gray-300 mb-2">
                     Darker colors represent more contributions
                   </p>
@@ -307,7 +360,9 @@ export default function GitHubCalendar() {
                     <div className="flex rounded-md overflow-hidden">
                       {[0, 1, 2, 3, 4].map((level) => {
                         const intensity = level / 4;
-                        const color = `rgba(46, 160, 67, ${0.2 + intensity * 0.8})`;
+                        const color = `rgba(46, 160, 67, ${
+                          0.2 + intensity * 0.8
+                        })`;
                         return (
                           <div
                             key={level}
@@ -325,7 +380,9 @@ export default function GitHubCalendar() {
                 </div>
 
                 <div className="p-3 bg-gray-800/40 rounded-lg border border-gray-700">
-                  <h3 className="font-semibold text-blue-300 mb-1 text-sm">Pattern Insights</h3>
+                  <h3 className="font-semibold text-blue-300 mb-1 text-sm">
+                    Pattern Insights
+                  </h3>
                   <p className="text-xs text-gray-300">
                     Consistent contributions indicate strong development habits
                   </p>
@@ -356,7 +413,8 @@ export default function GitHubCalendar() {
                 {/* Month labels - Dynamic and concise for mobile */}
                 <div className="flex gap-0.5 mb-1">
                   {/* Placeholder for day labels alignment */}
-                  <div className="w-4 flex-shrink-0"></div> {/* Adjusted width for smaller squares */}
+                  <div className="w-4 flex-shrink-0"></div>{" "}
+                  {/* Adjusted width for smaller squares */}
                   {monthLabels.length > 0 && (
                     <div className="flex flex-grow justify-between overflow-hidden">
                       {monthLabels.map((monthInfo, index) => {
@@ -365,14 +423,19 @@ export default function GitHubCalendar() {
                         // Assuming square size is w-3 h-3 (12px) and gap is 0.5 (2px) => total 14px per column
                         const columnWidth = 12 + 2;
                         if (index < monthLabels.length - 1) {
-                          width = (monthLabels[index + 1].weekIndex - monthInfo.weekIndex) * columnWidth;
+                          width =
+                            (monthLabels[index + 1].weekIndex -
+                              monthInfo.weekIndex) *
+                            columnWidth;
                         } else {
                           // For the last month, calculate width to the end of the calendar
-                          width = (weeks.length - monthInfo.weekIndex) * columnWidth;
+                          width =
+                            (weeks.length - monthInfo.weekIndex) * columnWidth;
                         }
 
                         return (
-                          <div key={`${monthInfo.name}-${monthInfo.year}`}
+                          <div
+                            key={`${monthInfo.name}-${monthInfo.year}`}
                             className="text-[10px] text-gray-400 text-left flex-shrink-0"
                             style={{ minWidth: `${width}px` }}
                           >
@@ -387,8 +450,11 @@ export default function GitHubCalendar() {
                 <div className="flex flex-grow">
                   {/* Day labels - Very concise for mobile */}
                   <div className="flex flex-col gap-0.5 mr-1 flex-shrink-0">
-                    {['S', 'M', 'T', 'W', 'T', 'F', 'S'].map((day, i) => (
-                      <div key={i} className={`text-[8px] text-gray-400 h-3 flex items-center justify-center`}>
+                    {["S", "M", "T", "W", "T", "F", "S"].map((day, i) => (
+                      <div
+                        key={i}
+                        className={`text-[8px] text-gray-400 h-3 flex items-center justify-center`}
+                      >
                         {day}
                       </div>
                     ))}
@@ -397,14 +463,23 @@ export default function GitHubCalendar() {
                   {/* Grid - Horizontal scrollable */}
                   <div className="flex gap-0.5 overflow-x-auto pb-2 justify-end flex-grow">
                     {weeks.map((week, weekIndex) => (
-                      <div key={weekIndex} className="flex flex-col gap-0.5 flex-shrink-0">
+                      <div
+                        key={weekIndex}
+                        className="flex flex-col gap-0.5 flex-shrink-0"
+                      >
                         {week.contributionDays.map((day, dayIndex) => {
                           // Calculate color intensity based on contributions
-                          const intensity = Math.min(day.contributionCount / maxContributions, 1);
-                          const color = `rgba(46, 160, 67, ${0.2 + intensity * 0.8})`;
+                          const intensity = Math.min(
+                            day.contributionCount / maxContributions,
+                            1
+                          );
+                          const color = `rgba(46, 160, 67, ${
+                            0.2 + intensity * 0.8
+                          })`;
 
                           // Get the day of the week (0 for Sunday, 6 for Saturday)
-                          const date = day && day.date ? new Date(day.date) : null; // Safely create Date object
+                          const date =
+                            day && day.date ? new Date(day.date) : null; // Safely create Date object
                           const dayOfWeek = date ? date.getDay() : 0; // Default to Sunday if date is invalid
 
                           return (
@@ -415,23 +490,34 @@ export default function GitHubCalendar() {
                                 backgroundColor: color,
                                 // Adjust top margin for days that are not Sunday (first day of the week)
                                 // Square size is 12px, gap is 2px, so total height of a row is 14px
-                                marginTop: dayIndex === 0 && dayOfWeek !== 0 ? `${dayOfWeek * (12 + 2)}px` : '0px'
+                                marginTop:
+                                  dayIndex === 0 && dayOfWeek !== 0
+                                    ? `${dayOfWeek * (12 + 2)}px`
+                                    : "0px",
                               }}
                               initial={{ opacity: 0, scale: 0.8 }}
                               animate={{
                                 opacity: 1,
                                 scale: 1,
                                 transition: {
-                                  delay: (weekIndex * 0.005) + (dayIndex * 0.001), // Faster animation for more squares
-                                  duration: 0.2
-                                }
+                                  delay: weekIndex * 0.005 + dayIndex * 0.001, // Faster animation for more squares
+                                  duration: 0.2,
+                                },
                               }}
                               whileHover={{
                                 scale: 1.5,
                                 zIndex: 10,
-                                boxShadow: "0 0 8px rgba(46, 160, 67, 0.5)" // Smaller shadow for smaller squares
+                                boxShadow: "0 0 8px rgba(46, 160, 67, 0.5)", // Smaller shadow for smaller squares
                               }}
-                              title={day && day.date ? `${day.date}: ${day.contributionCount} contribution${day.contributionCount === 1 ? '' : 's'}` : 'No data'}
+                              title={
+                                day && day.date
+                                  ? `${day.date}: ${
+                                      day.contributionCount
+                                    } contribution${
+                                      day.contributionCount === 1 ? "" : "s"
+                                    }`
+                                  : "No data"
+                              }
                             />
                           );
                         })}
@@ -447,7 +533,9 @@ export default function GitHubCalendar() {
                     <div className="flex rounded-md overflow-hidden">
                       {[0, 1, 2, 3, 4].map((level) => {
                         const intensity = level / 4;
-                        const color = `rgba(46, 160, 67, ${0.2 + intensity * 0.8})`;
+                        const color = `rgba(46, 160, 67, ${
+                          0.2 + intensity * 0.8
+                        })`;
                         return (
                           <div
                             key={level}
@@ -464,7 +552,6 @@ export default function GitHubCalendar() {
             </div>
           </div>
         </motion.div>
-
         {/* Footer */}
         <motion.footer
           initial={{ opacity: 0, y: 20 }}
@@ -473,7 +560,7 @@ export default function GitHubCalendar() {
           className="text-center text-gray-500 text-xs pt-6 border-t border-gray-800/50"
         >
           <p className="mb-1">
-            Data fetched live from the{' '}
+            Data fetched live from the{" "}
             <a
               href="https://docs.github.com/en/rest/activity/events"
               target="_blank"
@@ -484,7 +571,8 @@ export default function GitHubCalendar() {
             </a>
           </p>
           <p>
-            Contribution graph shows activity over the {timePeriodDescription} • Updates automatically
+            Contribution graph shows activity over the {timePeriodDescription} •
+            Updates automatically
           </p>
         </motion.footer>
       </div>
